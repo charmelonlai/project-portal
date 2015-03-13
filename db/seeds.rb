@@ -108,7 +108,7 @@ altbreaks_user = User.create({
   fname: "Meena",
   lname: "Nagappan",
   admin: false,
-  email: "meenanagappan@gmail.com",
+  email: "client@admin.com",
   password: "password"
   })
 altbreaks_user.confirmed_at = Time.now
@@ -120,7 +120,7 @@ altbreaks = Client.create({
   nonprofit: true,
   five_01c3: true,
   mission_statement: 'Alternative Breaks is a service-learning program for students to explore social issues through meaningful service, education, and reflection during their academic breaks.',
-  contact_email: 'meenanagappan@gmail.com',
+  contact_email: 'client@admin.com',
   contact_number: 'N/A'
   })
 altbreaks_user.rolable = altbreaks

@@ -59,6 +59,7 @@ group :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'simplecov'
+  gem 'selenium-webdriver'
 end
 
 # our app specific gems

@@ -3,15 +3,15 @@ class UserMailer < ActionMailer::Base
 
   def project_approved(project, comment)
     @project = project
-    @comment = comment 
-    @user = User.find_by_id(@project.user_id)
+    @comment = comment
+    @user = User.where("rolable_id = #{project.client_id} and rolable_type = 'Client'").first!
     mail(:to => @user.email, :subject => "[Project Portal] Your project has been approved!")
   end
 
   def project_denied(project, comment)
-    @project = project    
+    @project = project
     @comment = comment
-    @user = User.find_by_id(@project.user_id)
+    @user = User.where("rolable_id = #{project.client_id} and rolable_type = 'Client'").first!
     mail(:to => @user.email, :subject => "[Project Portal] There were some issues with your project.")
   end
 
