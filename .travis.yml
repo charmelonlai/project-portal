@@ -1,5 +1,7 @@
 language: ruby
 rvm:
   - 2.1.5
+before_install:
+  - gem install nokogiri -- --with-cflags='--std=gnu99'
 gemfile:
   - ./Gemfile
