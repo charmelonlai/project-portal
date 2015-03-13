@@ -1,13 +1,14 @@
 -project ||= project_compact
-.row-fluid
-  .project-card.hero-section.span12
-    .content
-      .fav-star-container
-        =render :partial=>"shared/project_favorites", :locals => {:project => project}
-      .project-title
-        %p
-          =link_to project.title, project_path(project)
-          (#{project.client.company_name}) -
-          #{project.client.mission_statement}
-        =render :partial=>"shared/project_tags", :locals => {:project => project}
-
+%tbody
+  %tr.project-row
+    %td.project-row-title
+      = link_to project.title, project_path(project), {:class => "title-text"}
+      %p.owner-text by #{project.client.company_name}
+    %td.project-row-tags
+      =render :partial=>"shared/project_tags", :locals => {:project => project}
+    %td.project-row-short-description
+      %p #{project.short_description}
+      %p More
+    /- if user_signed_in? and is_admin?
+    /  %td.project-row-approve-deny
+    /    =render :partial=>"shared/approve_pending_denied", :locals => {:projects => project}
