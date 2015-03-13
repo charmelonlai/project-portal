@@ -4,4 +4,4 @@ rvm:
 before_install:
   - gem install nokogiri -- --with-cflags='--std=gnu99'
 gemfile:
-  - ./Gemfile
+  - gemfiles/Gemfile-travis
