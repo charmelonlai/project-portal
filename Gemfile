@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.1'
+ruby '2.1.5'
 gem 'rails', '3.2.18'
 
 # Bundle edge Rails instead:
@@ -82,3 +82,4 @@ gem "cocaine", "~> 0.5.1"
 gem 'aws-s3'
 gem 'aws-sdk'
 gem 'awesome_print'
+gem 'rake'
