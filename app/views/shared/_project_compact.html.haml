@@ -1,6 +1,6 @@
 -project ||= project_compact
 %tbody
-  %tr.project-row
+  %tr.project-row{:class => [("pending" if project.approved == nil), ("approved" if project.approved), ("denied" if project.approved == false)]}
     %td.project-row-title
       = link_to project.title, project_path(project), {:class => "title-text"}
       %p.owner-text by #{project.client.company_name}
@@ -19,6 +19,6 @@
             %strong Specifics:
             #{project.long_description}
 
-    /- if user_signed_in? and is_admin?
-    /  %td.project-row-approve-deny
-    /    =render :partial=>"shared/approve_pending_denied", :locals => {:projects => project}
+    - if user_signed_in?
+      %td.project-row-approve-deny
+        =render :partial=>"shared/approve_pending_denied", :locals => {:project => project}
