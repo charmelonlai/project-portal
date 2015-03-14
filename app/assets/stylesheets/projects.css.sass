@@ -142,6 +142,7 @@ $max_height: 150px
   .project-row
     height: 70px
     background-color: #eaeaea
+    border-bottom: 2px solid #fff
     td 
       padding: 10px
   .title-text
@@ -157,6 +158,37 @@ $max_height: 150px
       width: 40%
     .project-row-approve-deny
       width: 20%
+
+a.popout
+  outline: none
+  span.callout-body
+    z-index: 10
+    display: none
+    padding: 14px 20px
+    margin-top: -30px
+    margin-left: 28px
+    width: 500px
+    line-height: 16px
+
+a.popout:hover
+  text-decoration:none
+  span.callout-body
+    display: inline
+    position: absolute
+    color: #111
+    border: 1px solid #ccc
+    background: #fff
+
+.callout
+  z-index: 20
+  position: absolute
+  top: 30px
+  border: 0
+  left: -12px
+
+
+
+
 
 .tags
   .btn

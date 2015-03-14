@@ -141,3 +141,18 @@ proj.organizations << bp
 proj.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
 proj.save
 
+#PROJECT: PROJECT PORTAL REVAMP-------------------------
+proj2 = Project.create({
+  title: "Project Portal Revamp",
+  github_site: "https://github.com/chrisbrown/project-portal",
+  application_site: "http://projectportal.herokuapp.com/",
+  short_description: "Web app that allows non-profit clients to propose software projects and developers to browse available projects to work on.",
+  long_description: "Our existing app doesn't perform its core capacities very well, and we are hoping for a revamp that improves on 2 basic fronts: 1) allowing admins to properly view all projects and approve/deny in the app and 2) allows developers to browse in an easy way and decide which projects to work on.",
+  problem: "Revamp the current project portal so both students and admins can use it easily and efficiently."
+  })
+proj2.client = altbreaks
+proj2.organizations << bp
+proj2.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
+proj2.save
+
+

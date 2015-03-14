@@ -8,7 +8,17 @@
       =render :partial=>"shared/project_tags", :locals => {:project => project}
     %td.project-row-short-description
       %p #{project.short_description}
-      %p More
+      %a.popout{:href => "#"}
+        More
+        %span.callout-body
+          %img.callout{:src => '/assets/callout.png'}
+          %p 
+            %strong Project Purpose:
+            #{project.problem}
+          %p 
+            %strong Specifics:
+            #{project.long_description}
+
     /- if user_signed_in? and is_admin?
     /  %td.project-row-approve-deny
     /    =render :partial=>"shared/approve_pending_denied", :locals => {:projects => project}
