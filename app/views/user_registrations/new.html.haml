@@ -1,4 +1,4 @@
-.container
+.container.form-container
   - user_type = @user_type
   - child_class_name = user_type.downcase.camelize
   - resource.rolable = child_class_name.constantize.new if resource.rolable.nil?
