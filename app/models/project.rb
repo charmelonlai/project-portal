@@ -18,7 +18,8 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :organizations
 
   attr_accessible :github_site, :application_site#, :as => [:default, :admin, :owner]
-  attr_accessible :questions, :title, :comment, :state#, :as => [ :owner, :admin ]
+  attr_accessible :questions, :title, :state#, :as => [ :owner, :admin ]
+  attr_accessible :comment, :as => [ :owner, :admin ]
   attr_accessible :problem, :short_description, :long_description#, :as => [ :owner, :admin ]
   attr_accessible :approved, :as => :admin
   attr_accessor :project_params, :org_params
