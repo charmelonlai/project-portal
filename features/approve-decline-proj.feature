@@ -1,4 +1,3 @@
-# in features/approve-decline-proj.feature
 Feature: Approve/decline client projects
   As an administrator
   So that I can successfully approve/decline a project
@@ -6,30 +5,43 @@ Feature: Approve/decline client projects
 
   Background:
     Given I am logged in as an administrator
-    And a project called "test-proj" exists
-    And I am on the "show" page for "test-proj"
-  Scenario: Approve project
-    Given the project is currently declined
-    When I press "Approve"
-    And I fill in "project[comment]" with "Like this project"
-    Then I should be on the "show" page for "test-proj"
-    And ".details-title" should include "Project has been approved"
-    And I should see a button with "Decline"
+    And a project called "test-proj" exists, with short description "Multipurpose website"
+    And I visit the "show" page for "test-proj"
 
-  Scenario: Decline project
-    Given the project is currently approved
-    When I press "Decline"
-    And I fill in "project[comment]" with "Don't like this project"
+  @javascript
+  Scenario: Approve project
+    Given "test-proj" is currently denied
+    When I click "Approve"
+    And I fill in "project[comment]" with "Like this project" within "#approval-form-popup-test-proj"
+    And I press "Submit" within "#approval-form-popup-test-proj"
     Then I should be on the "show" page for "test-proj"
-    And ".details-title" should include "Project has been declined"
-    And I should see a button with "Approve"
+    And I should see "Project: 'test-proj' was successfully approved."
+    And I should see "Project has been approved" within ".approval-buttons .details-title"
+    And I should see a link "Decline" to "#denial-form-popup-test-proj"
+
+  @javascript
+  Scenario: Decline project
+    Given "test-proj" is currently approved
+    When I click "Decline"
+    And I fill in "project[comment]" with "Don't like this project" within "#denial-form-popup-test-proj"
+    And I press "Submit" within "#denial-form-popup-test-proj"
+    Then I should be on the "show" page for "test-proj"
+    And I should see "Project: 'test-proj' was successfully denied."
+    And I should see "Project has been denied" within ".approval-buttons .details-title"
+    And I should see a link "Approve" to "#approval-form-popup-test-proj"
+
+  @javascript
   Scenario: Approve project and send notification email
-    Given the project is currently declined
-    When I press "Approve"
-    And I fill in "project[comment]" with "Like this project"
-    Then the client should receive a notification email about the approval # http://stackoverflow.com/a/15754349
+    Given "test-proj" is currently denied
+    When I click "Approve"
+    And I fill in "project[comment]" with "Like this project" within "#approval-form-popup-test-proj"
+    And I press "Submit" within "#approval-form-popup-test-proj"
+    Then the client of "test-proj" should be sent a notification email about the approval
+
+  @javascript
   Scenario: Decline project and send notification email
-    Given the project is currently approved
-    When I press "Decline"
-    And I fill in "project[comment]" with "Don't like this project"
-    Then the client should receive a notification email about the decline # http://stackoverflow.com/a/15754349
+    Given "test-proj" is currently approved
+    When I click "Decline"
+    And I fill in "project[comment]" with "Don't like this project" within "#denial-form-popup-test-proj"
+    And I press "Submit" within "#denial-form-popup-test-proj"
+    Then the client of "test-proj" should be sent a notification email about the decline

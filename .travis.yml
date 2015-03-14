@@ -1,0 +1,10 @@
+language: ruby
+rvm:
+  - 2.1.5
+gemfile:
+  - gemfiles/Gemfile-travis
+env:
+  - DB=postgresql
+script:
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - bundle exec rake db:test:prepare
