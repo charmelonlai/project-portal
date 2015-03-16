@@ -27,24 +27,35 @@ $max_height: 150px
       border-bottom: 1px dotted #ccc
 
 .project-square
-  padding: 15px
-  .mission-statement
-    font-size: 69%
-  height: 22em
-  overflow: hidden
+  padding: 5px
+  -webkit-box-shadow: none
+  -moz-box-shadow: none
+  box-shadow: none
+  border: 1px solid #cccccc
+  border-radius: 0px 0px 10px 10px
+  .short-description
+    font-size: 13px
+    height: 22em
+    overflow: hidden
+    padding-left: 3px
   .img-container
     position: relative
     .img-polaroid
       margin-bottom: 15px
-    .fav-star-container
-      position: absolute
-      width: 23px
-      right: 5px
-      top: 5px
   img
     max-height: $max_height
   .tags
     margin-left: 0
+
+.project-square-title
+  font-size: 15px
+  line-height: 15px
+  font-weight: bold
+  margin-bottom: 1px
+
+.project-square-owner
+  font-size: 13px
+  margin-bottom: 15px
 
 .inline-title
   display: inline-block
@@ -55,10 +66,6 @@ $max_height: 150px
 
 .span3a
   width: 190px
-
-.project-square-title
-  font-size: 16px
-  line-height: 16px
 
 #project-user-edit
   margin: -15px
@@ -129,33 +136,81 @@ $max_height: 150px
   padding: 0
 
 #compact-proj-view
-  .fav-star-container
+  table
+    margin-bottom: 50px
+    width: 100%
+  .project-row
+    height: 70px
+    border-bottom: 2px solid #fff
+    td 
+      padding: 10px
+  .title-text
+    font-size: 15px
+    font-weight: bold
+  .owner-text
+    margin-top: 5px
+    .project-row-title
+      width: 30%
+    .project-row-tags
+      width: 15%
+    .project-row-short-description
+      width: 40%
+    .project-row-approve-deny
+      width: 20%
+
+tr.pending
+  background-color: #eaeaea
+tr.approved
+  background-color: #ebf1de
+tr.denied
+  background-color: #f2dcdb
+
+a.popout
+  outline: none
+  span.callout-body
+    z-index: 10
+    display: none
+    padding: 14px 20px
+    margin-top: -30px
+    margin-left: 28px
+    width: 500px
+    line-height: 16px
+
+a.popout:hover
+  text-decoration:none
+  span.callout-body
+    display: inline
     position: absolute
-    height: 20px
-    top: 50%
-    margin: -10px 0 0 15px
-    .favorite-star
-      img
-        width: 20px
-  .content
-    position: relative
-  .project-title
-    font-size: 65%
-    p
-      width: 90%
-      margin: 0 10px 0 52px
-    .tags
-      margin: 5px 0 0 52px
-  .project-card
-    padding: 13px 0
-    line-height: 120%
-  .btn
-    margin-bottom: 0
+    color: #111
+    border: 1px solid #ccc
+    background: #fff
+
+.callout
+  z-index: 20
+  position: absolute
+  top: 30px
+  border: 0
+  left: -12px
 
 .tags
   .btn
     text-transform: uppercase
     margin-bottom: 12px
+
+.apd
+  .btn
+    color: #fff
+    width: 60px
+    border: none
+    margin-right: 15px
+  .btn-approved
+    background-color: #c3d79b
+  .btn-pending
+    background-color: #999
+    color: #fff
+  .btn-denied
+    background-color: #d99794
+    color: #fff
 
 #full-proj-view
   .project-title

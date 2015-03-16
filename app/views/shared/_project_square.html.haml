@@ -4,17 +4,14 @@
     .span10.offset1
       .img-container
         =render :partial => 'projects/client_photo', :locals => {:project => project}
-        .fav-star-container
-          =render :partial=>"shared/project_favorites", :locals => {:project => project}
   .row-fluid
     .span12
       %p.project-square-title
         =link_to project.title, project_path(project)
-  =render :partial=>"shared/project_tags", :locals => {:project => project}
+      %p.project-square-owner
+        ="by #{project.client.company_name}"
   .row-fluid
-    %p.mission-statement
-      %b
-        ="#{t(:mission_statement)}:"
-      =project.client.mission_statement
-  .row-fluid.tag
+    %p.short-description
+      =project.short_description
+  =render :partial=>"shared/project_tags", :locals => {:project => project}
 
