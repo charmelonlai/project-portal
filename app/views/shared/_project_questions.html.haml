@@ -14,7 +14,7 @@
         %b.questions
           ="#{Question.find(Project.get_question_id(q)).question}:"
         - if user_can_update?(project)
-          = best_in_place q[1], :to_s, :type => :input, :path => edit_question_project_path(:question => q[0]), :activator => "#question#{q[0]}"
+          -#= best_in_place q[1], :to_s, :type => :input, :path => edit_question_project_path(:question => q[0]), :activator => "#question#{q[0]}"
           %a.btn-link{id: "question#{q[0]}"}
             %i.icon-pencil
         - else
