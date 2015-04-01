@@ -66,3 +66,15 @@ Given /a project called "(.*)" exists(?:, with short description "(.*)")?/ do |p
   visit admin_dashboard_path
   page.should have_content(proj)
 end
+
+Given(/^the following clients exist:$/) do |table|
+  # table is a Cucumber::Ast::Table
+  pending # express the regexp above with the code you wish you had
+  # TODO
+end
+
+Given(/^the following projects exist:$/) do |table|
+  # table is a Cucumber::Ast::Table
+  pending # express the regexp above with the code you wish you had
+  # TODO
+end
