@@ -2,7 +2,7 @@
   -if project.approved
     %a.btn.btn-mini.disabled.btn-approved
       Approved
-  -if project.approved == nil
+  -elsif project.approved == nil
     %a.btn.btn-mini.disabled.btn-pending
       Pending
   -else

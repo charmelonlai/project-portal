@@ -90,9 +90,7 @@ class ProjectsController < ApplicationController
     else
       @projects = Project.is_public
     end
-
     @projects = @projects.order("created_at DESC").paginate(:page => params[:page], :per_page => 8)
-    @title = "All Projects"
   end
 
   def search

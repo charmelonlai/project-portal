@@ -132,7 +132,7 @@ proj = Project.create({
   title: "AltBreaks Site",
   github_site: "https://github.com/callmemc/altbreaks",
   application_site: "http://publicservice.berkeley.edu/alternativebreaks",
-  short_description: "Mulipurpose website that serves both marketing purposes and internal purposes",
+  short_description: "Multipurpose website that serves both marketing purposes and internal purposes",
   long_description: "We want an interactive map to show all the trips, so that if you hover over a trip location, a pop-up is displayed with the trip information. We also want trip pages. And we want an internal forum where people from trips can communicate with each other and with people from other trips.",
   problem: "Solve communication issues internally within and between different break groups, as well as externally in creating a beautiful site that will increase our reputation and attract more applicants."
   })
@@ -155,4 +155,16 @@ proj2.organizations << bp
 proj2.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
 proj2.save
 
-
+#PROJECT: VOLUNTEER MARKETPLACE----------------------------
+proj3 = Project.create({
+  title: "Volunteer Marketplace",
+  github_site: "https://github.com/nitika_daga",
+  application_site: "http://nitikadaga.com/",
+  short_description: "Mobile app that allows potential volunteers to find opportunities that match their interests and skills.",
+  long_description: "We are hoping to build an mobile app (on iOS) that allows potential volunteers to find opportunities near by to give back to their communinity. We have a large database of opportunities, so we are looking for a user-friendly way for community members to find opportunities on their phone.",
+  problem: "Make our database of volunteer opportunities more available to the public."
+  })
+proj3.client = altbreaks
+proj3.organizations << bp
+proj3.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
+proj3.save
