@@ -7,6 +7,15 @@ class Project < ActiveRecord::Base
   UNFINISHED = 1
   FINISHED = 2
 
+  # class constants, for new/edit page of each project
+  SECTORS = ["Agriculture", "Animals", "Art", "Community development", "Consumer projection", "Crime and safety", "Disabilities",
+             "Disaster relief", "Drug abuse", "Economic development", "Education", "Environment", "Family", "Health and medicine",
+             "Housing", "Human rights", "Immigration", "Jobs training", "Legal assistance", "LGBT", "Library", "Media", 
+             "Mental Health", "Microcredit", "Museums", "Philanthropy", "Policy", "Povery and hunger", "Religion and spirituality", 
+             "Research and science", "Seniors and retirement", "Sports and recreation", "Technology", "Veterans", "Women", "Youth", 
+             "Other"]
+  PROJECT_TYPES = ["Design", "Mobile", "Web App", "Other"]
+
   extend FriendlyId
   friendly_id :title, use: :slugged
 
@@ -24,6 +33,7 @@ class Project < ActiveRecord::Base
   attr_accessible :approved, :as => :admin
   attr_accessor :project_params, :org_params
   attr_accessible :organization
+  attr_accessible :project_type, :sector
 
   attr_accessible :user_id, :as=>:admin
 

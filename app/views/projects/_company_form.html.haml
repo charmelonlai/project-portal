@@ -12,7 +12,9 @@
     %h4.details-title
       Basics
     =f.input :title, label: "Project Title"
-    =f.input :state, label: "Project Type", as: :select, default: Project::UNFINISHED, collection: [['New Project', Project::UNFINISHED], ['Maintenance Project', Project::FINISHED]]
+    /=f.input :state, label: "Project Type", as: :select, default: Project::UNFINISHED, collection: [['New Project', Project::UNFINISHED], ['Maintenance Project', Project::FINISHED]]
+    =f.input :sector, label: "Project Focus of Area", collection: Project::SECTORS
+    =f.input :project_type, label: "Project Type", collection: Project::PROJECT_TYPES
   .hero-section
     %h4.details-title
       ="#{t(:organizations)}"
