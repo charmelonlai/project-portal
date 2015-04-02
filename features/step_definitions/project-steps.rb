@@ -67,14 +67,52 @@ Given /a project called "(.*)" exists(?:, with short description "(.*)")?/ do |p
   page.should have_content(proj)
 end
 
-Given(/^the following clients exist:$/) do |table|
-  # table is a Cucumber::Ast::Table
-  pending # express the regexp above with the code you wish you had
-  # TODO
+Given /^the following clients exist:$/ do |table|
+  table.hashes.each do |hash|
+    # TODO - use a factory to create a user with different contact email
+    nonprofit_user = User.create({
+      fname: "Nonprofit",
+      lname: "User",
+      admin: false,
+      email: hash['contact_email'],
+      password: "password"
+    })
+    nonprofit_user.confirmed_at = Time.now
+    nonprofit_user.save
+
+    nonprofit_client = Client.create({
+      company_name: hash['company_name'],
+      company_site: hash['company_site'],
+      company_address: hash['company_address'],
+      nonprofit: true,
+      five_01c3: true,
+      mission_statement: 'Nonprofit.',
+      contact_email: hash['contact_email'],
+      contact_number: hash['contact_number']
+    })
+  end
 end
 
-Given(/^the following projects exist:$/) do |table|
-  # table is a Cucumber::Ast::Table
-  pending # express the regexp above with the code you wish you had
-  # TODO
+Given /^the following public projects exist:$/ do |table|
+  table.hashes.each do |hash|
+    project = Project.create({
+      title: hash['title'],
+      github_site: hash['github_site'],
+      application_site: hash['application_site'],
+      short_description: "short description",
+      long_description: hash['long_description'],
+      problem: "problem description"
+    })
+    project.client = Client.find_by_company_name(hash['client'])
+    project.save
+  end
+end
+
+Given /^I am on the "projects" page$/ do
+  visit projects_path
+end
+
+Then /^I should be on the "export to CSV" page$/ do
+  current_path = URI.parse(current_url).path
+  current_path.should == projects_csv_path
 end

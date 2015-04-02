@@ -219,7 +219,7 @@ class ProjectsController < ApplicationController
     @public_projects = Project.order("created_at DESC").is_public.paginate(:page => params[:public_page], :per_page => 5)
 
     # TODO
-    # http://stackoverflow.com/questions/2472694/generate-csv-file-from-rails may be useful
+    # http://stackoverflow.com/a/2473637 may be useful
     # or just do string manipulation
     
     render :text => "coming soon"
