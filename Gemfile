@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.5'
+ruby '2.1.1'
 gem 'rails', '3.2.18'
 
 # Bundle edge Rails instead:
@@ -14,6 +14,7 @@ group :development, :test do
   gem 'commands'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'railroady'
 end
 
 

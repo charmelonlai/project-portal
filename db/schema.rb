@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150402005107) do
+ActiveRecord::Schema.define(:version => 20130803233538) do
 
   create_table "clients", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -116,8 +116,6 @@ ActiveRecord::Schema.define(:version => 20150402005107) do
     t.string   "short_description"
     t.text     "long_description"
     t.text     "comment"
-    t.string   "sector"
-    t.string   "project_type"
   end
 
   create_table "projects_users", :id => false, :force => true do |t|
