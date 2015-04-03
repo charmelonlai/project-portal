@@ -23,6 +23,29 @@ ActiveRecord::Schema.define(:version => 20130803233538) do
     t.string   "mission_statement"
     t.string   "contact_email"
     t.string   "contact_number"
+    t.integer  "photo_id"
+    t.string   "encrypted_password",     :default => "",    :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.integer  "rolable_id"
+    t.string   "rolable_type"
+  end
+
+  create_table "client_photos", :force => true do |t|
+    t.integer  "id"
+    t.integer  "organization_id"
     t.string   "photo_file_name"
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
@@ -35,12 +58,14 @@ ActiveRecord::Schema.define(:version => 20130803233538) do
     t.string   "title",            :default => ""
     t.text     "body",             :default => ""
     t.string   "subject",          :default => ""
+    t.integer  "project_id"
     t.integer  "user_id",          :default => 0,  :null => false
     t.integer  "parent_id"
     t.integer  "lft"
     t.integer  "rgt"
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
+
   end
 
   add_index "comments", ["commentable_id", "commentable_type"], :name => "index_comments_on_commentable_id_and_commentable_type"
@@ -49,6 +74,27 @@ ActiveRecord::Schema.define(:version => 20130803233538) do
   create_table "developers", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.datetime "current_sign_in_at"
+    t.integer  "sign_in_count"
+    t.string   "fname"
+    t.string   "lname"
+
+    t.string   "email"
+    t.string   "encrypted_password"
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at" 
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.integer  "rolable_id"
+    t.string   "rolable_type"
   end
 
   create_table "email_notifications", :force => true do |t|
@@ -90,6 +136,24 @@ ActiveRecord::Schema.define(:version => 20130803233538) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "sname"
+
+    t.boolean  "admin"
+    t.string   "email"
+    t.string   "encrypted_password"
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at" 
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.integer  "rolable_id"
+    t.string   "rolable_type"
   end
 
   create_table "organizations_projects", :id => false, :force => true do |t|
@@ -99,15 +163,32 @@ ActiveRecord::Schema.define(:version => 20130803233538) do
 
   add_index "organizations_projects", ["project_id", "organization_id"], :name => "index_organizations_projects_on_project_id_and_organization_id"
 
-  create_table "projects", :force => true do |t|
+  create_table "projects_approved", :force => true do |t|
     t.string   "title"
     t.text     "questions"
     t.string   "github_site"
     t.string   "application_site"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.integer  "organization_id"
     t.integer  "client_id"
-    t.string   "photo"
+    t.string   "slug"
+    t.integer  "state"
+    t.text     "problem"
+    t.string   "short_description"
+    t.text     "long_description"
+    t.text     "comment"
+  end
+
+  create_table "projects_pending", :force => true do |t|
+    t.string   "title"
+    t.text     "questions"
+    t.string   "github_site"
+    t.string   "application_site"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.integer  "organization_id"
+    t.integer  "client_id"
     t.string   "slug"
     t.boolean  "approved"
     t.integer  "state"
@@ -130,33 +211,4 @@ ActiveRecord::Schema.define(:version => 20130803233538) do
     t.string   "deleted"
     t.integer  "organization_id"
   end
-
-  create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "",    :null => false
-    t.string   "encrypted_password",     :default => "",    :null => false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
-    t.boolean  "admin",                  :default => false
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
-    t.string   "fname"
-    t.string   "lname"
-    t.integer  "rolable_id"
-    t.string   "rolable_type"
-  end
-
-  add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
-
 end
