@@ -152,4 +152,3 @@ Given(/^I should see "(.*?)" before "(.*?)"$/) do |proj1, proj2|
     expect(page).to have_content(regexp)
   end
 end
-
