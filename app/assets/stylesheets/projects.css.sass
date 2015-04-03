@@ -1,4 +1,9 @@
 $max_height: 150px
+$button_red: #d99794
+$button_orange: #fabf90
+$button_green: #c3d79b
+$button_blue: #93ccdd
+$button_purple: #b3a2c7 
 
 .project-title
   font-size: 140%
@@ -204,29 +209,34 @@ a.popout:hover
     border: none
     margin-right: 15px
   .btn-approved
-    background-color: #c3d79b
+    background-color: $button_green
   .btn-pending
     background-color: #999
     color: #fff
   .btn-denied
-    background-color: #d99794
+    background-color: $button_red
     color: #fff
 
 .proj_tags
   .btn
     color: #fff
-    width: 60px
     border: none
-  .database
-    background-color: #d99794
-  .design
-    background-color: #fabf90
-  .mobile
-    background-color: #c3d79b
-  .webapp
-    background-color: #93ccdd
-  .other
-    background-color: #b3a2c7
+    min-width: 60px
+  .database,
+  .red
+    background-color: $button_red
+  .design,
+  .orange
+    background-color: $button_orange
+  .mobile,
+  .green
+    background-color: $button_green
+  .webapp,
+  .blue
+    background-color: $button_blue
+  .other,
+  .purple
+    background-color: $button_purple
 
 
 #full-proj-view

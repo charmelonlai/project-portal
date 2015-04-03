@@ -26,6 +26,6 @@
       %div.tab-pane#compact-proj-view
         %table
           - if user_signed_in?
-            - @projects = @projects.where(approved: true) + @projects.where(approved: nil) + @projects.where(approved: false)
+            - @projects = Project.approved_projects + Project.unapproved_projects + Projects.denied_projects
           =render(:partial => 'shared/project_compact', :collection => @projects)
     -will_paginate @projects, :param_name => 'page'
