@@ -2,8 +2,6 @@
   #allow-endless-scroll
   .title-section
     .heading.inline-title= "All Projects"
-    / .message
-    /   %i Note: These projects are public. To view an organization's private projects, contact that organization for the link.
     - if user_signed_in? and is_client?
       .btn-group#new-proj-btn
         %a.btn.btn-success{:href => new_project_path}
@@ -26,6 +24,6 @@
       %div.tab-pane#compact-proj-view
         %table
           - if user_signed_in?
-            - @projects = Project.approved_projects + Project.unapproved_projects + Projects.denied_projects
+            - @projects = Project.approved_projects + Project.unapproved_projects + Project.denied_projects
           =render(:partial => 'shared/project_compact', :collection => @projects)
     -will_paginate @projects, :param_name => 'page'

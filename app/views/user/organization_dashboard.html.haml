@@ -17,13 +17,23 @@
       %div Ask them to first create an account, and then go to the following link: <a>"http://projectportal.herokuapp.com/projects/new?#{current_rolable.sname}=1"</a>
 
     .projects
-      %h2 Projects Private To My Organization
-      - if @projects == nil
-        No projects yet!
-      - else
-        %div#proj-content.tab-content
-          %div.tab-pane.active#full-proj-view
-            =render(:partial => 'orgdev_project_card', :collection => @projects, :locals => {:project =>p})
-            =will_paginate @projects, :param_name => 'projects_page'
-
-
+      %div
+        %h2 Projects Private To My Organization
+        .btn-toolbar{:style => "float: right; margin: 15px"}
+          .btn-group#proj-tab{"data-toggle" => "buttons-radio"}
+            %a.btn.btn-small#compact-proj-btn{:href => "#square-proj-view", 'data-toggle' => 'tab'}
+              %i.icon-th-large
+            %a.btn.btn-small.active#compact-proj-btn{:href => "#compact-proj-view", 'data-toggle' => 'tab'}
+              %i.icon-list
+      #proj-content.tab-content
+        =link_to "Export to CSV", projects_csv_path
+        - if @projects.empty?
+          No projects yet!
+        - else
+          %div.tab-pane#square-proj-view.row
+            =render(:partial => 'shared/project_square', :collection => @projects)
+          %div.tab-pane.active#compact-proj-view
+            %table
+              - if user_signed_in?
+                - @projects = Project.approved_projects + Project.unapproved_projects + Project.denied_projects
+              =render(:partial => 'shared/project_compact', :collection => @projects)

@@ -1,5 +1,5 @@
 -project ||= project_square
-.project-square.hero-section.span3a
+.project-square.hero-section
   .row-fluid
     .span10.offset1
       .img-container
@@ -10,8 +10,7 @@
         =link_to project.title, project_path(project)
       %p.project-square-owner
         ="by #{project.client.company_name}"
-  .row-fluid
-    %p.short-description
-      =project.short_description
+      %p.short-description
+        =project.short_description
   =render :partial=>"shared/project_tags", :locals => {:project => project}
 
