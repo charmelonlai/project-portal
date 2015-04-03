@@ -98,8 +98,6 @@ Given /^the following public projects exist:$/ do |table|
     # TODO - use a factory to create each project
     project = Project.create({
       title: hash['title'],
-      github_site: 'blah.com',
-      application_site: 'blah.com',
       short_description: hash['short_description'],
       long_description: hash['long_description'],
       problem: "problem description"
@@ -117,3 +115,41 @@ Then /^I should be on the "export to CSV" page$/ do
   current_path = URI.parse(current_url).path
   current_path.should == projects_csv_path
 end
+
+Then /^I should see "([^\/]*)" (.+) times$/ do |regexp, times|
+  str = regexp
+  times = times.to_i
+  for i in 1..times
+    str = str + "(.+)" + regexp
+  end
+  regexp = Regexp.new(str)
+  if page.respond_to? :should
+    expect(page).to have_content(regexp)
+  end
+end
+
+Given(/^I visit the "show" page for "(.*?)"$/) do |proj|
+  visit project_path(proj)
+  page.should have_content('Project Purpose')
+  page.should have_content('Brief Description')
+  page.should have_content('Specifics')
+end
+
+Given(/^"(.*?)" is approved$/) do |proj_title|
+  proj = Project.find_by_title(proj_title)
+  proj.approved = true
+end
+
+Given(/^"(.*?)" is denied$/) do |proj_title|
+  proj = Project.find_by_title(proj_title)
+  proj.approved = false
+end
+
+Given(/^I should see "(.*?)" before "(.*?)"$/) do |proj1, proj2|
+  str = proj1 + "(.+)" + proj2
+  regexp = Regexp.new(str)
+  if page.respond_to? :should
+    expect(page).to have_content(regexp)
+  end
+end
+

@@ -84,3 +84,7 @@ Then /^the client of "(.*)" should be sent a notification email about the (appro
   email.subject.should == ((status == 'approval') ? "[Project Portal] Your project has been approved!" : "[Project Portal] There were some issues with your project.")
   email.body.should include("Dear #{client.fname} #{client.lname}")
 end
+
+Given(/^I am on the admin dashboard$/) do
+  visit '/dashboard'
+end
