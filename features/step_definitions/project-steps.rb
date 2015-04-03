@@ -95,11 +95,12 @@ end
 
 Given /^the following public projects exist:$/ do |table|
   table.hashes.each do |hash|
+    # TODO - use a factory to create each project
     project = Project.create({
       title: hash['title'],
-      github_site: hash['github_site'],
-      application_site: hash['application_site'],
-      short_description: "short description",
+      github_site: 'blah.com',
+      application_site: 'blah.com',
+      short_description: hash['short_description'],
       long_description: hash['long_description'],
       problem: "problem description"
     })
