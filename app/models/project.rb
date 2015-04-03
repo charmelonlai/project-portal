@@ -14,7 +14,7 @@ class Project < ActiveRecord::Base
              "Mental Health", "Microcredit", "Museums", "Philanthropy", "Policy", "Povery and hunger", "Religion and spirituality", 
              "Research and science", "Seniors and retirement", "Sports and recreation", "Technology", "Veterans", "Women", "Youth", 
              "Other"]
-  PROJECT_TYPES = ["Design", "Mobile", "Web App", "Other"]
+  PROJECT_TYPES = ["Database", "Design", "Mobile", "Web App", "Other"]
 
   extend FriendlyId
   friendly_id :title, use: :slugged

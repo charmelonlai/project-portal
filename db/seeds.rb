@@ -139,6 +139,7 @@ proj = Project.create({
 proj.client = altbreaks
 proj.organizations << bp
 proj.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
+proj.project_type = "Web App"
 proj.save
 
 #PROJECT: PROJECT PORTAL REVAMP-------------------------
@@ -153,6 +154,7 @@ proj2 = Project.create({
 proj2.client = altbreaks
 proj2.organizations << bp
 proj2.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
+proj2.project_type = "Design"
 proj2.save
 
 #PROJECT: VOLUNTEER MARKETPLACE----------------------------
@@ -167,4 +169,5 @@ proj3 = Project.create({
 proj3.client = altbreaks
 proj3.organizations << bp
 proj3.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
+proj3.project_type = "Mobile"
 proj3.save

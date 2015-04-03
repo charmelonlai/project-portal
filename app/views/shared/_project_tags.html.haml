@@ -1,14 +1,5 @@
-.tags
-  -if project.client.nonprofit
-    %a.btn.btn-mini.btn-primary.disabled
-      Nonprofit
-  -if project.client.five_01c3
-    %a.btn.btn-mini.btn-warning.disabled
-      501(c)3
-  -if project.state == Project::UNFINISHED
-    %a.btn.btn-mini.btn-danger.disabled
-      Development
-  -if project.state == Project::FINISHED
-    %a.btn.btn-mini.btn-success.disabled
-      Production
+.tags.proj_tags
+  %a.btn.btn-mini.disabled{:class => "#{project.project_type.delete(' ').downcase}"}
+    ="#{project.project_type}"
+
 
