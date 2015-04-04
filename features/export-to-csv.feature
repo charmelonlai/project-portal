@@ -17,11 +17,16 @@ Feature: Export project info to CSV
     | Client B project | short desc B      | long desc B      | Client B |
     | Client C project | short desc C      | long desc C      | Client C |
 
+  #@javascript
   Scenario: Click "export to CSV" button
     Given I am on the "projects" page
+    #Then I pause for a while
     When I click "Export to CSV"
-    Then I should be on the "export to CSV" page
-    And I should see "title,contact_email,short_description,long_description"
-    And I should see "Client A project,client@clienta.org,short desc A, long desc A"
-    And I should see "Client B project,client@clientb.org,short desc B, long desc B"
-    And I should see "Client C project,client@clientc.org,short desc C, long desc C"
+    Then I should get a download with the filename "projects.csv"
+    Then the downloaded file content should be:
+    """
+    Project Name,Client Email,Short Description,Long Description
+    Client A project,client@clienta.org,short desc A, long desc A
+    Client B project,client@clientb.org,short desc B, long desc B
+    Client C project,client@clientc.org,short desc C, long desc C
+    """

@@ -15,7 +15,7 @@ u = User.create({
   password: "password"
   })
 u.confirmed_at = Time.now
-u.save
+u.save!
 
 #DEVELOPER
 mc_user = User.create({
@@ -26,11 +26,11 @@ mc_user = User.create({
   password: "password"
   })
 mc_user.confirmed_at = Time.now
-mc_user.save
+mc_user.save!
 mc = Developer.create
 mc_user.rolable = mc
 mc_user.rolable_type = mc.class.name
-mc_user.save
+mc_user.save!
 
 
 #ORGANIZATION: CS169------------------------
@@ -42,7 +42,7 @@ cs169_user = User.create({
   password: "password",
   })
 cs169_user.confirmed_at = Time.now
-cs169_user.save
+cs169_user.save!
 cs169 = Organization.create({
   sname: 'cs169',
   name: "UC Berkeley CS169 Software Engineering Course",
@@ -51,7 +51,7 @@ cs169 = Organization.create({
 })
 cs169_user.rolable = cs169
 cs169_user.rolable_type = cs169.class.name
-cs169_user.save
+cs169_user.save!
 
 cs169_questions = Question.create([
   { question: "If selected, is the contact listed above available to speak on a weekly basis with a student from CS169?",
@@ -78,7 +78,7 @@ bp_user = User.create({
   password: "password",
   })
 bp_user.confirmed_at = Time.now
-bp_user.save
+bp_user.save!
 bp = Organization.create({
   sname: 'blueprint',
   name: "Blueprint, Technology for Non-Profits",
@@ -88,7 +88,7 @@ bp = Organization.create({
 
 bp_user.rolable = bp
 bp_user.rolable_type = bp.class.name
-bp_user.save
+bp_user.save!
 
 bp_questions = Question.create([
   { question: "Do you have the technical capabilities to deploy any solutions that Blueprint makes? (eg if Blueprint makes a website, will you be able to set up the domain name and server? Or will you require assistance from the Blueprint team?)",
@@ -112,7 +112,7 @@ altbreaks_user = User.create({
   password: "password"
   })
 altbreaks_user.confirmed_at = Time.now
-altbreaks_user.save
+altbreaks_user.save!
 altbreaks = Client.create({
   company_name: 'Alternative Breaks',
   company_site:'http://publicservice.berkeley.edu/alternativebreaks',
@@ -125,7 +125,7 @@ altbreaks = Client.create({
   })
 altbreaks_user.rolable = altbreaks
 altbreaks_user.rolable_type = altbreaks.class.name
-altbreaks_user.save
+altbreaks_user.save!
 
 #PROJECT: ALTBREAKS SITE-------------------------
 proj = Project.create({
@@ -142,7 +142,7 @@ proj.questions = {'question_1' => true, 'question_2' => true, 'question_3' => tr
 proj.project_type = "Web App"
 proj.sector = "Community"
 proj.approved = nil
-proj.save
+proj.save!
 
 #PROJECT: PROJECT PORTAL REVAMP-------------------------
 proj2 = Project.create({
@@ -159,7 +159,7 @@ proj2.questions = {'question_1' => true, 'question_2' => true, 'question_3' => t
 proj2.project_type = "Design"
 proj2.sector = "Technology"
 proj2.approved = false
-proj2.save
+proj2.save!
 
 #PROJECT: VOLUNTEER MARKETPLACE----------------------------
 proj3 = Project.create({
@@ -176,4 +176,35 @@ proj3.questions = {'question_1' => true, 'question_2' => true, 'question_3' => t
 proj3.project_type = "Mobile"
 proj3.sector = "Health"
 proj3.approved = true
-proj3.save
+proj3.save!
+
+#PUBLIC PROJECT: Generic Project Name----------------------------
+proj4 = Project.create({
+  title: "Generic Project Name",
+  github_site: "https://github.com/axisucb",
+  application_site: "http://axisucb.com/",
+  short_description: "Generic app.",
+  long_description: "We are hoping to build a generic app.",
+  problem: "Make our database more available to the public."
+  })
+proj4.client = altbreaks
+#proj4.organizations << bp
+proj4.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
+proj4.project_type = "Mobile"
+proj4.sector = "Health"
+proj4.approved = true
+proj4.save!
+
+proj = Project.create({
+  title: "proj A",
+  short_description: "proj A",
+  long_description: "proj A",
+  github_site: "proj A",
+  problem: "problem description"
+})
+proj.client = altbreaks
+proj.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
+proj.project_type = "Mobile"
+proj.sector = "Health"
+proj.approved = true
+proj.save!

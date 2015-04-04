@@ -1,3 +1,5 @@
+require 'csv'
+
 class ProjectsController < ApplicationController
   respond_to :html, :json
 
@@ -214,25 +216,21 @@ class ProjectsController < ApplicationController
   end
 
   def export_to_csv
-    @public_projects = Project.order("created_at DESC").is_public.paginate(:page => params[:public_page], :per_page => 5)
+    public_projects = Project.order("created_at DESC").is_public
 
     # TODO
     # http://stackoverflow.com/a/2473637 may be useful
     # or just do string manipulation
     csv_string = CSV.generate do |csv|
-      cols = ["Project Name", "Client Email", "Short Description"]
+      cols = ["Project Name", "Client Email", "Short Description", "Long Description"]
       csv << cols
 
-      @public_projects.each do |project|
-        csv << [project.title, project.client.contact_email, project.short_description]
+      public_projects.each do |project|
+        csv << [project.title, project.client.contact_email, project.short_description, project.long_description]
       end
-
-      filename = "data-#{Time.now.to_date.to_s}.csv"
-
     end
 
-    send_data(csv_string, :type => 'text/csv; charset=utf-8; header=present', :filename => filename)
-    
+    send_data(csv_string, :type => 'text/csv; charset=utf-8; header=present', :filename => "projects.csv")
   end
 
 

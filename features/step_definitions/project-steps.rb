@@ -32,7 +32,7 @@ Given /a project called "(.*)" exists(?:, with short description "(.*)")?/ do |p
     password: "password"
     })
   nonprofit_user.confirmed_at = Time.now
-  nonprofit_user.save
+  nonprofit_user.save!
 
   nonprofit_client = Client.create({
     company_name: 'My Nonprofit',
@@ -47,7 +47,7 @@ Given /a project called "(.*)" exists(?:, with short description "(.*)")?/ do |p
 
   nonprofit_user.rolable = nonprofit_client
   nonprofit_user.rolable_type = nonprofit_client.class.name
-  nonprofit_user.save
+  nonprofit_user.save!
 
   project = Project.create({
     title: proj,
@@ -60,7 +60,7 @@ Given /a project called "(.*)" exists(?:, with short description "(.*)")?/ do |p
   project.client = nonprofit_client
   project.organizations << cs169
   project.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
-  project.save
+  project.save!
   
   # verify that the project shows on the admin dashboard
   visit admin_dashboard_path
@@ -78,7 +78,7 @@ Given /^the following clients exist:$/ do |table|
       password: "password"
     })
     nonprofit_user.confirmed_at = Time.now
-    nonprofit_user.save
+    nonprofit_user.save!
 
     nonprofit_client = Client.create({
       company_name: hash['company_name'],
@@ -90,6 +90,11 @@ Given /^the following clients exist:$/ do |table|
       contact_email: hash['contact_email'],
       contact_number: hash['contact_number']
     })
+
+    # link user account with the client
+    nonprofit_user.rolable = nonprofit_client
+    nonprofit_user.rolable_type = nonprofit_client.class.name
+    nonprofit_user.save!
   end
 end
 
@@ -100,10 +105,17 @@ Given /^the following public projects exist:$/ do |table|
       title: hash['title'],
       short_description: hash['short_description'],
       long_description: hash['long_description'],
+      github_site: hash['client'] + ".com",
       problem: "problem description"
     })
     project.client = Client.find_by_company_name(hash['client'])
-    project.save
+    #project.organizations << cs169
+    project.project_type = "Mobile"
+    project.sector = "Health"
+    project.approved = true
+    project.save!
+    
+    project.organizations.should be_empty
   end
 end
 
@@ -111,9 +123,14 @@ Given /^I am on the "projects" page$/ do
   visit projects_path
 end
 
-Then /^I should be on the "export to CSV" page$/ do
-  current_path = URI.parse(current_url).path
-  current_path.should == projects_csv_path
+# http://stackoverflow.com/a/6533829
+Then /^I should get a download with the filename "([^\"]*)"$/ do |filename|
+  page.response_headers['Content-Disposition'].should include("filename=\"#{filename}\"")
+end
+
+# http://collectiveidea.com/blog/archives/2012/01/27/testing-file-downloads-with-capybara-and-chromedriver/
+Then "the downloaded file content should be:" do |content|
+  page.source.should == content
 end
 
 Then /^I should see "([^\/]*)" (.+) times$/ do |regexp, times|
@@ -151,4 +168,8 @@ Given(/^I should see "(.*?)" before "(.*?)"$/) do |proj1, proj2|
   if page.respond_to? :should
     expect(page).to have_content(regexp)
   end
+end
+
+Then /^I pause for a while$/ do
+  sleep 30
 end
