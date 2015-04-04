@@ -74,8 +74,8 @@ Then /^the client of "(.*)" should be sent a notification email about the (appro
   email = ActionMailer::Base.deliveries.last
   email[:from].to_s.should == "support@projectportal.com"
   email[:to].to_s.should == client.email
-  email.subject.should == ((status == 'approval') ? "[Project Portal] Your project has been approved!" : "[Project Portal] There were some issues with your project.")
-  email.body.should include("Dear #{client.fname} #{client.lname}")
+  email.subject.should == ((status == 'approval') ? "[Project Portal] Your project has been approved!" : "[Project Portal] Project follow-up")
+  email.body.should include("Dear #{client.fname}")
 end
 
 Given(/^I am on the admin dashboard$/) do

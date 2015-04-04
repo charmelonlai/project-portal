@@ -19,7 +19,6 @@ Feature: Export project info to CSV
 
   Scenario: Click "export to CSV" button
     Given I am on the admin dashboard
-    # Then I pause for a while
     When I click "Export to CSV"
     Then I should get a download with the filename "projects.csv"
     Then the downloaded file content should be:
