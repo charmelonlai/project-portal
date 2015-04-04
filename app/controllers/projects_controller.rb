@@ -219,8 +219,20 @@ class ProjectsController < ApplicationController
     # TODO
     # http://stackoverflow.com/a/2473637 may be useful
     # or just do string manipulation
+    csv_string = CSV.generate do |csv|
+      cols = ["Project Name", "Client Email", "Short Description"]
+      csv << cols
+
+      @public_projects.each do |project|
+        csv << [project.title, project.client.contact_email, project.short_description]
+      end
+
+      filename = "data-#{Time.now.to_date.to_s}.csv"
+
+    end
+
+    send_data(csv_string, :type => 'text/csv; charset=utf-8; header=present', :filename => filename)
     
-    render :text => "coming soon"
   end
 
 
