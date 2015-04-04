@@ -8,11 +8,11 @@ class Project < ActiveRecord::Base
   FINISHED = 2
 
   # class constants, for new/edit page of each project
-  SECTORS = ["Agriculture", "Animals", "Art", "Community development", "Consumer projection", "Crime and safety", "Disabilities",
-             "Disaster relief", "Drug abuse", "Economic development", "Education", "Environment", "Family", "Health and medicine",
-             "Housing", "Human rights", "Immigration", "Jobs training", "Legal assistance", "LGBT", "Library", "Media", 
-             "Mental Health", "Microcredit", "Museums", "Philanthropy", "Policy", "Povery and hunger", "Religion and spirituality", 
-             "Research and science", "Seniors and retirement", "Sports and recreation", "Technology", "Veterans", "Women", "Youth", 
+  SECTORS = ["Animals", "Art", "Community", "Crime and safety", "Disabilities", "Disaster relief",
+             "Drug abuse", "Economic development", "Education", "Environment", "Family", "Health",
+             "Housing", "Human rights", "Hunger relief", "Immigration", "Legal assistance", "LGBT", "Library", "Media", 
+             "Microcredit", "Philanthropy", "Policy", "Poverty relief", "Religion", "Research/science",
+             "Elderly", "Sports and recreation", "Technology", "Veterans", "Women", "Youth", 
              "Other"]
   PROJECT_TYPES = ["Database", "Design", "Mobile", "Web App", "Other"]
 
@@ -164,6 +164,28 @@ class Project < ActiveRecord::Base
 
   def self.denied_projects
     Project.where(:approved => false)
+  end
+
+  def self.approved_projects
+    Project.where(:approved => true)
+  end
+
+  def sector_color
+    colors = ["red", "orange", "green", "blue", "purple"]
+
+    partition = SECTORS.length / 5
+
+    if SECTORS[0..(partition - 1)].include?(self.sector)
+      colors[0]
+    elsif SECTORS[(partition)..(2*partition - 1)].include?(self.sector)
+      colors[1]
+    elsif SECTORS[(2*partition)..(3*partition - 1)].include?(self.sector)
+      colors[2]
+    elsif SECTORS[(3*partition)..(4*partition - 1)].include?(self.sector)
+      colors[3]
+    else
+      colors[4]
+    end
   end
 
   Project.virtualize_questions
