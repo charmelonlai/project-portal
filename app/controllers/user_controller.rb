@@ -1,3 +1,5 @@
+require 'csv'
+
 class UserController < ApplicationController
   def dashboard
     case
@@ -27,6 +29,22 @@ class UserController < ApplicationController
       @emails.append(u['fname'] + " " + u['lname'] + " " + "(" + u['email'] + ")")
     end
     render(:template => 'user/admin_dashboard')
+  end
+  
+  def export_to_csv
+    projects = Project.order("created_at DESC")
+    
+    # http://stackoverflow.com/a/2473637
+    csv_string = CSV.generate do |csv|
+      cols = ["Project Name", "Client Email", "Short Description", "Long Description"]
+      csv << cols
+
+      projects.each do |project|
+        csv << [project.title, project.client.contact_email, project.short_description, project.long_description]
+      end
+    end
+
+    send_data(csv_string, :type => 'text/csv; charset=utf-8; header=present', :filename => "projects.csv")
   end
 
   protected

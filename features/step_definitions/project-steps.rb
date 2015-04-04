@@ -60,6 +60,9 @@ Given /a project called "(.*)" exists(?:, with short description "(.*)")?/ do |p
   project.client = nonprofit_client
   project.organizations << cs169
   project.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
+  project.project_type = "Design"
+  project.sector = "Technology"
+  project.approved = false
   project.save!
   
   # verify that the project shows on the admin dashboard
@@ -98,7 +101,7 @@ Given /^the following clients exist:$/ do |table|
   end
 end
 
-Given /^the following public projects exist:$/ do |table|
+Given /^the following projects exist:$/ do |table|
   table.hashes.each do |hash|
     # TODO - use a factory to create each project
     project = Project.create({
@@ -109,18 +112,11 @@ Given /^the following public projects exist:$/ do |table|
       problem: "problem description"
     })
     project.client = Client.find_by_company_name(hash['client'])
-    #project.organizations << cs169
     project.project_type = "Mobile"
     project.sector = "Health"
     project.approved = true
     project.save!
-    
-    project.organizations.should be_empty
   end
-end
-
-Given /^I am on the "projects" page$/ do
-  visit projects_path
 end
 
 # http://stackoverflow.com/a/6533829

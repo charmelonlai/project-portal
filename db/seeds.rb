@@ -177,34 +177,3 @@ proj3.project_type = "Mobile"
 proj3.sector = "Health"
 proj3.approved = true
 proj3.save!
-
-#PUBLIC PROJECT: Generic Project Name----------------------------
-proj4 = Project.create({
-  title: "Generic Project Name",
-  github_site: "https://github.com/axisucb",
-  application_site: "http://axisucb.com/",
-  short_description: "Generic app.",
-  long_description: "We are hoping to build a generic app.",
-  problem: "Make our database more available to the public."
-  })
-proj4.client = altbreaks
-#proj4.organizations << bp
-proj4.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
-proj4.project_type = "Mobile"
-proj4.sector = "Health"
-proj4.approved = true
-proj4.save!
-
-proj = Project.create({
-  title: "proj A",
-  short_description: "proj A",
-  long_description: "proj A",
-  github_site: "proj A",
-  problem: "problem description"
-})
-proj.client = altbreaks
-proj.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
-proj.project_type = "Mobile"
-proj.sector = "Health"
-proj.approved = true
-proj.save!

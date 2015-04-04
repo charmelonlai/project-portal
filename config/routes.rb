@@ -6,8 +6,6 @@ ProjectPortal::Application.routes.draw do
                                     {:sign_in => 'login', :sign_out => 'logout'},
                :controllers => { :registrations => 'UserRegistrations' }
   resources :questions
-  
-  match 'projects/export_to_csv', :to => "projects#export_to_csv", :as => :projects_csv
 
   resources :projects do
     member do
@@ -21,10 +19,6 @@ ProjectPortal::Application.routes.draw do
     collection do
       match 'org_questions'
     end
-    
-    #member do
-    #  get :export_to_csv, :as => :projects_csv
-    #end
   end
 
   resources :email_notifications
@@ -37,6 +31,8 @@ ProjectPortal::Application.routes.draw do
   get "user/settings"
   match "admin_dashboard" => 'user#admin_dashboard', :as => :admin_dashboard
   match 'dashboard' => 'user#dashboard', :as => :dashboard
+  
+  match 'dashboard/export_to_csv', :to => "user#export_to_csv", :as => :projects_csv
 
   match 'delete_question/:id' => 'questions#destroy', :as => 'delete_question'
 

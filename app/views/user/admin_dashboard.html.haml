@@ -6,6 +6,8 @@
       /   =render :partial => 'questions/question_list'
       .span12
         =render :partial => 'createadmins'
+        .btn.btn-secondary
+          =link_to "Export to CSV", projects_csv_path
         / =render :partial => 'projects/unapproved_list', :locals => {:unapproved_projects => @unapproved_projects,  :denied_projects => @denied_projects}
         =render :partial => 'projects/unapproved_list', :locals => {:public_projects => @public_projects,  :private_projects => @private_projects}
 

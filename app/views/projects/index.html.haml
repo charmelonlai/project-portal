@@ -15,7 +15,6 @@
   =render :partial=>"search_form", :locals => {:prev_search => @prev_search}
 
   #proj-content.tab-content
-    =link_to "Export to CSV", projects_csv_path
     - if @projects.empty?
       No publicly available projects yet.
     - else

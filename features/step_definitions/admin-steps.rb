@@ -22,13 +22,6 @@ Given /I am logged in as an administrator/ do
   page.should have_content('Signed in successfully')
 end
 
-Given(/^I visit the "show" page for "(.*?)"$/) do |proj|
-  visit project_path(proj)
-  page.should have_content('Project Purpose')
-  page.should have_content('Brief Description')
-  page.should have_content('Specifics')
-end
-
 # set up approved/denied condition
 Given /^"(.*)" is currently (.*)$/ do |proj, status|
   project = Project.find_by_title(proj)
@@ -86,5 +79,5 @@ Then /^the client of "(.*)" should be sent a notification email about the (appro
 end
 
 Given(/^I am on the admin dashboard$/) do
-  visit '/dashboard'
+  visit admin_dashboard_path
 end
