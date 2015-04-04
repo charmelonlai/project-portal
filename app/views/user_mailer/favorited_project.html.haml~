@@ -1,5 +1,5 @@
 %p
-  Dear #{@proj_owner.fname},
+  Dear #{@proj_owner.fname} #{@proj_owner.lname},
 
 %p
   #{@favoriter.fname} #{@favoriter.lname} (#{@favoriter.email}) has favorited your project #{@project.title}! You many view your project at #{project_path(@project.id)}. We hope you enjoy using Project Portal!

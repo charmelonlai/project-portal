@@ -1,5 +1,5 @@
 %p
-  Dear #{@user.fname},
+  Dear #{@user.fname} #{@user.lname},
 
 %p
   Thank you for submitting your project, #{@project.title}, to Project Portal. Unfortunally your project was not accepted for the following reasons: #{@comment} 
