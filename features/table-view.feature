@@ -4,7 +4,7 @@ Feature: display project page view properly
 	I want to make sure that the projects are displayed properly
 
 	Background: 
-		Given I am loged in as an admin
+		Given I am logged in as an admin
 		And I am on the projects page
 	
 	Scenario: should see card view by default, not full project view
