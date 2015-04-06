@@ -109,12 +109,11 @@ class IssuesController < ApplicationController
     #@project.update_attributes(params[:project])
     if @project.save && @issue.save 
       flash[:notice] = "Your Solution was Submitted"
-      redirect_to project_issue_path(@project.slug,@issue.id)
     else
       flash[:error] = "Error in Saving. Please retry."
-      redirect_to project_issue_path(@project.slug,@issue.id)
     end
-    UserMailer.resolution_submitted(@issue, current_user).deliver unless not current_user.email_notification.issues_approval
+    redirect_to project_issue_path(@project.slug, @issue.id)
+    UserMailer.resolution_submitted(@issue, current_user).deliver if current_user.email_notification.issues_approval
   end
 
   #when the company accepts a solution to the issue
@@ -125,11 +124,10 @@ class IssuesController < ApplicationController
     if @issue.save
       flash[:notice] = "The Solution was Accepted"
       UserMailer.resolution_approved(@issue, @issue.submitter_id).deliver
-      redirect_to project_issue_path(project.slug,@issue.id)
     else
       flash[:error] = "Error in Saving. Please retry."
-      redirect_to project_issue_path(project.slug,@issue.id)
     end
+    redirect_to project_issue_path(project.slug, @issue.id)
   end
 
   #when the company denys a solution to the issue
@@ -142,11 +140,10 @@ class IssuesController < ApplicationController
     if @issue.save
       flash[:warning] = "The Solution was Rejected"
       UserMailer.resolution_denied(@issue, old_submitter).deliver
-      redirect_to project_issue_path(project.slug,@issue.id)
     else
       flash[:error] = "Error in Saving. Please retry."
-      redirect_to project_issue_path(project.slug,@issue.id)
     end
+    redirect_to project_issue_path(project.slug,@issue.id)
   end
 
   def destroy
@@ -158,21 +155,7 @@ class IssuesController < ApplicationController
   end
 
   def isOwner(project)
-    if not (user_signed_in? and (current_user.admin? or (project.user_id and current_user.id == project.user.id)))
-      return false
-    else
-      return true
-    end
+    return user_signed_in? and (current_user.admin? or (project.user_id and current_user.id == project.user.id))
   end
 
 end
-
-
-
-
-
-
-
-
-
-
