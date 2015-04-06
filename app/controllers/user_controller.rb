@@ -23,11 +23,7 @@ class UserController < ApplicationController
     @public_projects = Project.order("created_at DESC").is_public.paginate(:page => params[:public_page], :per_page => 5)
     @private_projects = Project.order("created_at DESC").is_private.paginate(:page => params[:private_page], :per_page => 5)
 
-    @emails = []
-    users = User.connection.select_all("SELECT email,fname,lname FROM users")
-    users.each do |u|
-      @emails.append(u['fname'] + " " + u['lname'] + " " + "(" + u['email'] + ")")
-    end
+    @emails = User.all_names_and_emails
     render(:template => 'user/admin_dashboard')
   end
   
