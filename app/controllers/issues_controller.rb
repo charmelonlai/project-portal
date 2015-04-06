@@ -96,18 +96,13 @@ class IssuesController < ApplicationController
   #when someone submits a solution to a Issue
   def resolve
     @issue = Issue.find(params[:id])
-    @issue.resolved = 1
-    @issue.authors = params[:solution][:author]
-    @issue.github = params[:solution][:github]
-    @issue.submitter_id = current_user.id
+    @project = Project.find(@issue.project_id) 
 
-    #update latest repo for the project
-    @project = Project.find(@issue.project_id)
-    @project.github_site = params[:solution][:github]
-
-    #TODO: @project.save and 
-    #@project.update_attributes(params[:project])
-    if @project.save && @issue.save 
+    issue_save = @issue.update_attributes(:resolved => 1, :authors => params[:solution][:author], :github => params[:solution][:github], :submitter_id => current_user.id)
+    
+    # update latest repo for the project
+    proj_save = @project.update_attributes(:github_site => params[:solution][:github])
+    if proj_save && issue_save
       flash[:notice] = "Your Solution was Submitted"
     else
       flash[:error] = "Error in Saving. Please retry."
