@@ -5,7 +5,7 @@ class UserMailer < ActionMailer::Base
     @project = project
     @comment = comment
     @user = Client.find(project.client_id).user
-    mail(:to => @user.email, :subject => status ? "[Project Portal] Your project has been approved!" : "[Project Portal] Project follow-up")
+    mail(:to => @user.email, :subject => status == 'true' ? "[Project Portal] Your project has been approved!" : "[Project Portal] Project follow-up")
   end
 
   def favorited_project(project, current_user)

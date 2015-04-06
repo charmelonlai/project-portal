@@ -223,7 +223,7 @@ class ProjectsController < ApplicationController
     else
       flash[:notice] = "Project: '#{project.title}' was successfully denied."
     end
-    UserMailer.project_approved(project, comment, eval(params[:project][:approved])).deliver unless not enotifer_on
+    UserMailer.project_approved(project, comment, params[:project][:approved]).deliver unless not enotifer_on
   end
 
   def permission_to_update(project)
