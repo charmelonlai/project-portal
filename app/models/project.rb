@@ -170,23 +170,23 @@ class Project < ActiveRecord::Base
     Project.where(:approved => true)
   end
 
-  def sector_color
+def sector_color
     colors = ["red", "orange", "green", "blue", "purple"]
-
+    index = SECTORS.index(self.sector)
     partition = SECTORS.length / 5
-
-    if SECTORS[0..(partition - 1)].include?(self.sector)
+    
+    if index.between?(0, partition - 1)
       colors[0]
-    elsif SECTORS[(partition)..(2*partition - 1)].include?(self.sector)
+    elsif index.between?(partition, 2*partition - 1)
       colors[1]
-    elsif SECTORS[(2*partition)..(3*partition - 1)].include?(self.sector)
+    elsif index.between?(2*partition, 3*partition - 1)
       colors[2]
-    elsif SECTORS[(3*partition)..(4*partition - 1)].include?(self.sector)
+    elsif index.between?(3*partition, 4*partition - 1)
       colors[3]
     else
       colors[4]
     end
-  end
+end
 
   Project.virtualize_questions
 end
