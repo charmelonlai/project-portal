@@ -218,17 +218,15 @@ class ProjectsController < ApplicationController
   def approve_deny_project(project)
     comment = params[:project][:comment]
     enotifer_on = current_user.email_notification.proj_approval
-    if params[:project][:approved] == "true"
-      flash[:notice] = "Project: '#{project.title}' was successfully approved."
-    else
-      flash[:notice] = "Project: '#{project.title}' was successfully denied."
-    end
-    UserMailer.project_approved(project, comment, params[:project][:approved]).deliver unless not enotifer_on
+    status = params[:project][:approved]
+
+    flash[:notice] = status == 'true' ? "Project: '#{project.title}' was successfully approved." : "Project: '#{project.title}' was successfully denied."
+    UserMailer.project_approved(project, comment, params[:project][:approved]).deliver if enotifer_on
   end
 
   def permission_to_update(project)
     unless user_can_update?(project)
-      flash[:error] = 'Youd do not have permission to edit this project.'
+      flash[:error] = 'You do not have permission to edit this project.'
       return redirect_to project
     end
   end
