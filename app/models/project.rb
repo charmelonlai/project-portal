@@ -171,21 +171,15 @@ class Project < ActiveRecord::Base
   end
 
 def sector_color
-    colors = ["red", "orange", "green", "blue", "purple"]
-    index = SECTORS.index(self.sector)
-    partition = SECTORS.length / 5
-    
-    if index.between?(0, partition - 1)
-      colors[0]
-    elsif index.between?(partition, 2*partition - 1)
-      colors[1]
-    elsif index.between?(2*partition, 3*partition - 1)
-      colors[2]
-    elsif index.between?(3*partition, 4*partition - 1)
-      colors[3]
-    else
-      colors[4]
+  colors = ["red", "orange", "green", "blue", "purple"]
+  sector_index = SECTORS.index(self.sector)
+  partition = SECTORS.length / colors.length
+  
+  (0..colors.length).each do |i|
+    if sector_index.between?(i * partition, (i + 1) * partition - 1)
+      return colors[i]
     end
+  end
 end
 
   Project.virtualize_questions
