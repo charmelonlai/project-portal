@@ -35,19 +35,12 @@ class ProjectsController < ApplicationController
     session[:org] = org_params
     session[:proj] = proj_params
 
-    puts 'org params'
-    puts org_params
-
-    @organizations = []
-    Organization.all.each do |org|
-      if org_params[org.sname] == "1"
-        @organizations << org
-      end
-    end
+    @organizations = org_params.select { |k, v| v == '1' }.keys.map { |sname|
+      Organization.find_by_sname(sname)
+    }.select { |org| org != nil }
   end
 
   def create
-    puts "CREATING"
     org_params = session[:org]
     proj_params = session[:proj]
 
@@ -59,13 +52,9 @@ class ProjectsController < ApplicationController
     @project.problem = params[:project][:problem]
     @project.short_description = params[:project][:short_description]
     @project.long_description = params[:project][:long_description]
-
-    Organization.all.each do |org|
-      if org_params[org.sname] == "1"
-        puts org.name
-        @project.organizations << org
-      end
-    end
+    @project.organizations = org_params.select { |k, v| v == '1' }.keys.map { |sname|
+      Organization.find_by_sname(sname)
+    }.select { |org| org != nil }
 
     if @project.save
       redirect_to @project, notice: 'Project was successfully created.'
