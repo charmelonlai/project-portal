@@ -35,9 +35,7 @@ class ProjectsController < ApplicationController
     session[:org] = org_params
     session[:proj] = proj_params
 
-    @organizations = org_params.select { |k, v| v == '1' }.keys.map { |sname|
-      Organization.find_by_sname(sname)
-    }.select { |org| org != nil }
+    @organizations = Organization.sname_hash_to_org_list(org_params)
   end
 
   def create
@@ -52,9 +50,7 @@ class ProjectsController < ApplicationController
     @project.problem = params[:project][:problem]
     @project.short_description = params[:project][:short_description]
     @project.long_description = params[:project][:long_description]
-    @project.organizations = org_params.select { |k, v| v == '1' }.keys.map { |sname|
-      Organization.find_by_sname(sname)
-    }.select { |org| org != nil }
+    @project.organizations = Organization.sname_hash_to_org_list(org_params)
 
     if @project.save
       redirect_to @project, notice: 'Project was successfully created.'

@@ -8,4 +8,10 @@ class Organization < ActiveRecord::Base
   has_one :user, :as => :rolable
 
   attr_accessible :description, :name, :website, :sname, :organization_id
+  
+  def sname_hash_to_org_list(org_params)
+    org_params.select { |k, v| v == '1' }.keys.map { |sname|
+      Organization.find_by_sname(sname)
+    }.select { |org| org != nil }
+  end
 end
