@@ -40,15 +40,10 @@ class ProjectsController < ApplicationController
 
     @project = Project.new(proj_params)
     # @project = Project.new(proj_params, :as => :owner)
-    @project.client = current_rolable
+    success = @project.update_attributes(:client => current_rolable, :questions => params[:project][:questions], :problem => params[:project][:problem],
+      :short_description => params[:project][:short_description], :long_description => params[:project][:long_description], :organizations => Organization.sname_hash_to_org_list(org_params))
 
-    @project.questions = params[:project][:questions]
-    @project.problem = params[:project][:problem]
-    @project.short_description = params[:project][:short_description]
-    @project.long_description = params[:project][:long_description]
-    @project.organizations = Organization.sname_hash_to_org_list(org_params)
-
-    if @project.save
+    if success
       redirect_to @project, notice: 'Project was successfully created.'
     else
       render action: "new"
