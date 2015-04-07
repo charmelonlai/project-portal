@@ -102,6 +102,7 @@ class IssuesController < ApplicationController
     
     # update latest repo for the project
     proj_save = @project.update_attributes(:github_site => params[:solution][:github])
+
     if proj_save && issue_save
       flash[:notice] = "Your Solution was Submitted"
     else

@@ -9,11 +9,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     permission_to_update(@project)
     @questions = @project.project_questions
-    @emails = []
-    users = User.connection.select_all("SELECT email,fname,lname FROM users")
-    users.each do |u|
-      @emails.append("#{u['fname']} #{u['lname']} (#{u['email']})")
-    end
+    @emails = User.all_names_and_emails
     unless user_can_update?(@project)
       redirect_to @project, notice: 'You do not have permission to edit this project.'
     end
