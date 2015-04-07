@@ -72,15 +72,16 @@ class UserController < ApplicationController
   def create_admin(email)
     @email = email
     @user = User.find_by_email(@email)
+    notice = ''
     if @user and not @user.admin?
       @user.update_attributes(:admin=>true)
-      redirect_to admin_dashboard_path, notice: "#{@user.fname} #{@user.lname} is now an admin."
+      notice = "#{@user.fname} #{@user.lname} is now an admin."
     elsif @user and @user.admin?
-      redirect_to admin_dashboard_path, notice: "#{@user.fname} #{@user.lname} is already an admin."
+      notice = "#{@user.fname} #{@user.lname} is already an admin."
     else
       flash[:error] =  "#{@email} does not exist. Would you like to create a user?"
-      redirect_to admin_dashboard_path
     end
+    redirect_to admin_dashboard_path, notice: notice
   end
 
   def view_all_admins
