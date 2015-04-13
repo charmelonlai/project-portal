@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
     e.save
   end
 
-  def all_names_and_emails
+  def self.all_names_and_emails
     emails = []
     users = User.connection.select_all("SELECT email,fname,lname FROM users")
     users.each do |u|

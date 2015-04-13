@@ -9,7 +9,7 @@ class Organization < ActiveRecord::Base
 
   attr_accessible :description, :name, :website, :sname, :organization_id
   
-  def sname_hash_to_org_list(org_params)
+  def self.sname_hash_to_org_list(org_params)
     org_params.select { |k, v| v == '1' }.keys.map { |sname|
       Organization.find_by_sname(sname)
     }.select { |org| org != nil }

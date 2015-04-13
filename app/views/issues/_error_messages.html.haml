@@ -1,8 +1,0 @@
--if @issue.errors.any?
-  .field_with_errors 
-    .error-title
-      %h6= pluralize(@issue.errors.count, "Error") + " Prohibited this Issue from being Created!"
-    .error-list
-      -@issue.errors.full_messages.each do |msg|
-        %p=msg
-  %br
