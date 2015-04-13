@@ -5,6 +5,5 @@ FactoryGirl.define do
     user nil
     fav_projects false
     proj_approval false
-    fav_issues false
   end
 end
