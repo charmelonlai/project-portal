@@ -15,7 +15,6 @@ ProjectPortal::Application.routes.draw do
       post :add_org
       post :remove_orgs
     end
-    resources :issues
     collection do
       match 'org_questions'
     end
@@ -37,11 +36,6 @@ ProjectPortal::Application.routes.draw do
   match 'delete_question/:id' => 'questions#destroy', :as => 'delete_question'
 
   get "home/index"
-
-  match 'issues' => 'issues#index', :as => :issues
-  match 'issues/:id/resolve' => 'issues#resolve', :as => :resolve_issue
-  match 'issues/:id/accept' => 'issues#accept', :as => :accept_issue
-  match 'issues/:id/deny' => 'issues#deny', :as => :deny_issue
 
   match 'projects/:id/favorite' => 'projects#favorite', :as => :add_favorite
   match 'projects/:id/unfavorite' => 'projects#unfavorite', :as => :remove_favorite

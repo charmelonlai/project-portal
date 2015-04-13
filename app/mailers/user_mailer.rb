@@ -15,23 +15,4 @@ class UserMailer < ActionMailer::Base
     mail(:to => @proj_owner.email, :subject => "[Project Portal] A User has favorited your project")
   end
 
-  def resolution_submitted(issue, current_user)
-    @issue = issue
-    @proj_owner = @issue.project.user
-    @submitter = current_user
-    mail(:to => @proj_owner.email, :subject => "[Project Portal] An issue resolution requires your approval")
-  end
-
-  def resolution_approved(issue, submitter_id)
-    @issue = issue
-    @submitter = User.find_by_id(submitter_id)
-    mail(:to => @submitter.email, :subject => "[Project Portal] Your Resolution to an issue has been accepted")
-  end
-
-  def resolution_denied(issue, submitter_id)
-    @issue = issue
-    @submitter = User.find_by_id(submitter_id)
-    mail(:to => @submitter.email, :subject => "[Project Portal] Resolution follow-up")  
-  end
-
 end
