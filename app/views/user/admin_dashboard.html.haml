@@ -9,5 +9,25 @@
         .btn.btn-secondary
           =link_to "Export to CSV", projects_csv_path
         / =render :partial => 'projects/unapproved_list', :locals => {:unapproved_projects => @unapproved_projects,  :denied_projects => @denied_projects}
-        =render :partial => 'projects/unapproved_list', :locals => {:public_projects => @public_projects,  :private_projects => @private_projects}
+        /=render :partial => 'projects/unapproved_list', :locals => {:public_projects => @public_projects,  :private_projects => @private_projects}
+        .projects
+          %div
+            %h2 All Projects
+            .btn-toolbar{:style => "float: right; margin: 15px"}
+              .btn-group#proj-tab{"data-toggle" => "buttons-radio"}
+                %a.btn.btn-small.active#compact-proj-btn{:href => "#square-proj-view", 'data-toggle' => 'tab'}
+                  %i.icon-th-large
+                %a.btn.btn-small#compact-proj-btn{:href => "#compact-proj-view", 'data-toggle' => 'tab'}
+                  %i.icon-list
+          #proj-content.tab-content
+            - if @projects.empty?
+              No projects yet!
+            - else
+              %div.tab-pane.active#square-proj-view.row
+                =render(:partial => 'shared/project_square', :collection => @projects)
+              %div.tab-pane#compact-proj-view
+                %table
+                  - if user_signed_in?
+                    - @projects = Project.approved_projects + Project.unapproved_projects + Project.denied_projects
+                  =render(:partial => 'shared/project_compact', :collection => @projects)
 
