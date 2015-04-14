@@ -52,8 +52,6 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
-    @comments = @project.root_comments
-    @new_comment = Comment.build_from(@project, current_user.id, "") if user_signed_in?
   end
 
   def index
@@ -127,28 +125,6 @@ class ProjectsController < ApplicationController
     redirect_to session[:return_to]
   end
 
-  #to control comments
-  def comment
-    @project = Project.find(params[:id])
-    @comment = Comment.build_from(@project, current_user.id, params[:comment][:body])
-    if @comment.save
-      render :partial => 'shared/project_comments', :locals => {:comment => @comment}, :layout => false, :status => :created
-    else
-      flash[:error] = 'Comment failed.'
-      redirect_to @project
-    end
-  end
-
-  def delete_comment
-    @comment = Comment.find(params[:id])
-    if @comment.destroy
-      render :json => @comment, :status => :ok
-    else
-      flash[:error] = 'Deletion of Comment Failed.'
-      redirect_to @project
-    end
-  end
-
   def edit_question
     @project = Project.find(params[:id])
     question = params[:question]
@@ -189,7 +165,7 @@ class ProjectsController < ApplicationController
   private
 
   def approve_deny_project(project)
-    comment = params[:project][:comment]
+    comment = params[:project][:admin_note]
     enotifer_on = current_user.email_notification.proj_approval
     status = params[:project][:approved]
 

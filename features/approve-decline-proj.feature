@@ -12,7 +12,7 @@ Feature: Approve/decline client projects
   Scenario: Approve project
     Given "test-proj" is currently denied
     When I click "Approve"
-    And I fill in "project[comment]" with "Like this project" within "#approval-form-popup-test-proj"
+    And I fill in "project[admin_note]" with "Like this project" within "#approval-form-popup-test-proj"
     And I press "Submit" within "#approval-form-popup-test-proj"
     Then I should be on the "show" page for "test-proj"
     And I should see "Project: 'test-proj' was successfully approved."
@@ -23,7 +23,7 @@ Feature: Approve/decline client projects
   Scenario: Decline project
     Given "test-proj" is currently approved
     When I click "Decline"
-    And I fill in "project[comment]" with "Don't like this project" within "#denial-form-popup-test-proj"
+    And I fill in "project[admin_note]" with "Don't like this project" within "#denial-form-popup-test-proj"
     And I press "Submit" within "#denial-form-popup-test-proj"
     Then I should be on the "show" page for "test-proj"
     And I should see "Project: 'test-proj' was successfully denied."
@@ -34,7 +34,7 @@ Feature: Approve/decline client projects
   Scenario: Approve project and send notification email
     Given "test-proj" is currently denied
     When I click "Approve"
-    And I fill in "project[comment]" with "Like this project" within "#approval-form-popup-test-proj"
+    And I fill in "project[admin_note]" with "Like this project" within "#approval-form-popup-test-proj"
     And I press "Submit" within "#approval-form-popup-test-proj"
     Then the client of "test-proj" should be sent a notification email about the approval
 
@@ -42,6 +42,6 @@ Feature: Approve/decline client projects
   Scenario: Decline project and send notification email
     Given "test-proj" is currently approved
     When I click "Decline"
-    And I fill in "project[comment]" with "Don't like this project" within "#denial-form-popup-test-proj"
+    And I fill in "project[admin_note]" with "Don't like this project" within "#denial-form-popup-test-proj"
     And I press "Submit" within "#denial-form-popup-test-proj"
     Then the client of "test-proj" should be sent a notification email about the decline

@@ -1,7 +1,6 @@
 require 'will_paginate/array'
 
 class Project < ActiveRecord::Base
-  acts_as_commentable
 
   # class constants, integer so as to allow for more states in the future
   UNFINISHED = 1
@@ -27,9 +26,9 @@ class Project < ActiveRecord::Base
 
   attr_accessible :github_site, :application_site#, :as => [:default, :admin, :owner]
   attr_accessible :questions, :title, :state#, :as => [ :owner, :admin ]
-  attr_accessible :comment, :as => [ :owner, :admin ]
   attr_accessible :problem, :short_description, :long_description#, :as => [ :owner, :admin ]
   attr_accessible :approved, :as => :admin
+  attr_accessible :admin_note, :as => :admin
   attr_accessor :project_params, :org_params
   attr_accessible :organization
   attr_accessible :project_type, :sector
