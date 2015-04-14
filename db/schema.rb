@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150413223655) do
+ActiveRecord::Schema.define(:version => 20150414030245) do
 
   create_table "clients", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -29,23 +29,6 @@ ActiveRecord::Schema.define(:version => 20150413223655) do
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
   end
-
-  create_table "comments", :force => true do |t|
-    t.integer  "commentable_id",   :default => 0
-    t.string   "commentable_type", :default => ""
-    t.string   "title",            :default => ""
-    t.text     "body",             :default => ""
-    t.string   "subject",          :default => ""
-    t.integer  "user_id",          :default => 0,  :null => false
-    t.integer  "parent_id"
-    t.integer  "lft"
-    t.integer  "rgt"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
-  end
-
-  add_index "comments", ["commentable_id", "commentable_type"], :name => "index_comments_on_commentable_id_and_commentable_type"
-  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "developers", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -100,9 +83,9 @@ ActiveRecord::Schema.define(:version => 20150413223655) do
     t.text     "problem"
     t.string   "short_description"
     t.text     "long_description"
-    t.text     "comment"
     t.string   "sector"
     t.string   "project_type"
+    t.string   "admin_note"
   end
 
   create_table "projects_users", :id => false, :force => true do |t|

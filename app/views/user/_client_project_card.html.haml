@@ -47,14 +47,6 @@
                 =link_to(project.application_site, url_with_http(project.application_site), :target => "_blank")
 
           .mission-statement
-            .span12
-              %p
-                %b
-                  ="#{t(:recent_comments)}:"
-                - get_comments(project, 2).each do |comment|
-                  %p
-                    %b
-                    = truncate(User.find(comment.user_id).fname + " (" + comment.created_at.in_time_zone("Pacific Time (US & Canada)").strftime("%h %d %I:%M %p") + "): " + comment.body, :length => 120)
 
 =render :partial => 'projects/submit_form_popup', :locals => {:project => project}
 

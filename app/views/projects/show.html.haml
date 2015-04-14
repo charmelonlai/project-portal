@@ -10,12 +10,3 @@
       =render :partial => 'shared/project_contact', :locals => {:project => @project}
     .span8
       =render :partial => 'shared/project_description', :locals => {:project => @project}
-      .hero-section
-        %h4.details-title
-          ="Comments"
-        .comments
-          =render :partial => 'shared/project_comments', :collection => @comments, :as => :comment
-          .comment-form
-            -if user_signed_in?
-              =render :partial => 'shared/comment', :locals => { :comment => @new_comment }
-
