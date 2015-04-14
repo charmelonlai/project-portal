@@ -26,8 +26,16 @@
             %a.btn.btn-small.active#compact-proj-btn{:href => "#compact-proj-view", 'data-toggle' => 'tab'}
               %i.icon-list
       #proj-content.tab-content
-        .btn.btn-secondary
+        .btn.btn-secondary{:style => "margin-bottom: 15px"}
           =link_to "Export to CSV", projects_csv_path
+        %div#filters
+          = form_tag projects_filter_path, :id => "filter_form", :method => :get do
+            Filter by project type:
+            = select_tag "project_type", options_for_select(Project::PROJECT_TYPES), :include_blank => "All"
+            Filter by project focus:
+            = select_tag "project_focus", options_for_select(Project::SECTORS), :include_blank => "All"
+            = submit_tag "Go", :id => "filter_submit"
+            = link_to "Reset", dashboard_path, :style => "padding-left: 10px"
         - if @projects.empty?
           No projects yet!
         - else
@@ -36,5 +44,5 @@
           %div.tab-pane.active#compact-proj-view
             %table
               - if user_signed_in?
-                - @projects = Project.approved_projects + Project.unapproved_projects + Project.denied_projects
+                - @projects = @projects.approved_projects + @projects.unapproved_projects + @projects.denied_projects
               =render(:partial => 'shared/project_compact', :collection => @projects)

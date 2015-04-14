@@ -30,6 +30,7 @@ ProjectPortal::Application.routes.draw do
   get "user/settings"
   match "admin_dashboard" => 'user#admin_dashboard', :as => :admin_dashboard
   match 'dashboard' => 'user#dashboard', :as => :dashboard
+  get 'dashboard/filtered' => 'user#filter_projects', :as => :projects_filter
   
   match 'dashboard/export_to_csv', :to => "user#export_to_csv", :as => :projects_csv
 

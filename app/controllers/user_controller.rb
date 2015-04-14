@@ -37,6 +37,23 @@ class UserController < ApplicationController
     send_data(csv_string, :type => 'text/csv; charset=utf-8; header=present', :filename => "projects.csv")
   end
 
+  def filter_projects
+    project_type = params[:project_type]
+    project_focus = params[:project_focus]
+
+    @projects = current_rolable.projects.order("created_at DESC")
+
+    if project_type != ''
+      @projects = @projects.where("project_type = ?", project_type)
+    end
+
+    if project_focus != ''
+      @projects = @projects.where("sector = ?", project_focus)
+    end
+
+    render(:template => 'user/organization_dashboard')
+  end
+
   protected
   def organization_dashboard
     @questions = current_rolable.questions
