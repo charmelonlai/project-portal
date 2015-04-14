@@ -26,7 +26,8 @@
             %a.btn.btn-small.active#compact-proj-btn{:href => "#compact-proj-view", 'data-toggle' => 'tab'}
               %i.icon-list
       #proj-content.tab-content
-        =link_to "Export to CSV", projects_csv_path
+        .btn.btn-secondary
+          =link_to "Export to CSV", projects_csv_path
         - if @projects.empty?
           No projects yet!
         - else
