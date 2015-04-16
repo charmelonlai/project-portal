@@ -15,17 +15,17 @@
             %h2 All Projects
             .btn-toolbar{:style => "float: right; margin: 15px"}
               .btn-group#proj-tab{"data-toggle" => "buttons-radio"}
-                %a.btn.btn-small.active#compact-proj-btn{:href => "#square-proj-view", 'data-toggle' => 'tab'}
+                %a.btn.btn-small#compact-proj-btn{:href => "#square-proj-view", 'data-toggle' => 'tab'}
                   %i.icon-th-large
-                %a.btn.btn-small#compact-proj-btn{:href => "#compact-proj-view", 'data-toggle' => 'tab'}
+                %a.btn.btn-small.active#compact-proj-btn{:href => "#compact-proj-view", 'data-toggle' => 'tab'}
                   %i.icon-list
           #proj-content.tab-content
             - if @projects.empty?
               No projects yet!
             - else
-              %div.tab-pane.active#square-proj-view.row
+              %div.tab-pane#square-proj-view.row
                 =render(:partial => 'shared/project_square', :collection => @projects)
-              %div.tab-pane#compact-proj-view
+              %div.tab-pane.active#compact-proj-view
                 %table
                   - if user_signed_in?
                     - @projects = Project.approved_projects + Project.unapproved_projects + Project.denied_projects
