@@ -114,7 +114,7 @@ Given /^the following projects exist:$/ do |table|
     project.client = Client.find_by_company_name(hash['client'])
     project.project_type = "Mobile"
     project.sector = "Health"
-    project.approved = true
+    project.approved = nil
     project.save!
   end
 end
@@ -132,7 +132,7 @@ end
 Then /^I should see "([^\/]*)" (.+) times$/ do |regexp, times|
   str = regexp
   times = times.to_i
-  for i in 1..times
+  for i in 1..(times - 1)
     str = str + "(.+)" + regexp
   end
   regexp = Regexp.new(str)
