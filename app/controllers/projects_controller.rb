@@ -39,9 +39,12 @@ class ProjectsController < ApplicationController
     proj_params = session[:proj]
 
     @project = Project.new(proj_params)
-    # @project = Project.new(proj_params, :as => :owner)
-    success = @project.update_attributes(:client => current_rolable, :questions => params[:project][:questions], :problem => params[:project][:problem],
-      :short_description => params[:project][:short_description], :long_description => params[:project][:long_description], :organizations => Organization.sname_hash_to_org_list(org_params))
+
+    @project.client = current_rolable
+    @project.organizations = Organization.sname_hash_to_org_list(org_params)
+
+    success = @project.update_attributes(:questions => params[:project][:questions], :problem => params[:project][:problem],
+      :short_description => params[:project][:short_description], :long_description => params[:project][:long_description])
 
     if success
       redirect_to @project, notice: 'Project was successfully created.'
@@ -73,18 +76,19 @@ class ProjectsController < ApplicationController
 
   def update
     @project = Project.find(params[:id])
+
     permission_to_update(@project)
-    # if params[:project][:project_owner]
-    #   params[:project][:user_id] = get_user_id_from_email(params[:project][:project_owner])
-    # end
-    params[:project].delete(:project_owner)
+
+    project_params = params[:project]
+    project_params.delete(:project_owner)
+
     if @project.approved == false
-      params[:project][:approved] = nil
+      project_params[:approved] = nil
     end
-    if current_user.admin? and @project.update_attributes(params[:project], :as => :admin) or @project.update_attributes(params[:project], :as => :owner)
+
+    if current_user.admin? and @project.update_attributes(project_params, :as => :admin) or @project.update_attributes(project_params, :as => :owner)
       redirect_to(@project, :notice => "Project was successfully updated.")
     else
-      @questions = @project.project_questions
       render action: "edit"
     end
   end
