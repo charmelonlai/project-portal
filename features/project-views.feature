@@ -4,7 +4,7 @@ Feature: display project page view properly
 	I want to make sure that the projects are displayed properly
 
 	Background: 
-		Given I am logged in as an administrator
+	  Given I am logged in as an administrator
 	  And the following clients exist:
 	  | company_name | company_site       | company_address | contact_email      | contact_number |
 	  | Client A     | http://clienta.org | 123 Client A Dr | client@clienta.org | N/A            |
