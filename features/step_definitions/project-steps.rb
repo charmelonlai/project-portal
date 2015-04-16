@@ -119,6 +119,10 @@ Given /^the following projects exist:$/ do |table|
   end
 end
 
+Then(/^I should not see "(.*?)"$/) do |text|
+  page.should !have_content(text)
+end
+
 # http://stackoverflow.com/a/6533829
 Then /^I should get a download with the filename "([^\"]*)"$/ do |filename|
   page.response_headers['Content-Disposition'].should include("filename=\"#{filename}\"")
@@ -168,4 +172,20 @@ end
 
 Then /^I pause for a while$/ do
   sleep 30
+end
+
+Then /^the "(.*?)" (button|pane) should be active$/ do |id, button_or_pane|
+  find("#" << id)['class'].should include("active")
+end
+
+Then /^the "(.*?)" (button|pane) should not be active$/ do |id, button_or_pane|
+  find("#" << id)['class'].should !include("active")
+end
+
+And(/^"(.*?)" should not be visible$/) do |text|
+  assert page.body.should !include(text)
+end
+
+And(/^I click on the "(.*?)" button$/) do |id|
+  click_link(id)
 end

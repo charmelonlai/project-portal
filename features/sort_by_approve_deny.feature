@@ -17,18 +17,18 @@ Feature: Sort projects index by approved/pending/denied
     | Client B project | short desc B      | long desc B      | Client B |
     | Client C project | short desc C      | long desc C      | Client C |
 
-    Scenario: All start as "Pending"
-    	Given I am on the admin dashboard
-    	Then I should see "Pending" 3 times
+  Scenario: All start as "Pending"
+    Given I am on the admin dashboard
+    Then I should see "Pending" 3 times
 
-    Scenario: "Approved" comes before "Pending"
-        Given "Client A project" is approved
-    	And I am on the admin dashboard
-    	Then I should see "Client A project" before "Client B project"
-        And I should see "Client A project" before "Client C project"
+  Scenario: "Approved" comes before "Pending"
+    Given "Client A project" is approved
+  	And I am on the admin dashboard
+  	Then I should see "Client A project" before "Client B project"
+    And I should see "Client A project" before "Client C project"
 
-    Scenario: "Denied" comes after "Pending"
-        Given "Client C project" is denied
-    	And I am on the admin dashboard
-    	Then I should see "Client A project" before "Client C project"
-        And I should see "Client B project" before "Client C project"
+  Scenario: "Denied" comes after "Pending"
+    Given "Client C project" is denied
+    And I am on the admin dashboard
+    Then I should see "Client A project" before "Client C project"
+    And I should see "Client B project" before "Client C project"
