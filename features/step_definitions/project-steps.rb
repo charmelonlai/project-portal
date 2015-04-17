@@ -112,9 +112,24 @@ Given /^the following projects exist:$/ do |table|
       problem: "problem description"
     })
     project.client = Client.find_by_company_name(hash['client'])
-    project.project_type = "Mobile"
-    project.sector = "Health"
-    project.approved = nil
+
+    if hash['project_type']
+      project.project_type = hash['project_type']
+    else 
+      project.project_type = "Mobile"
+    end
+
+    if hash['sector']
+      project.sector = hash['sector']
+    else
+      project.sector = "Health"
+    end
+
+    if hash['organization']
+      org = Organization.find_by_sname(hash['organization'])
+      project.organizations << org
+    end
+
     project.save!
   end
 end

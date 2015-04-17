@@ -60,4 +60,3 @@ end
 Given /I am on the client dashboard$/ do
 	visit dashboard_path
 end
-
