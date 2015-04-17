@@ -155,16 +155,14 @@ Then /^I should see "([^\/]*)" (.+) times$/ do |regexp, times|
     str = str + "(.+)" + regexp
   end
   regexp = Regexp.new(str)
-  if page.respond_to? :should
-    expect(page).to have_content(regexp)
-  end
+  expect(page).to have_content(regexp)
 end
 
 Given(/^I visit the "show" page for "(.*?)"$/) do |proj|
   visit project_path(proj)
-  page.should have_content('Project Purpose')
-  page.should have_content('Brief Description')
-  page.should have_content('Specifics')
+  expect(page).to have_content('Project Purpose')
+  expect(page).to have_content('Brief Description')
+  expect(page).to have_content('Specifics')
 end
 
 Given(/^"(.*?)" is approved$/) do |proj_title|
@@ -180,9 +178,7 @@ end
 Given(/^I should see "(.*?)" before "(.*?)"$/) do |proj1, proj2|
   str = proj1 + "(.+)" + proj2
   regexp = Regexp.new(str)
-  if page.respond_to? :should
-    expect(page).to have_content(regexp)
-  end
+  expect(page).to have_content(regexp)
 end
 
 Then /^I pause for a while$/ do
