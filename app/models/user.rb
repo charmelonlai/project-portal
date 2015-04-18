@@ -15,8 +15,6 @@ class User < ActiveRecord::Base
 
   belongs_to :rolable, :polymorphic => true
   # has_many :projects, :dependent => :destroy
-  has_many :favorites, :dependent => :destroy
-  has_many :favorite_projects, :through => :favorites, :source => :project
   has_one :email_notification, :dependent => :destroy
 
   after_create :add_email_notifs

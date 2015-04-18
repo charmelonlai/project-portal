@@ -1,5 +1,0 @@
--if isFav(project.id) == true
-  =link_to image_tag('favorited.png'), remove_favorite_path(project), :class => "favorite-star"
--elsif user_signed_in?
-  =link_to image_tag('favorite.png'), add_favorite_path(project), :class => "favorite-star"
-
