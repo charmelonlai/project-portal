@@ -40,8 +40,6 @@ ProjectPortal::Application.routes.draw do
 
   get "home/index"
 
-  match 'projects/:id/favorite' => 'projects#favorite', :as => :add_favorite
-  match 'projects/:id/unfavorite' => 'projects#unfavorite', :as => :remove_favorite
   match 'projects/approval/:id' => 'projects#approval', :as => :approval
   match 'projects/public_edit/:id' => 'projects#public_edit', :as => :public_edit
 

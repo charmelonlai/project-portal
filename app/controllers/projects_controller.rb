@@ -113,22 +113,6 @@ class ProjectsController < ApplicationController
     @project.destroy
   end
 
-  def favorite
-    @project = Project.find(params[:id])
-    current_user.favorites.create :project => @project
-    if current_user.email_notification.fav_projects and current_user != @project.user
-      UserMailer.favorited_project(@project, current_user).deliver
-    end
-    redirect_to session[:return_to]
-  end
-
-  def unfavorite
-    @project = Project.find(params[:id])
-    @favoritedproject = Favorite.where("project_id = ? AND user_id = ?", @project.id, current_user).limit(1)
-    current_user.favorites.delete(@favoritedproject)
-    redirect_to session[:return_to]
-  end
-
   def edit_question
     @project = Project.find(params[:id])
     question = params[:question]

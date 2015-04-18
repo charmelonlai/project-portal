@@ -19,9 +19,6 @@ class Project < ActiveRecord::Base
   friendly_id :title, use: :slugged
 
   belongs_to :client
-  has_many   :favorites, :dependent => :destroy
-  has_many   :favorited, :through => :favorites, :source => :user
-  has_and_belongs_to_many :favorite_users, :class_name => "User"
   has_and_belongs_to_many :organizations
 
   attr_accessible :github_site, :application_site#, :as => [:default, :admin, :owner]
