@@ -22,7 +22,7 @@ class UserController < ApplicationController
   end
 
   def set_date
-    flash[:notice] = params.stringify_keys
+    flash[:notice] = params[:dates]
     redirect_to dashboard_path
     #@end_date = Date.new(params[:commit]["start_date(1i)"].to_i,
     #                         params[:commit]["start_date(2i)"].to_i,
