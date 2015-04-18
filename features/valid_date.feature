@@ -5,17 +5,16 @@ Feature: Set dates for proposals
 
   Background:
     Given I am logged in as an administrator
-    And I am on the admin-dashboard
+    And I am on the admin dashboard
     
   Scenario: Close Proposals
     Given the application is currently open
-    When I set the proposal end date to a past date
-    Then when I am logged in as a client
-    Then I should not see 'Propose A Project'
-
+    And I set the proposal end date to a past date
+    When I login as client "c"
+    Then I should not see "Propose A Project"
 
   Scenario: Open Proposals
     Given the application is currently closed
-    When I set the proposal end date to a future date
-    Then when I am logged in as a client
-    Then I should see 'Propose A Project'
+    And I set the proposal end date to a future date
+    When I login as client "c"
+    Then I should see "Propose A Project"

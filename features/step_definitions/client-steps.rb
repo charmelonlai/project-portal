@@ -1,4 +1,4 @@
-Given(/^I am logged in as client "(.*?)"$/) do |name|
+Given(/^I (?:am logged in|login) as client "(.*?)"$/) do |name|
 	# create nonprofit client account
 	client = FactoryGirl.create(:client, :company_name => name)
 
