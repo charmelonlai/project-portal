@@ -22,7 +22,7 @@ class UserController < ApplicationController
   end
 
   def set_date
-    Rails.logger.debug(params[:commit])
+    Rails.logger.debug(params.keys)
     #@end_date = Date.new(params[:commit]["start_date(1i)"].to_i,
     #                         params[:commit]["start_date(2i)"].to_i,
     #                         params[:commit]["start_date(3i)"].to_i)
