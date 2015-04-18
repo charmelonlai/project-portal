@@ -2,8 +2,10 @@
 
 FactoryGirl.define do
   factory :organization do
-    name "MyString"
-    description "MyText"
-    website "MyString"
+    sname "CS169"
+    name "UC Berkeley CS169 Software Engineering"
+    description "description"
+    website "http://cs169.edu/"
+    user { FactoryGirl.create(:user, :email => "organization#{rand(1000)}@organization.com") }
   end
 end
