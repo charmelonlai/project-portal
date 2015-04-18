@@ -28,7 +28,7 @@ class UserController < ApplicationController
                              params[:dates]["start_date(2i)"].to_i,
                              params[:dates]["start_date(3i)"].to_i)
     Rails.application.config.end_date = @end_date
-    flash[:notice] = @end_date.to_formatted_s(:short)
+    flash[:notice] = "This is the date entered: " + @end_date.to_s
   end
 
   def export_to_csv
