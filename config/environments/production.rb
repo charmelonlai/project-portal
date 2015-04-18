@@ -55,6 +55,9 @@ ProjectPortal::Application.configure do
   # Enable threaded mode
   # config.threadsafe!
 
+  # Set the window over which the users can add projects
+  config.end_date = Date.new(2015, 1, 1)
+
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found)
   config.i18n.fallbacks = true

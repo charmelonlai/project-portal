@@ -34,6 +34,8 @@ ProjectPortal::Application.routes.draw do
   
   match 'dashboard/export_to_csv', :to => "user#export_to_csv", :as => :projects_csv
 
+  match 'dashboard/set_date', :to => "user#set_date", :as => :projects_set_date
+
   match 'delete_question/:id' => 'questions#destroy', :as => 'delete_question'
 
   get "home/index"

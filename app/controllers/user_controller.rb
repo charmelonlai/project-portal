@@ -20,7 +20,11 @@ class UserController < ApplicationController
     @projects = Project.order("created_at DESC")
     render(:template => 'user/admin_dashboard')
   end
-  
+
+  def set_date
+    Rails.logger.debug(params[:projects_set_date])
+  end
+
   def export_to_csv
     projects = Project.order("created_at DESC")
     
