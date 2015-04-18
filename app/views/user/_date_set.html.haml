@@ -1,5 +1,5 @@
 %h4.details-title
-  Set proposal window
+  ="Set deadline for proposals (currently #{Rails.application.config.end_date.strftime("%B %-d, %Y")})"
 
 =form_tag set_date_path do
   =date_select("dates", "end_date")
