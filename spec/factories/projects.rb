@@ -10,7 +10,7 @@ FactoryGirl.define do
     problem "Solve communication issues internally within and between different break groups, as well as externally in creating a beautiful site that will increase our reputation and attract more applicants."
     client { FactoryGirl.create(:client) }
     organizations { [FactoryGirl.create(:organization)] }
-    questions { {'question_1' => true, 'question_2' => true, 'question_3' => true} }
+    #questions { {'question_1' => true, 'question_2' => true, 'question_3' => true} }
     project_type "Mobile"
     sector "Health"
     approved nil
