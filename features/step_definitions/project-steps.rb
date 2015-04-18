@@ -1,5 +1,6 @@
 # create a project
-Given /a project called "(.*)" exists(?:, with short description "(.*)")?/ do |proj, desc|
+Given /a project called "(.*)" exists(?:, with short description "(.*)")?/ do |title, desc|
+  # @proj = FactoryGirl.create(:project, :title => title, :short_description => desc, :approved => false)
   # from db/seeds.rb
   cs169 = Organization.create({
     sname: 'cs169',
@@ -50,7 +51,7 @@ Given /a project called "(.*)" exists(?:, with short description "(.*)")?/ do |p
   nonprofit_user.save!
 
   project = Project.create({
-    title: proj,
+    title: title,
     github_site: "https://github.com/callmemc/altbreaks",
     application_site: "http://publicservice.berkeley.edu/alternativebreaks",
     short_description: desc.nil? ? "short description" : desc,
@@ -67,70 +68,26 @@ Given /a project called "(.*)" exists(?:, with short description "(.*)")?/ do |p
   
   # verify that the project shows on the admin dashboard
   visit admin_dashboard_path
-  page.should have_content(proj)
+  page.should have_content(title)
 end
 
 Given /^the following clients exist:$/ do |table|
   table.hashes.each do |hash|
-    # TODO - use a factory to create a user with different contact email
-    nonprofit_user = User.create({
-      fname: "Nonprofit",
-      lname: "User",
-      admin: false,
-      email: hash['contact_email'],
-      password: "password"
-    })
-    nonprofit_user.confirmed_at = Time.now
-    nonprofit_user.save!
-
-    nonprofit_client = Client.create({
-      company_name: hash['company_name'],
-      company_site: hash['company_site'],
-      company_address: hash['company_address'],
-      nonprofit: true,
-      five_01c3: true,
-      mission_statement: 'Nonprofit.',
-      contact_email: hash['contact_email'],
-      contact_number: hash['contact_number']
-    })
-
-    # link user account with the client
-    nonprofit_user.rolable = nonprofit_client
-    nonprofit_user.rolable_type = nonprofit_client.class.name
-    nonprofit_user.save!
+    nonprofit_client = FactoryGirl.create(:client, hash)
   end
 end
 
 Given /^the following projects exist:$/ do |table|
   table.hashes.each do |hash|
-    # TODO - use a factory to create each project
-    project = Project.create({
-      title: hash['title'],
-      short_description: hash['short_description'],
-      long_description: hash['long_description'],
-      github_site: hash['client'] + ".com",
-      problem: "problem description"
-    })
-    project.client = Client.find_by_company_name(hash['client'])
+    hash['client'] = Client.find_by_company_name(hash['client'])
+    organization = hash.delete('organization')
+    project = FactoryGirl.create(:project, hash)
 
-    if hash['project_type']
-      project.project_type = hash['project_type']
-    else 
-      project.project_type = "Mobile"
-    end
-
-    if hash['sector']
-      project.sector = hash['sector']
-    else
-      project.sector = "Health"
-    end
-
-    if hash['organization']
-      org = Organization.find_by_sname(hash['organization'])
+    if organization
+      org = Organization.find_by_sname(organization)
       project.organizations << org
     end
-
-    project.save!
+    
   end
 end
 

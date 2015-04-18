@@ -3,21 +3,12 @@ require 'cgi'
 
 # login as admin
 Given /I am logged in as an administrator/ do
-  # create admin account (from db/seeds.rb)
-  u = User.create({
-    fname: "Admin",
-    lname: "Admin",
-    admin: true,
-    email: "admin@admin.com",
-    password: "password"
-  })
-  u.confirmed_at = Time.now
-  u.save
+  admin = FactoryGirl.create(:admin)
 
   # login
   visit new_user_session_path
-  fill_in 'user_email', :with => 'admin@admin.com'
-  fill_in 'user_password', :with => 'password'
+  fill_in 'user_email', :with => admin.email
+  fill_in 'user_password', :with => admin.password
   click_button 'Sign in'
   page.should have_content('Signed in successfully')
 end
@@ -70,7 +61,7 @@ end
 # check that an email was sent (http://stackoverflow.com/a/15754349)
 Then /^the client of "(.*)" should be sent a notification email about the (approval|decline)$/ do |proj, status|
   project = Project.find_by_title(proj)
-  client = User.where("rolable_id = #{project.client_id} and rolable_type = 'Client'").first!
+  client = Client.find(project.client_id).user
   email = ActionMailer::Base.deliveries.last
   email[:from].to_s.should == "support@projectportal.com"
   email[:to].to_s.should == client.email
