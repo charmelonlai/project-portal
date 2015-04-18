@@ -23,6 +23,8 @@ class UserController < ApplicationController
 
   def set_date
     Rails.logger.debug(params.keys)
+    flash[:notice] = "Date set!"
+    redirect_to dashboard_path
     #@end_date = Date.new(params[:commit]["start_date(1i)"].to_i,
     #                         params[:commit]["start_date(2i)"].to_i,
     #                         params[:commit]["start_date(3i)"].to_i)
