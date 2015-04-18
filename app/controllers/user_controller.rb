@@ -22,13 +22,13 @@ class UserController < ApplicationController
   end
 
   def set_date
-
+    flash[:notice] = "This is the date entered: " + params[:dates]["start_date(1i)"].to_s
     redirect_to dashboard_path
-    @end_date = Date.new(params[:dates]["start_date(1i)"].to_i,
-                             params[:dates]["start_date(2i)"].to_i,
-                             params[:dates]["start_date(3i)"].to_i)
-    Rails.application.config.end_date = @end_date
-    flash[:notice] = "This is the date entered: " + @end_date.to_s
+    # @end_date = Date.new(params[:dates]["start_date(1i)"].to_i,
+    #                          params[:dates]["start_date(2i)"].to_i,
+    #                          params[:dates]["start_date(3i)"].to_i)
+    # Rails.application.config.end_date = @end_date
+
   end
 
   def export_to_csv
