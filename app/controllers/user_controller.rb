@@ -22,7 +22,11 @@ class UserController < ApplicationController
   end
 
   def set_date
-    Rails.logger.debug(params[:projects_set_date])
+    Rails.logger.debug(params[:commit])
+    @end_date = Date.civil(params[:commit]["start_date(1i)"].to_i,
+                             params[:commit]["start_date(2i)"].to_i,
+                             params[:commit]["start_date(3i)"].to_i)
+    Rails.application.config.end_date = @end_date
   end
 
   def export_to_csv

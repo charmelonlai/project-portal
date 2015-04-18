@@ -1,6 +1,6 @@
 %h4.details-title
   Set proposal window
 
-=form_tag add_admin_path do
+=form_tag set_date_path do
   =date_select("project", "due_date", :include_blank => true)
   =submit_tag 'Set Date', :class => "btn"
