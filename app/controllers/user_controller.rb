@@ -28,7 +28,7 @@ class UserController < ApplicationController
     end_date = Date.new(year, month, day)
     
     Rails.application.config.end_date = end_date
-    flash[:notice] = "End date successfully set to #{end_date}"
+    flash[:notice] = "Deadline successfully set to #{end_date.strftime("%B %-d, %Y")}."
     
     redirect_to dashboard_path
   end
