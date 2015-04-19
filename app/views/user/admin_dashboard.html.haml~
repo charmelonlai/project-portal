@@ -2,6 +2,7 @@
   .row-fluid
     -if current_user.admin?
       / .span4
+
       .span12
         =render :partial => 'createadmins'
         .btn.btn-secondary

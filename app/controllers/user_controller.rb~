@@ -68,6 +68,7 @@ class UserController < ApplicationController
 
   protected
   def organization_dashboard
+    @questions = current_rolable.questions
     @projects = current_rolable.projects.order("created_at DESC").paginate(:page => params[:projects_page], :per_page => 5)
 
     render(:template => 'user/organization_dashboard')

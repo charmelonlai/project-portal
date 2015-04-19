@@ -12,6 +12,7 @@ class ProjectsController < ApplicationController
   def edit
     @project = Project.find(params[:id])
     permission_to_update(@project)
+    @questions = @project.project_questions
     @emails = User.all_names_and_emails
     unless user_can_update?(@project)
       redirect_to @project, notice: 'You do not have permission to edit this project.'
@@ -46,7 +47,7 @@ class ProjectsController < ApplicationController
     @project.client = current_rolable
     @project.organizations = Organization.sname_hash_to_org_list(org_params)
 
-    success = @project.update_attributes(:problem => params[:project][:problem],
+    success = @project.update_attributes(:questions => params[:project][:questions], :problem => params[:project][:problem],
       :short_description => params[:project][:short_description], :long_description => params[:project][:long_description])
 
     if success
@@ -116,9 +117,26 @@ class ProjectsController < ApplicationController
     @project.destroy
   end
 
+  def edit_question
+    @project = Project.find(params[:id])
+    question = params[:question]
+    answer = params["string"][:to_s]
+    @project.questions[question] = answer
+    if @project.save
+      head :ok
+    else
+      flash[:error] = 'Editing questions failed.'
+    end
+  end
+
   def add_org
     project = Project.find(params[:id])
     org = Organization.find(params[:org_id])
+    questions = {}
+    org.questions.each do |q|
+      questions[Project.question_key(q).to_s] = ""
+    end
+    project.questions = questions
     project.organizations << org
     if project.save
       redirect_to :back
@@ -128,6 +146,7 @@ class ProjectsController < ApplicationController
 
   def remove_orgs
     project = Project.find(params[:id])
+    project.questions = nil
     project.organizations = []
     if project.save
       redirect_to :back
