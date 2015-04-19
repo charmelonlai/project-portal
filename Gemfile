@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '1.9.3'
+ruby '2.1.5'
 gem 'rails', '3.2.18'
 
 # Bundle edge Rails instead:
@@ -12,6 +12,7 @@ group :development, :test do
   gem 'launchy'
   gem 'rspec-rails'
   gem 'commands'
+	gem 'better_errors'
   gem 'binding_of_caller'
 end
 
