@@ -19,6 +19,7 @@ end
 group :production do
   gem 'pg'
   gem 'thin'
+  gem 'rmagick', '2.13.2'
 end
 
 # Gems used only for assets and not required
