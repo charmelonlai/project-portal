@@ -25,12 +25,16 @@ class UserController < ApplicationController
     year = params[:dates]["end_date(1i)"].to_i
     month = params[:dates]["end_date(2i)"].to_i
     day = params[:dates]["end_date(3i)"].to_i
-    end_date = Date.new(year, month, day)
+
+    begin
+      end_date = Date.new(year, month, day)
+      Rails.application.config.end_date = end_date
+      notice = "Deadline successfully set to #{end_date.strftime("%B %-d, %Y")}."
+    rescue ArgumentError => e
+      notice = "Invalid date selected."
+    end
     
-    Rails.application.config.end_date = end_date
-    flash[:notice] = "Deadline successfully set to #{end_date.strftime("%B %-d, %Y")}."
-    
-    redirect_to dashboard_path
+    redirect_to dashboard_path, :notice => notice
   end
 
   def export_to_csv
