@@ -38,5 +38,8 @@ ProjectPortal::Application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {:address => "localhost", :port => 1025}
+  
+  # Set the window over which the users can add projects
+  config.end_date = Date.new(2015, 1, 1)
 
 end

@@ -36,4 +36,7 @@ ProjectPortal::Application.configure do
   config.active_support.deprecation = :stderr
   
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  
+  # Set the window over which the users can add projects
+  config.end_date = Date.new(2015, 1, 1)
 end

@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
 
 # Overriding the Devise current_user method
   alias_method :devise_current_user, :current_user
+
   helper_method :is_developer?
   helper_method :is_client?
   helper_method :is_organization?
@@ -20,6 +21,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_rolable
   helper_method :current_rolable_type
   helper_method :user_can_update?
+  helper_method :proposals_closed?
 
   def current_user
     super
@@ -46,6 +48,10 @@ class ApplicationController < ActionController::Base
 
   def user_can_update?(project)
     user_signed_in? and (current_user.admin? or project.client == current_rolable)
+  end
+  
+  def proposals_closed?
+    Date.today > Rails.application.config.end_date
   end
 
   protected

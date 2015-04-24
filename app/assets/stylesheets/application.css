@@ -15,3 +15,7 @@
 .container {
 	width: 960px;
 }
+
+.noproposals {
+  cursor: not-allowed;
+}
