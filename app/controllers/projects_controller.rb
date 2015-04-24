@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
   before_filter :check_proposal_window, only: [:new, :create, :org_questions]
 
   def check_proposal_window
-    redirect_to dashboard_path, notice: "The portal is currently closed to proposals." unless Date.today <= Rails.application.config.end_date
+    redirect_to dashboard_path, notice: "The portal is currently closed to proposals." if Date.today > Rails.application.config.end_date
   end
 
   def new
