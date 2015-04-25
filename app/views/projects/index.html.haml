@@ -4,7 +4,7 @@
     .heading.inline-title= "All Projects"
     - if user_signed_in? and is_client?
       .btn-group#new-proj-btn
-        %a.btn.btn-success{:href => new_project_path}
+        %a.btn.btn-success{href: (new_project_path unless proposals_closed?), disabled: (true if proposals_closed?), title: ("The portal is currently closed to proposals." if proposals_closed?)}
           I'm ready to propose a project!
     .btn-toolbar.right-justify
       .btn-group#proj-tab{"data-toggle" => "buttons-radio"}
