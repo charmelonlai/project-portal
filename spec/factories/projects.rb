@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :project do
-    title "Factory proj"
+    title { "Factory proj #{rand(1000)}" }
     github_site { "https://github.com/app-site-#{rand(1000)}" }
     application_site { "http://app-site-#{rand(1000)}.com" }
     short_description "short description"

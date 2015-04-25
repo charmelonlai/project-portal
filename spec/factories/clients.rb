@@ -8,7 +8,7 @@ FactoryGirl.define do
     nonprofit true
     five_01c3 true
     mission_statement 'Nonprofit.'
-    contact_email 'client#{rand(1000)}@client.com'
+    contact_email { "client#{rand(1000)}@client.com" }
     contact_number 'N/A'
     user { FactoryGirl.create(:user, :email => contact_email) }
   end

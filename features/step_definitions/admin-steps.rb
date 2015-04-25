@@ -4,6 +4,7 @@ require 'cgi'
 # login as admin
 Given /I am logged in as an administrator/ do
   admin = FactoryGirl.create(:admin)
+  @current_user = admin
 
   # login
   visit new_user_session_path
@@ -47,10 +48,11 @@ Then /^(?:|I )should be on the "show" page for "(.*)"$/ do |proj|
 end
 
 Then /^I should see "([^"]*)"(?: within "(.*)")?$/ do |text, parent|
+  regexp = Regexp.new(text, "i")
   if parent
-    within(parent) { page.should have_content(text) }
+    within(parent) { expect(page.text).to match(regexp) }
   else
-    page.should have_content(text)
+    expect(page.text).to match(regexp)
   end
 end
 
@@ -71,4 +73,24 @@ end
 
 Given(/^I am on the admin dashboard$/) do
   visit admin_dashboard_path
+end
+
+Given /^the application is currently open \(admin\)$/ do
+  # assume we are already on the admin dashboard
+  page.select((Date.today.year + 5).to_s, :from => 'dates[end_date(1i)]')
+  click_button('Set Date')
+end
+
+Given /^the application is currently closed$/ do
+  # assume we are already on the admin dashboard
+  page.select((Date.today.year - 5).to_s, :from => 'dates[end_date(1i)]')
+  click_button('Set Date')
+end
+
+When /^I set the proposal deadline to a past date$/ do
+  step "the application is currently closed"
+end
+
+When /^I set the proposal deadline to a future date$/ do
+  step "the application is currently open \(admin\)"
 end

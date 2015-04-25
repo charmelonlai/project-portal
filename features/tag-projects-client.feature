@@ -5,6 +5,7 @@ Feature: Classify client projects
 
   Background:
   	Given I am logged in as client "American Red Cross"
+  	And the application is currently open (client)
 
   Scenario: Should see fields for focus and type
   	Given I am on the new project page
@@ -14,5 +15,6 @@ Feature: Classify client projects
   Scenario: Should see tags for focus and type
   	Given American Red Cross creates a project with a focus of "Animals" and a type of "Mobile"
   	And I am on the client dashboard
+  	#Then I pause for a while
   	Then I should see "Animals"
   	And I should see "Mobile"

@@ -7,7 +7,9 @@ Given /I am logged in as an organization/ do
   fill_in 'user_email', :with => organization.user.email
   fill_in 'user_password', :with => organization.user.password
   click_button 'Sign in'
-  page.should have_content('Signed in successfully')  
+  page.should have_content('Signed in successfully')
+  
+  @current_user = organization.user
 end
 
 And /I am on the organization dashboard$/ do

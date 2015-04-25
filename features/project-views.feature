@@ -35,7 +35,8 @@ Feature: display project page view properly
 		#And the "square-proj-btn" button should be active
 		#And the "square-proj-view" pane should be active
 
-	Scenario: Should see limited informaiton in card view
+  @javascript
+	Scenario: Should see limited information in card view
 		Given I am on the admin dashboard
 		And I click on the "square-proj-btn" button
 		Then I should see "Client A project"

@@ -28,7 +28,7 @@ Given /^the following projects exist:$/ do |table|
 end
 
 Then(/^I should not see "(.*?)"$/) do |text|
-  page.should !have_content(text)
+  page.should have_no_content(text)
 end
 
 # http://stackoverflow.com/a/6533829
