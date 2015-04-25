@@ -58,6 +58,7 @@ group :test do
   gem 'capybara'
   gem 'simplecov'
   gem 'selenium-webdriver'
+  gem 'rspec-activemodel-mocks'
 end
 
 # our app specific gems

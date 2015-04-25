@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "questions/edit" do
+describe "questions/edit", type: :view do
   before(:each) do
     @question = assign(:question, stub_model(Question))
   end

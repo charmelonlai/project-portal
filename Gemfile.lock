@@ -205,6 +205,10 @@ GEM
     responders (1.1.2)
       railties (>= 3.2, < 4.2)
     rmagick (2.13.2)
+    rspec-activemodel-mocks (1.0.1)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      rspec-mocks (>= 2.99, < 4.0)
     rspec-core (3.2.2)
       rspec-support (~> 3.2.0)
     rspec-expectations (3.2.0)
@@ -558,6 +562,7 @@ DEPENDENCIES
   rails_autolink
   rake
   rmagick (= 2.13.2)
+  rspec-activemodel-mocks
   rspec-rails
   sass-rails (~> 3.2.3)
   selenium-webdriver

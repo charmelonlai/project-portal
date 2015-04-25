@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "questions/new" do
+describe "questions/new", type: :view do
   before(:each) do
     assign(:question, stub_model(Question).as_new_record)
   end
