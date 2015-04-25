@@ -5,8 +5,9 @@ Given(/^I (?:am logged in|login) as client "(.*?)"$/) do |name|
   # logout of current session if needed
   if @current_user
     click_link "Logout"
-    @current_user = client.user
   end
+  
+  @current_user = client.user
 
 	# login
 	visit new_user_session_path
