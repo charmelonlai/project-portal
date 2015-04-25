@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "email_notifications/edit" do
+describe "email_notifications/edit", :type => :view do
   before(:each) do
     @email_notification = assign(:email_notification, stub_model(EmailNotification,
       :edit => "MyString",
