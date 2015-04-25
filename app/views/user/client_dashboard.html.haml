@@ -7,7 +7,7 @@
           .hero-unit.centered
             .heading Welcome to Project Portal!
             .project-buttons
-              %a.btn.btn-success.btn-large-square{:href => new_project_path}
+              %a.btn.btn-success.btn-large-square{href: (new_project_path unless proposals_closed?), disabled: (true if proposals_closed?), title: ("The portal is currently closed to proposals." if proposals_closed?)}
                 .btn-large-text
                   Create a Project!
               %a.btn.btn-large-square{:href => projects_path}
@@ -16,7 +16,7 @@
   -else
     .heading.inline-title= "My Projects"
     .btn-group.pull-right#new-proj-btn
-      %a.btn.btn-primary{:href => new_project_path, :disabled => proposals_closed? ? true : false }
+      %a.btn.btn-primary{href: (new_project_path unless proposals_closed?), disabled: (true if proposals_closed?), title: ("The portal is currently closed to proposals." if proposals_closed?)}
         New Project
     - if @projects
       - @projects.each do |p|
