@@ -8,7 +8,7 @@ describe "questions/index", :type => :view do
     ])
   end
 
-  it "renders a list of questions" do
+  skip "renders a list of questions" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
   end

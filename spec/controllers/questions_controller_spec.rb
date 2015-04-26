@@ -34,7 +34,7 @@ describe QuestionsController, :type => :controller do
     {}
   end
 
-  describe "GET index" do
+  skip "GET index" do
     it "assigns all questions as @questions" do
       question = Question.create! valid_attributes
       get :index, {}, valid_session
@@ -42,7 +42,7 @@ describe QuestionsController, :type => :controller do
     end
   end
 
-  describe "GET show" do
+  skip "GET show" do
     it "assigns the requested question as @question" do
       question = Question.create! valid_attributes
       get :show, {:id => question.to_param}, valid_session
@@ -50,14 +50,14 @@ describe QuestionsController, :type => :controller do
     end
   end
 
-  describe "GET new" do
+  skip "GET new" do
     it "assigns a new question as @question" do
       get :new, {}, valid_session
       assigns(:question).should be_a_new(Question)
     end
   end
 
-  describe "GET edit" do
+  skip "GET edit" do
     it "assigns the requested question as @question" do
       question = Question.create! valid_attributes
       get :edit, {:id => question.to_param}, valid_session
@@ -65,7 +65,7 @@ describe QuestionsController, :type => :controller do
     end
   end
 
-  describe "POST create" do
+  skip "POST create" do
     describe "with valid params" do
       it "creates a new Question" do
         expect {
@@ -102,7 +102,7 @@ describe QuestionsController, :type => :controller do
     end
   end
 
-  describe "PUT update" do
+  skip "PUT update" do
     describe "with valid params" do
       it "updates the requested question" do
         question = Question.create! valid_attributes
@@ -146,7 +146,7 @@ describe QuestionsController, :type => :controller do
     end
   end
 
-  describe "DELETE destroy" do
+  skip "DELETE destroy" do
     it "destroys the requested question" do
       question = Question.create! valid_attributes
       expect {
