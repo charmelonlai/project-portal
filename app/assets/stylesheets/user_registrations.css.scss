@@ -3,7 +3,7 @@
 .input.string.required.user_lname, 
 .input.password.required.user_password, 
 .input.password.required.user_password_confirmation {
-  display: none;
+  display: /*none*/ inline;
 }
 
 .form-inputs {
