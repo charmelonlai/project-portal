@@ -7,5 +7,10 @@ FactoryGirl.define do
     description "description"
     website "http://cs169.edu/"
     user { FactoryGirl.create(:user, :email => "organization#{rand(1000)}@organization.com") }
+    
+    after_build { |f|
+      f.user.rolable = f
+      f.user.rolable_type = f.class.name
+    }
   end
 end

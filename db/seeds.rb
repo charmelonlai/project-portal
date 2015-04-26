@@ -69,6 +69,11 @@ cs169_questions = Question.create([
 ])
 cs169.questions << cs169_questions
 
+#MAKE ADMIN PART OF CS169 ORG
+u.rolable = cs169
+u.rolable_type = cs169.class.name
+u.save!
+
 #ORGANIZATION: BLUEPRINT------------------------
 bp_user = User.create({
   fname: "Kevin",
