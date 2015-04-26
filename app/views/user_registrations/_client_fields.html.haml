@@ -9,8 +9,8 @@
 = f.input :contact_number, :label => "Contact Number", :required => true
 = f.label :company_logo
 = f.file_field :photo, :label => "Upload Logo", :required => false
-= hidden.field :email => "default@default.com"
-= hidden.field :fname => "Jane"
-= hidden.field :lname => "Doe"
-= hidden.field :password => "0123456789"
-= hidden.field :password_confirmation => "0123456789"
+= f.hidden_field :email, :value => "default@default.com"
+= f.hidden_field :fname, :value => "Jane"
+= f.hidden_field :lname, :value => "Doe"
+= f.hidden_field :password, :value => "0123456789"
+= f.hidden_field :password_confirmation, :value => "0123456789"
