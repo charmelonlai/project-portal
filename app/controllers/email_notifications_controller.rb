@@ -2,9 +2,9 @@ class EmailNotificationsController < ApplicationController
   before_filter :authenticate_user!
   
   # GET /email_notifications/1/edit
-  def edit
-    @email_notification = EmailNotification.find(params[:id])
-  end
+  #def edit
+  #  @email_notification = EmailNotification.find(params[:id])
+  #end
 
 
   # PUT /email_notifications/1
