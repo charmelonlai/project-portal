@@ -20,7 +20,7 @@ ProjectPortal::Application.routes.draw do
     end
   end
   
-  put "email_notifications/:id/edit" => 'email_notifications#update', :as => :update_email_notifications
+  put "email_notifications/:id/edit" => 'email_notifications#update', :as => :update_email_notification
   get "email_notifications/:id/edit" => 'email_notifications#edit', :as => :email_notification
 
   #resources :email_notifications
