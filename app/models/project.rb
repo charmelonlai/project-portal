@@ -51,7 +51,14 @@ class Project < ActiveRecord::Base
   before_save :merge_questions
   # mount_uploader :photo, PhotoUploader
 
-  scope :is_public, lambda { Project.where("id not in (?)", Project.joins(:organizations)) }
+  scope :is_public, lambda {
+    join = Project.joins(:organizations)
+    # needed to avoid bug that doesn't identify public projects if all of them are public
+    if join.empty?
+      join = [0]
+    end
+    Project.where("id not in (?)", join)
+  }
   scope :is_private, lambda { Project.joins(:organizations) }
 
   scope :by_title, lambda { |search_string|
