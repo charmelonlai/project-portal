@@ -182,3 +182,66 @@ proj3.project_type = "Mobile"
 proj3.sector = "Health"
 proj3.approved = true
 proj3.save!
+
+#PROJECT: ER Core Staff Scheduler----------------------------
+client2 = Client.create({
+  company_name: 'Palo Alto VA Medical Center Emergency Department',
+  company_site:'http://www.paloalto.va.gov/',
+  company_address: 'n/a',
+  nonprofit: true,
+  five_01c3: true,
+  mission_statement: 'To fulfill President Lincoln\'s promise "To care for him who shall have borne the battle, and for his widow, and his orphan" by serving and honoring the men and women who are America\'s Veterans.',
+  contact_email: 'client2@admin.com',
+  contact_number: 'N/A'
+  })
+
+proj4 = Project.create({
+  title: "ER Core Staff Scheduler",
+  github_site: "blah",
+  application_site: "blah",
+  short_description: "Automatically generate possible shift assignments based on collecting core physician scheduling preferences and constraints and department scheduling officer's coverage requirements",
+  long_description: "Core doctors are scheduled for frequently changing \"tours of duty\" (the set of shifts worked each payperiod). Doctors use a Google Calendar to indicate their scheduling preferences; then all scheduling is done manually, with final results published to a different Google Calendar that all ER staff can see but not modify.",
+  problem: " Complex scheduling of staff physicians to cover Emergency Room shifts at Palo Alto VA Hospital."
+  })
+proj4.client = client2
+proj4.organizations << bp
+proj4.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
+proj4.project_type = "Web App"
+proj4.sector = "Veterans"
+proj4.approved = true
+proj4.save!
+
+#PROJECT: Course Question Bank----------------------------
+client3 = Client.create({
+  company_name: 'UC Berkeley',
+  company_site:'http://www.cs.berkeley.edu',
+  company_address: 'n/a',
+  nonprofit: true,
+  five_01c3: true,
+  mission_statement: 'Change how the world teaches and learns CS',
+  contact_email: 'client2@admin.com',
+  contact_number: 'N/A'
+  })
+
+proj5 = Project.create({
+  title: "Course Question Bank",
+  github_site: "blah2",
+  application_site: "blah2",
+  short_description: "Automatically maintain records of which questions used in which assessments and track answers given by all students to collect analytics.",
+  long_description: "Today: manually maintained \"bank\" of quiz/self-check questions, tagged by approximate topic Want: automatic curation so instructor can: - generate quizzes based on question criteria - keep track of which questions used in which quizzes - collect student responses to questions to run analytics (eg track how hard questions are)",
+  problem: "Today: manually maintained \"bank\" of quiz/self-check questions, tagged by approximate topic Want: automatic curation so instructor can: - generate quizzes based on question criteria - keep track of which questions used in which quizzes - collect student responses to questions to run analytics (eg track how hard questions are)"
+  })
+proj5.client = client3
+proj5.organizations << bp
+proj5.questions = {'question_1' => true, 'question_2' => true, 'question_3' => true}
+proj5.project_type = "Web App"
+proj5.sector = "Education"
+proj5.approved = true
+proj5.save!
+
+#MAKE PROJECTS PUBLIC AS NEEDED
+public_projects = [proj, proj2, proj3, proj4, proj5]
+#public_projects = []
+public_projects.each do |proj|
+  proj.organizations = []
+end
