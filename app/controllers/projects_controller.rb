@@ -120,7 +120,8 @@ class ProjectsController < ApplicationController
   def edit_question
     @project = Project.find(params[:id])
     question = params[:question]
-    answer = params["string"][:to_s]
+    answer = params[:project]["questions_#{question}".to_sym]
+    #params[:project][:questions]
     @project.questions[question] = answer
     if @project.save
       head :ok

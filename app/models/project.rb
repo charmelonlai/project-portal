@@ -172,18 +172,57 @@ class Project < ActiveRecord::Base
     Project.where(:approved => true)
   end
 
-def sector_color
-  colors = ["red", "orange", "green", "blue", "purple"]
-  sector_index = SECTORS.index(self.sector)
-  partition = SECTORS.length / colors.length
-  
-  (0..colors.length).each do |i|
-    if sector_index.between?(i * partition, (i + 1) * partition - 1)
-      return colors[i]
+  def sector_color
+    colors = ["red", "orange", "green", "blue", "purple"]
+    sector_index = SECTORS.index(self.sector)
+    partition = SECTORS.length / colors.length
+    
+    (0..colors.length).each do |i|
+      if sector_index.between?(i * partition, (i + 1) * partition - 1)
+        return colors[i]
+      end
     end
   end
-end
 
   Project.virtualize_questions
+  
+  # hack to modify serialized data (questions hash) using best_in_place in /app/views/shared/_project_questions.html.haml
+    
+  def method_missing(method_name, *arguments, &block) # forewards the arguments to the correct methods
+    if method_name.to_s =~ /questions_(.+)\=/
+      key = method_name.to_s.match(/questions_(.+)=/)[1]
+      self.send('data_setter=', key, arguments.first)
+    elsif method_name.to_s =~ /questions_(.+)/
+      key = method_name.to_s.match(/questions_(.+)/)[1]
+      self.send('data_getter', key)
+    else
+      super
+    end
+  end
+
+  def respond_to_missing?(method_name, include_private = false) # prevents giving UndefinedMethod error
+    method_name.to_s.start_with?('questions_') || super
+  end
+
+  def data_getter(key)
+    self.questions[key.to_i] if self.questions.kind_of?(Array)
+    self.questions[key.to_s] if self.questions.kind_of?(Hash)
+  end
+
+  def data_setter(key, value)
+    self.questions[key.to_i] = value if self.questions.kind_of?(Array)
+    self.questions[key.to_sym] = value if self.questions.kind_of?(Hash)
+    value # the method returns value because best_in_place sets the returned value as text
+  end
+    
+    
+  def accessable_methods # returns a list of all the methods that are responded dynamicly
+    self.questions.keys.map{|x| "questions_#{x.to_s}".to_sym }
+  end
+
+  private
+    def mass_assignment_authorizer(user) # adds the list to the accessible list.
+      super + self.accessable_methods
+    end
 end
 
