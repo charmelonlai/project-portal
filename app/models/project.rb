@@ -187,6 +187,7 @@ class Project < ActiveRecord::Base
   Project.virtualize_questions
   
   # hack to modify serialized data (questions hash) using best_in_place in /app/views/shared/_project_questions.html.haml
+  # based on http://stackoverflow.com/a/21286988
     
   def method_missing(method_name, *arguments, &block) # forewards the arguments to the correct methods
     if method_name.to_s =~ /questions_(.+)\=/
