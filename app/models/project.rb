@@ -54,6 +54,7 @@ class Project < ActiveRecord::Base
   scope :is_public, lambda {
     join = Project.joins(:organizations)
     # needed to avoid bug that doesn't identify public projects if all of them are public
+    # known bug in ActiveRecord: http://stackoverflow.com/questions/12946004/issue-when-retrieving-records-with-empty-array
     if join.empty?
       join = [0]
     end
