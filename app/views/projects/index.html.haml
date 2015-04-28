@@ -22,7 +22,5 @@
         =render(:partial => 'shared/project_square', :collection => @projects)
       %div.tab-pane#compact-proj-view
         %table
-          - if user_signed_in?
-            - @projects = Project.approved_projects + Project.unapproved_projects + Project.denied_projects
           =render(:partial => 'shared/project_compact', :collection => @projects)
     -will_paginate @projects, :param_name => 'page'
