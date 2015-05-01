@@ -79,9 +79,25 @@ describe ProjectsController, type: :controller do
       (1..n).map { |x| FactoryGirl.create(:project, :title => "a#{rand(2000)}#{word}#{rand(2000)}a", :organizations => []) }
     end
   
-    it 'returns all project whose title contains "health"' do
+    it 'displays all project whose title contains "health"' do
       projects = create_public_projects_with_word(3, "health")
       get :search, :search_string => "health"
+      
+      projects.each do |proj|
+        expect(response.body).to include(proj.title)
+      end
+    end
+  end
+  
+  describe '#index' do
+    
+    def create_public_projects(n)
+      (1..n).map { |x| FactoryGirl.create(:project, :organizations => []) }
+    end
+  
+    it 'displays all public projects' do
+      projects = create_public_projects(5)
+      get :index
       
       projects.each do |proj|
         expect(response.body).to include(proj.title)
