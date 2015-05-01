@@ -6,7 +6,7 @@
 
 # start SimpleCov
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start 'rails'
 
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
