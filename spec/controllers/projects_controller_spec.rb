@@ -104,4 +104,15 @@ describe ProjectsController, type: :controller do
       end
     end
   end
+  
+  describe '#edit' do
+    it 'prevents a random user from editing a project they don\'t own' do
+      sign_in FactoryGirl.create(:client).user
+      @proj = FactoryGirl.create(:project)
+      controller.stub(:user_can_update?).and_return(false)
+
+      get :edit, :id => @proj.slug
+      expect(flash[:notice]).to eq('You do not have permission to edit this project.')
+    end
+  end
 end

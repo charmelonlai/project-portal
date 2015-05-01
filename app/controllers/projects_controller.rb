@@ -11,13 +11,14 @@ class ProjectsController < ApplicationController
 
   def edit
     @project = Project.find(params[:id])
-    permission_to_update(@project)
+    #permission_to_update(@project)
     @questions = @project.project_questions
     @emails = User.all_names_and_emails
-    unless user_can_update?(@project)
-      redirect_to @project, notice: 'You do not have permission to edit this project.'
-    end
     @user = @project.client
+
+    unless user_can_update?(@project)
+      redirect_to @project, notice: 'You do not have permission to edit this project.' and return
+    end
   end
 
   def org_questions
