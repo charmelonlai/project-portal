@@ -8,6 +8,11 @@ Feature: Edit client projects
   	And the following projects exist:
 	  | title            | short_description | long_description | client   |
 	  | Client A project | short desc A      | long desc A      | Client A |
+	  And the following questions exist:
+	  | question | input_type |
+    | q1?      | boolean    |
+    | q2?      | boolean    |
+    And the answers for the project are "yes" and "yes"
 	  And I am on the "show" page for "Client A project"
 
   @javascript
@@ -15,3 +20,9 @@ Feature: Edit client projects
   	When I edit the short description to be "blah blah new description"
   	Then I should see "blah blah new description"
   	And I should not see "short desc A"
+  	
+  @javascript
+  Scenario: Change the answer for a question to "no"
+  	When I edit the answer for the second question to be "no"
+  	Then I should see "q2\?: no"
+  	And I should not see "q2\?: yes"

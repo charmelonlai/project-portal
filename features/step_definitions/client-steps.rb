@@ -64,6 +64,17 @@ When /^I edit the short description to be "(.*?)"$/ do |text|
   find("#best_in_place_project_#{@proj.id}_problem").click
 end
 
+When /^I edit the answer for the second question to be "(.*?)"$/ do |ans|
+  q2 = @questions[1]
+  
+  # click pencil icon and fill in ans
+  find("#questionquestion_#{q2.id}").click
+  step "I fill in \"question_#{q2.id}\" with \"#{ans}\""
+  
+  # click outside of the field
+  find("#best_in_place_project_#{@proj.id}_problem").click
+end
+
 When /^I reload the page$/ do
   visit current_path
 end

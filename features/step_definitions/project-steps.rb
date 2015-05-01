@@ -18,6 +18,7 @@ Given /^the following projects exist:$/ do |table|
     hash['client'] = Client.find_by_company_name(hash['client'])
     organization = hash.delete('organization')
     project = FactoryGirl.create(:project, hash)
+    @proj = project
 
     if organization
       org = Organization.find_by_sname(organization)
@@ -25,6 +26,20 @@ Given /^the following projects exist:$/ do |table|
     end
     
   end
+end
+
+Given /^the following questions exist:$/ do |table|
+  @questions = []
+  table.hashes.each do |hash|
+    @questions << FactoryGirl.create(:question, hash)
+  end
+end
+
+Given /^the answers for the project are "(.*?)" and "(.*?)"$/ do |a1, a2|
+  q1 = @questions[0]
+  q2 = @questions[1]
+  @proj.questions = {"question_#{q1.id}" => a1, "question_#{q2.id}" => a2}
+  @proj.save!
 end
 
 Then(/^I should not see "(.*?)"$/) do |text|
