@@ -13,6 +13,14 @@ FactoryGirl.define do
       admin true
       email { "admin#{rand(1000)}@admin.com" }
     end
+    
+    factory :developer do
+      after_build { |f|
+        dev = Developer.create
+        f.rolable = dev
+        f.rolable_type = dev.class.name
+      }
+    end
   end
 end
 
