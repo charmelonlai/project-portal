@@ -3,7 +3,7 @@
     ="#{t(:problem)}"
   .field
     -if user_can_update?(project)
-      = best_in_place project, :problem, :path => public_edit_path(project), :activator => "#problem#{project.id}", type: :textarea
+      = best_in_place project, :problem, :url => public_edit_path(project), :activator => "#problem#{project.id}", type: :textarea
       %a.btn-link{id: "problem#{project.id}"}
         %i.icon-pencil
     -else
@@ -13,7 +13,7 @@
     ="#{t(:short_description)}"
   .field
     -if user_can_update?(project)
-      = best_in_place project, :short_description, :path => public_edit_path(project), :activator => "#short_description#{project.id}", type: :textarea
+      = best_in_place project, :short_description, :url => public_edit_path(project), :activator => "#short_description#{project.id}", type: :textarea
       %a.btn-link{id: "short_description#{project.id}"}
         %i.icon-pencil
     -else
@@ -23,7 +23,7 @@
     ="#{t(:long_description)}"
   .field
     -if user_can_update?(project)
-      = best_in_place project, :long_description, :path => public_edit_path(project), :activator => "#long_description#{project.id}", type: :textarea
+      = best_in_place project, :long_description, :url => public_edit_path(project), :activator => "#long_description#{project.id}", type: :textarea
       %a.btn-link{id: "long_description#{project.id}"}
         %i.icon-pencil
     -else
@@ -32,7 +32,7 @@
 
 
 / -if user_can_update?(project)
-/   = best_in_place project, :github_site, :path => public_edit_path(project), :activator => "#github_site_edit#{project.id}"
+/   = best_in_place project, :github_site, :url => public_edit_path(project), :activator => "#github_site_edit#{project.id}"
 /   %a.btn-link{id: "github_site_edit#{project.id}"}
 /     %i.icon-pencil
 / -else

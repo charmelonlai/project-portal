@@ -34,7 +34,7 @@
               %b
                 ="#{t(:application_site)}:"
               -if user_can_update?(project)
-                = best_in_place project, :application_site, :path => public_edit_path(project), :activator => "#application_site_edit#{project.id}"
+                = best_in_place project, :application_site, :url => public_edit_path(project), :activator => "#application_site_edit#{project.id}"
                 %a.btn-link{id: "application_site_edit#{project.id}"}
                   %i.icon-pencil
               -else

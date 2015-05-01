@@ -48,4 +48,7 @@ RSpec.configure do |config|
   
   # Include Devise test helpers
   config.include Devise::TestHelpers, type: :controller
+  
+  # enable :should
+  config.expect_with(:rspec) { |c| c.syntax = :should }
 end
