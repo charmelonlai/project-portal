@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Project, :type => :model do
   
   def create_public_projects(n)
-    (1..n).map {|x| FactoryGirl.create(:project, :organizations => [])}.compact
+    (1..n).map {|x| FactoryGirl.create(:project, :organizations => [])}
   end
     
   def create_private_projects(n)
