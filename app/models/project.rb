@@ -122,43 +122,8 @@ class Project < ActiveRecord::Base
     # end
   end
 
-  def merge_questions
-    updated_questions = questions.blank? ? {} : questions
-    if project_questions != nil
-      project_questions.each do |q|
-        question_key = Project.question_key(q)
-        question = self.send(question_key)
-        updated_questions[question_key] = question unless questions[question_key] == question or question.nil?
-      end
-      self.questions = updated_questions
-    end
-  end
-
-  def project_questions
-    project_questions = Question.where(:id => questions.map { |q| Project.get_question_id(q)}) unless questions.blank?
-    # project_questions = Question.current_questions if project_questions.blank?
-    project_questions
-  end
-
   def owner
     client
-  end
-
-  # Class Methods for questions as virtual attributes
-  def self.question_key(q)
-    "question_#{q.id}".to_sym
-  end
-
-  def self.get_question_id(q)
-    q[0].to_s.split("_")[-1]
-  end
-
-  # add all Questions as virtual attributes for the Project model
-  def self.virtualize_questions
-    Question.all.each do |q|
-      attr_accessible question_key(q), :as => [:owner, :admin]
-      attr_accessor question_key(q)
-    end
   end
 
   def self.unapproved_projects
@@ -184,47 +149,50 @@ class Project < ActiveRecord::Base
       end
     end
   end
-
-  Project.virtualize_questions
   
-  # hack to modify serialized data (questions hash) using best_in_place in /app/views/shared/_project_questions.html.haml
-  # based on http://stackoverflow.com/a/21286988
-    
-  def method_missing(method_name, *arguments, &block) # forewards the arguments to the correct methods
-    if method_name.to_s =~ /questions_(.+)\=/
-      key = method_name.to_s.match(/questions_(.+)=/)[1]
-      self.send('data_setter=', key, arguments.first)
-    elsif method_name.to_s =~ /questions_(.+)/
-      key = method_name.to_s.match(/questions_(.+)/)[1]
-      self.send('data_getter', key)
+  def merge_questions
+    updated_questions = questions.blank? ? {} : questions
+    if project_questions != nil
+      project_questions.each do |q|
+        question_key = Project.question_key(q)
+        question = self.send(question_key)
+        updated_questions[question_key] = question unless questions[question_key] == question or question.nil?
+      end
+      self.questions = updated_questions
+    end
+  end
+
+  def project_questions
+    project_questions = Question.where(:id => questions.map { |q| Project.get_question_id(q)}) unless questions.blank?
+    project_questions
+  end
+  
+  # Class Methods for questions as virtual attributes
+  def self.question_key(q)
+    "question_#{q.id}".to_s
+  end
+
+  def self.get_question_id(q)
+    q[0].to_s.split("_")[-1]
+  end
+
+  # add all Questions as virtual attributes for the Project model
+  def self.virtualize_questions
+    Question.all.each do |q|
+        attr_accessible question_key(q), :as => [:owner, :admin]
+        #attr_accessor question_key(q)
+    end
+  end
+  
+  def method_missing(name, *args, &block)
+    # handle method calls from best_in_place in /app/views/shared/_project_questions.html.haml
+    if name.to_s =~ /^question_\d+$/
+      self.questions[name.to_s]
     else
       super
     end
   end
 
-  def respond_to_missing?(method_name, include_private = false) # prevents giving UndefinedMethod error
-    method_name.to_s.start_with?('questions_') || super
-  end
-
-  def data_getter(key)
-    self.questions[key.to_i] if self.questions.kind_of?(Array)
-    self.questions[key.to_s] if self.questions.kind_of?(Hash)
-  end
-
-  def data_setter(key, value)
-    self.questions[key.to_i] = value if self.questions.kind_of?(Array)
-    self.questions[key.to_sym] = value if self.questions.kind_of?(Hash)
-    value # the method returns value because best_in_place sets the returned value as text
-  end
-    
-    
-  def accessable_methods # returns a list of all the methods that are responded dynamicly
-    self.questions.keys.map{|x| "questions_#{x.to_s}".to_sym }
-  end
-
-  private
-    def mass_assignment_authorizer(user) # adds the list to the accessible list.
-      super + self.accessable_methods
-    end
+  Project.virtualize_questions
 end
 

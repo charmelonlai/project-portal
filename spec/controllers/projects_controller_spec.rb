@@ -55,4 +55,20 @@ describe ProjectsController, type: :controller do
     end
     
   end
+  
+  describe '#get_user_id_from_email' do
+    before(:each) do
+      @user = FactoryGirl.create(:user)
+    end
+  
+    it 'works' do
+      got = controller.send(:get_user_id_from_email, @user.email)
+      expect(got).to eq(@user.id)
+    end
+    
+    it 'returns nil if no user has that email' do
+      got = controller.send(:get_user_id_from_email, "blah@gmail.com")
+      expect(got).to eq(nil)
+    end
+  end
 end
