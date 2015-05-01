@@ -6,8 +6,8 @@ gemfile:
 env:
   - DB=postgresql
 script:
-  - CODECLIMATE_REPO_TOKEN=264c349291c6dfa8bdd407c59c6dd92d47d4238551306faa372f2e3ffa0b94ea bundle exec rake
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - bundle exec rake db:test:prepare
+  - CODECLIMATE_REPO_TOKEN=264c349291c6dfa8bdd407c59c6dd92d47d4238551306faa372f2e3ffa0b94ea bundle exec rake
   - bundle exec rake rspec
   - bundle exec rake cucumber
