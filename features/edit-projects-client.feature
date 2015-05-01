@@ -10,8 +10,8 @@ Feature: Edit client projects
 	  | Client A project | short desc A      | long desc A      | Client A |
 	  And the following questions exist:
 	  | question | input_type |
-    | q1?      | boolean    |
-    | q2?      | boolean    |
+    | q1      | boolean    |
+    | q2      | boolean    |
     And the answers for the project are "yes" and "yes"
 	  And I am on the "show" page for "Client A project"
 
@@ -24,14 +24,20 @@ Feature: Edit client projects
   @javascript
   Scenario: Change the answer for a question to "no"
   	When I edit the answer for the second question to be "no"
-  	Then I should see "q2\?: no"
-  	And I should not see "q2\?: yes"
+  	Then I should see "q2: no"
+  	And I should not see "q2: yes"
   	
   @javascript
-  Scenario: Apply to an organization and see the alert popup
+  Scenario: Apply to an organization
     Given an organization called "Blueprint" exists with questions "q1" and "q2"
     But the project is not part of any organizations
   	And I click "Apply to Blueprint"
   	Then I should see an alert "Are you sure you want to apply exclusively to Blueprint? Your project will no longer be public."
   	And I should see "q1: -"
   	And I should see "q2: -"
+
+  @javascript
+  Scenario: Unapply from an organization
+    When I click "Unapply"
+  	Then I should see an alert "Are you sure you want to withdraw your application? Your project will become public."
+  	And I should see "You currently have not opted to work with any organizations."
