@@ -54,14 +54,6 @@ class ApplicationController < ActionController::Base
     Date.today > Rails.application.config.end_date
   end
 
-  protected
-  def authorize_user
-    unless is_admin
-      flash[:error] = "You do not have permissions to perform that action"
-      redirect_to "/dashboard"
-    end
-  end
-
   private
   def stored_location_for(resource_or_scope)
     nil

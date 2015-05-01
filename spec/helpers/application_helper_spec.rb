@@ -16,4 +16,7 @@ describe "url with http", :type => :helper do
   it "does not add protocol if already exists in link" do
     expect(helper.url_with_http("http://www.google.com")).to eq("http://www.google.com")
   end
+  it "returns an empty string if the link is nil" do
+    expect(helper.url_with_http(nil)).to eq("")
+  end
 end

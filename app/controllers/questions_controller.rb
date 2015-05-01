@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  # before_filter :authorize_user
+  before_filter :authorize_user
 
   def index
     @questions = current_rolable.questions
