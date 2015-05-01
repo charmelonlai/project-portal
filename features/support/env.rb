@@ -11,6 +11,9 @@ SimpleCov.start 'rails'
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 
+require 'best_in_place'
+require 'best_in_place/test_helpers'
+
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
 # selectors in your step definitions to use the XPath syntax.
@@ -60,4 +63,6 @@ end
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
+
+include BestInPlace::TestHelpers
 

@@ -240,8 +240,8 @@ proj5.approved = true
 proj5.save!
 
 #MAKE PROJECTS PUBLIC AS NEEDED
-public_projects = [proj, proj2, proj3, proj4, proj5]
-#public_projects = []
+#public_projects = [proj, proj2, proj3, proj4, proj5]
+public_projects = []
 public_projects.each do |proj|
   proj.organizations = []
 end

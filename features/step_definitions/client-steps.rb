@@ -21,6 +21,11 @@ Given /^I am on the new project page$/ do
 	visit new_project_path
 end
 
+Given /^I am on the "show" page for "(.*?)"$/ do |proj|
+	@proj = Project.find_by_title(proj)
+	visit project_path(@proj)
+end
+
 Then /^I should see a field with the label "(.*?)"$/ do |label|
 	page.has_field?(label).should == true
 end
@@ -48,4 +53,17 @@ Then /^the link "(.*?)" should link to the new projects page\.$/ do |name|
   link = page.find('a', :text => name)
   expect(link[:class].gsub(/\s+/, "")).to eq('')
   expect(link[:href]).to eq(new_project_path)
+end
+
+When /^I edit the short description to be "(.*?)"$/ do |text|
+  # click pencil icon and fill in text
+  find("#short_description#{@proj.id}").click
+  step "I fill in \"short_description\" with \"#{text}\""
+  
+  # click outside of the field
+  find("#best_in_place_project_#{@proj.id}_problem").click
+end
+
+When /^I reload the page$/ do
+  visit current_path
 end
