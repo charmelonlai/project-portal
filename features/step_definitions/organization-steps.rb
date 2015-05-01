@@ -1,5 +1,8 @@
-Given(/^an organization called "(.*?)" exists$/) do |sname|
-  organization = FactoryGirl.create(:organization, :sname => sname)
+Given /^an organization called "(.*?)" exists with questions "(.*?)" and "(.*?)"$/ do |sname, q1, q2|
+  organization = FactoryGirl.create(:organization, :sname => sname, :name => sname)
+  question1 = FactoryGirl.create(:question, :question => q1)
+  question2 = FactoryGirl.create(:question, :question => q2)
+  organization.questions = [question1, question2]
 end
 
 Given /I am logged in as an organization/ do

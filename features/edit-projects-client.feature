@@ -29,8 +29,9 @@ Feature: Edit client projects
   	
   @javascript
   Scenario: Apply to an organization and see the alert popup
-    Given an organization called "Blueprint" exists
+    Given an organization called "Blueprint" exists with questions "q1" and "q2"
     But the project is not part of any organizations
   	And I click "Apply to Blueprint"
-  	Then I should see an alert "Are you sure you want to apply exclusively to UC Berkeley CS169 Software Engineering? Your project will no longer be public."
-  	And I should see ""
+  	Then I should see an alert "Are you sure you want to apply exclusively to Blueprint? Your project will no longer be public."
+  	And I should see "q1: -"
+  	And I should see "q2: -"
