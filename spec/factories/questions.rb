@@ -3,7 +3,6 @@
 FactoryGirl.define do
   factory :question do
     question "MyString"
-    subject "MyString"
     input_type "MyString"
   end
 end

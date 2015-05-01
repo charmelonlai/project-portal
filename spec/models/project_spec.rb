@@ -285,4 +285,47 @@ describe Project, :type => :model do
     end
   end
   
+  describe '#method_missing' do
+    it 'returns the correct value for a method call of the form "question_num"' do
+      questions = {'question_1' => true, 'question_2' => false, 'question_3' => true}
+      proj = FactoryGirl.create(:project, :questions => questions)
+      expect(proj.question_1).to eq(questions['question_1'])
+      expect(proj.question_2).to eq(questions['question_2'])
+      expect(proj.question_3).to eq(questions['question_3'])
+    end
+    
+    it 'raises an error for a nonexistent method' do
+      proj = FactoryGirl.create(:project)
+      expect{proj.blahh}.to raise_error(NameError)
+    end
+  end
+  
+  describe '#question_key' do
+    it 'returns "question_id", where "id" is replaced by the question\'s id' do
+      q = FactoryGirl.create(:question)
+      expect(Project.question_key(q)).to eq("question_#{q.id}")
+    end
+  end
+  
+  describe '#get_question_id' do
+    it 'extracts the id from the string "question_id"' do
+      q = ['question_5', 'answer']
+      expect(Project.get_question_id(q)).to eq("5")
+    end
+  end
+  
+  describe '#merge_questions' do
+    it 'updates the saved answer to a new answer' do
+      q1 = FactoryGirl.create(:question)
+      q2 = FactoryGirl.create(:question)
+      q3 = FactoryGirl.create(:question)
+      questions = {'question_1' => true, 'question_2' => false, 'question_3' => true}
+      proj = FactoryGirl.create(:project, :questions => questions)
+      
+      proj.questions = {'question_1' => false, 'question_2' => true}
+      proj.merge_questions
+      expect(proj.questions).to eq({'question_1' => false, 'question_2' => true})
+    end
+  end
+  
 end
