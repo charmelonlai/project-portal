@@ -120,8 +120,7 @@ class ProjectsController < ApplicationController
   def edit_question
     @project = Project.find(params[:id])
     question = params[:question]
-    answer = params[:project]["questions_#{question}".to_sym]
-    #params[:project][:questions]
+    answer = params[:project][question]
     @project.questions[question] = answer
     if @project.save
       head :ok
@@ -176,7 +175,9 @@ class ProjectsController < ApplicationController
   def get_user_id_from_email(email_string)
     email = /[a-zA-Z\d-_!#\$%&'*+-\/=?^_`{.|}~]+[@]{1}+[a-zA-Z\d-]+[.]{1}[a-zA-Z]+/.match(email_string).to_s
     user = User.find_by_email(email)
-    user.id
+    if user
+      user.id
+    end
   end
 
 end
