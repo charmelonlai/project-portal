@@ -26,3 +26,11 @@ Feature: Edit client projects
   	When I edit the answer for the second question to be "no"
   	Then I should see "q2\?: no"
   	And I should not see "q2\?: yes"
+  	
+  @javascript
+  Scenario: Apply to an organization and see the alert popup
+    Given an organization called "Blueprint" exists
+    But the project is not part of any organizations
+  	And I click "Apply to Blueprint"
+  	Then I should see an alert "Are you sure you want to apply exclusively to UC Berkeley CS169 Software Engineering? Your project will no longer be public."
+  	And I should see ""

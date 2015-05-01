@@ -89,6 +89,11 @@ Given(/^I should see "(.*?)" before "(.*?)"$/) do |proj1, proj2|
   expect(page).to have_content(regexp)
 end
 
+Given /^the project is not part of any organizations$/ do
+  @proj.organizations = []
+  step "I reload the page"
+end
+
 Then /^I pause for a while$/ do
   sleep 30
 end

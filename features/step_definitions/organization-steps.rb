@@ -1,3 +1,7 @@
+Given(/^an organization called "(.*?)" exists$/) do |sname|
+  organization = FactoryGirl.create(:organization, :sname => sname)
+end
+
 Given /I am logged in as an organization/ do
   # create organization account
   organization = FactoryGirl.create(:organization)

@@ -55,6 +55,11 @@ Then /^the link "(.*?)" should link to the new projects page\.$/ do |name|
   expect(link[:href]).to eq(new_project_path)
 end
 
+Then /^I should see an alert "(.+?)"$/ do |content|
+  page.driver.browser.switch_to.alert.text.should == content
+  page.driver.browser.switch_to.alert.accept
+end
+
 When /^I edit the short description to be "(.*?)"$/ do |text|
   # click pencil icon and fill in text
   find("#short_description#{@proj.id}").click
