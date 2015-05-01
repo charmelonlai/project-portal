@@ -58,7 +58,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = Project.find_by_id(params[:id])
+    @project = Project.find_by_slug(params[:id])
     unless @project
       redirect_to projects_path, notice: 'Nonexistent project.'
     end
