@@ -77,7 +77,6 @@ gem 'ffaker'
 gem 'will_paginate', '~> 3.0'
 gem 'introjs-rails'
 gem 'wicked'
-gem 'selenium-webdriver'
 #photo uploading
 gem 'paperclip', '~> 3.4.1'
 gem "cocaine", "~> 0.5.1"
