@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe ProjectsController, type: :controller do
+  render_views
 
   describe 'Approval/denial:' do
 
@@ -69,6 +70,22 @@ describe ProjectsController, type: :controller do
     it 'returns nil if no user has that email' do
       got = controller.send(:get_user_id_from_email, "blah@gmail.com")
       expect(got).to eq(nil)
+    end
+  end
+  
+  describe '#search' do
+    
+    def create_public_projects_with_word(n, word)
+      (1..n).map { |x| FactoryGirl.create(:project, :title => "a#{rand(2000)}#{word}#{rand(2000)}a", :organizations => []) }
+    end
+  
+    it 'returns all project whose title contains "health"' do
+      projects = create_public_projects_with_word(3, "health")
+      get :search, :search_string => "health"
+      
+      projects.each do |proj|
+        expect(response.body).to include(proj.title)
+      end
     end
   end
 end
