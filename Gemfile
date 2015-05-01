@@ -59,6 +59,7 @@ group :test do
   gem 'simplecov'
   gem 'selenium-webdriver'
   gem 'rspec-activemodel-mocks'
+  gem "codeclimate-test-reporter", require: nil
 end
 
 # our app specific gems
