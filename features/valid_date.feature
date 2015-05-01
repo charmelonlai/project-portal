@@ -30,3 +30,8 @@ Feature: Set dates for proposals
     And I set the proposal deadline to a future date
     When I login as client "c"
     Then the link "Propose A Project" should link to the new projects page.
+    
+  Scenario: Set an invalid date
+    When I set the proposal deadline to an invalid date
+    Then I should see "Invalid date selected."
+    And I should be on the admin dashboard

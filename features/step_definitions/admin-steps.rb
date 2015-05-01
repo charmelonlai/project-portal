@@ -71,7 +71,7 @@ Then /^the client of "(.*)" should be sent a notification email about the (appro
   email.body.should include("Dear #{client.fname}")
 end
 
-Given(/^I am on the admin dashboard$/) do
+Given(/^I (?:am|should be) on the admin dashboard$/) do
   visit admin_dashboard_path
 end
 
@@ -93,4 +93,10 @@ end
 
 When /^I set the proposal deadline to a future date$/ do
   step "the application is currently open \(admin\)"
+end
+
+When /^I set the proposal deadline to an invalid date$/ do
+  page.select('February', :from => 'dates[end_date(2i)]')
+  page.select('31', :from => 'dates[end_date(3i)]')
+  click_button('Set Date')
 end
