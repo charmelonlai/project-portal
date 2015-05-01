@@ -34,7 +34,7 @@ class UserController < ApplicationController
       notice = "Invalid date selected."
     end
     
-    redirect_to dashboard_path, :notice => notice
+    redirect_to admin_dashboard_path, :notice => notice
   end
 
   def export_to_csv
