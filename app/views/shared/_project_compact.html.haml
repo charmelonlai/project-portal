@@ -1,6 +1,6 @@
 -project ||= project_compact
 %tbody
-  %tr.project-row{:class => [("pending" if project.approved == nil or !user_signed_in?), ("approved" if project.approved), ("denied" if project.approved == false)]}
+  %tr.project-row{:class => [("pending" if project.approved == nil or !user_signed_in?), ("approved" if project.approved and user_signed_in?), ("denied" if project.approved == false and user_signed_in?)]}
     %td.project-row-title
       = link_to project.title, project_path(project), {:class => "title-text"}
       %p.owner-text by #{project.client.company_name}
