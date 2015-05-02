@@ -108,11 +108,33 @@ describe ProjectsController, type: :controller do
   describe '#edit' do
     it 'prevents a random user from editing a project they don\'t own' do
       sign_in FactoryGirl.create(:client).user
-      @proj = FactoryGirl.create(:project)
+      proj = FactoryGirl.create(:project)
       controller.stub(:user_can_update?).and_return(false)
 
-      get :edit, :id => @proj.slug
+      get :edit, :id => proj.slug
       expect(flash[:notice]).to eq('You do not have permission to edit this project.')
+    end
+  end
+  
+  describe '#permission_to_update' do
+    before(:each) do
+      @proj = FactoryGirl.create(:project)
+      # stub out :user_can_update?
+      controller.stub(:user_can_update?).and_return(false)
+    end
+    
+    it 'sets flash if the user does not have permission to modify the project' do
+      @proj = FactoryGirl.create(:project)
+      # stub out :redirect_to
+      controller.stub(:redirect_to).with(@proj).and_return(true)
+
+      controller.send(:permission_to_update, @proj)
+      expect(flash[:error]).to eq('You do not have permission to edit this project.')
+    end
+    
+    it 'redirects to the project page if the user does not have permission to modify the project' do
+      controller.should_receive(:redirect_to).with(@proj).and_return(true)
+      controller.send(:permission_to_update, @proj)
     end
   end
 end
