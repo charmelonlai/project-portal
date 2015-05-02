@@ -105,6 +105,18 @@ describe ProjectsController, type: :controller do
     end
   end
   
+  describe '#show' do
+    it 'displays the notice "Nonexistent project." when the project id is invalid' do
+      get :show, :id => 'gobbledygook'
+      expect(flash[:notice]).to eq("Nonexistent project.")
+    end
+    
+    it 'redirects to the index page when the project id is invalid' do
+      get :show, :id => 'gobbledygook'
+      expect(response).to redirect_to(projects_path)
+    end
+  end
+  
   describe '#edit' do
     it 'prevents a random user from editing a project they don\'t own' do
       sign_in FactoryGirl.create(:client).user
@@ -201,6 +213,35 @@ describe ProjectsController, type: :controller do
       Project.any_instance.stub(:update_attributes).and_return(false)
       post_to_create
       expect(response).to render_template(:new)
+    end
+  end
+  
+  describe '#update' do
+    before(:each) do
+      sign_in FactoryGirl.create(:admin)
+      @proj = FactoryGirl.create(:project)
+    end
+    
+    def post_to_update
+      post :update, { :id => @proj.slug, :project => {:title => 'New Title'} }
+    end
+    
+    it 'displays the notice "Project was successfully updated."' do
+      Project.any_instance.stub(:update_attributes).and_return(true)
+      post_to_update
+      expect(flash[:notice]).to eq('Project was successfully updated.')
+    end
+    
+    it 'redirects to the "show" page for the project' do
+      Project.any_instance.stub(:update_attributes).and_return(true)
+      post_to_update
+      expect(response).to redirect_to(@proj)
+    end
+    
+    it 'renders the "edit" template if the project could not be updated' do
+      Project.any_instance.stub(:update_attributes).and_return(false)
+      post_to_update
+      expect(response).to render_template(:edit)
     end
   end
 end
