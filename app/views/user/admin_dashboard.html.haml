@@ -6,13 +6,12 @@
       /   =render :partial => 'questions/question_list'
       .span12
         =render :partial => 'createadmins'
-        .btn.btn-secondary
-          =link_to "Export to CSV", projects_csv_path
         =render :partial => 'date_set'
         / =render :partial => 'projects/unapproved_list', :locals => {:unapproved_projects => @unapproved_projects,  :denied_projects => @denied_projects}
         /=render :partial => 'projects/unapproved_list', :locals => {:public_projects => @public_projects,  :private_projects => @private_projects}
         .projects
           %div
+            =link_to "Export to CSV", projects_csv_path, :class => 'btn btn-primary pull-right'
             %h2 All Projects
             .btn-toolbar{:style => "float: right; margin: 15px"}
               .btn-group#proj-tab{"data-toggle" => "buttons-radio"}

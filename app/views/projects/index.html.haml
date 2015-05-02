@@ -19,7 +19,7 @@
       = select_tag "project_type", options_for_select(Project::PROJECT_TYPES), :include_blank => "All"
       Filter by project focus:
       = select_tag "project_focus", options_for_select(Project::SECTORS), :include_blank => "All"
-      = submit_tag "Go", :id => "filter_submit"
+      = submit_tag "Go", { :id => "filter_submit", :class => "btn" }
       = link_to "Reset", '/projects', :style => "padding-left: 10px"
 
   #proj-content.tab-content

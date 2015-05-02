@@ -1,13 +1,21 @@
 require 'csv'
 
 class UserController < ApplicationController
-  before_filter :require_admin, only: [:admin_dashboard, :set_date, :export_to_csv, :add_admin, :remove_admin]
+  before_filter :require_admin, only: [:admin_dashboard, :set_date, :add_admin, :remove_admin]
+  
+  before_filter :require_logged_in, only: [:export_to_csv]
 
   def require_admin
     if !user_signed_in?
       redirect_to new_user_session_path, notice: "Please log in."
     elsif user_signed_in? && !current_user.admin?
       redirect_to dashboard_path, notice: "You do not have the right permissions to view this page."
+    end
+  end
+  
+  def require_logged_in
+    if !user_signed_in?
+      redirect_to new_user_session_path, notice: "Please log in."
     end
   end
 
@@ -48,7 +56,11 @@ class UserController < ApplicationController
   end
 
   def export_to_csv
-    projects = Project.order("created_at DESC")
+    if is_admin?
+      projects = Project.order("created_at DESC")
+    elsif is_organization?
+      projects = current_rolable.projects.order("created_at DESC")
+    end
     
     # http://stackoverflow.com/a/2473637
     csv_string = CSV.generate do |csv|

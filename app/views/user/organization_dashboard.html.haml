@@ -18,6 +18,7 @@
 
     .projects
       %div
+        =link_to "Export to CSV", projects_csv_path, :class => 'btn btn-primary pull-right'
         %h2 Projects Private To My Organization
         .btn-toolbar{:style => "float: right; margin: 15px"}
           .btn-group#proj-tab{"data-toggle" => "buttons-radio"}
@@ -26,8 +27,6 @@
             %a.btn.btn-small.active#compact-proj-btn{:href => "#compact-proj-view", 'data-toggle' => 'tab'}
               %i.icon-list
       #proj-content.tab-content
-        .btn.btn-secondary{:style => "margin-bottom: 15px"}
-          =link_to "Export to CSV", projects_csv_path
         - if @projects.empty?
           %p No projects yet!
         - else
