@@ -18,6 +18,7 @@
     .btn-group.pull-right#new-proj-btn
       %a.btn.btn-primary{href: (new_project_path unless proposals_closed?), disabled: (true if proposals_closed?), title: ("The portal is currently closed to proposals." if proposals_closed?)}
         New Project
+    =link_to "Export to CSV", projects_csv_path, :class => 'btn btn-primary pull-right'
     - if @projects
       - @projects.each do |p|
         =render :partial=>"client_project_card", :locals => {:project => p}

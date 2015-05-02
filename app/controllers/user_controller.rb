@@ -58,7 +58,7 @@ class UserController < ApplicationController
   def export_to_csv
     if is_admin?
       projects = Project.order("created_at DESC")
-    elsif is_organization?
+    elsif is_organization? || is_client?
       projects = current_rolable.projects.order("created_at DESC")
     end
     
