@@ -133,15 +133,7 @@ class UserController < ApplicationController
   end
 
   def view_all_admins
-    if user_signed_in? and current_user.admin?
-      @all_admins = User.find_all_by_admin(true)
-    elsif user_signed_in?
-      flash[:error] = "You do not have the right permissions to view this page."
-      redirect_to dashboard_path
-    else
-      flash[:error] = "Please log in."
-      redirect_to new_user_session_path
-    end
+    @all_admins = User.find_all_by_admin(true)
   end
 
 end
