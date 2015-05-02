@@ -13,7 +13,7 @@ Given /^the following clients exist:$/ do |table|
   end
 end
 
-Given /^the following projects exist:$/ do |table|
+Given /^the following (public)? projects exist:$/ do |pub, table|
   table.hashes.each do |hash|
     hash['client'] = Client.find_by_company_name(hash['client'])
     organization = hash.delete('organization')
@@ -23,6 +23,11 @@ Given /^the following projects exist:$/ do |table|
     if organization
       org = Organization.find_by_sname(organization)
       project.organizations << org
+    end
+    
+    if pub
+      project.organizations = []
+      project.save!
     end
     
   end
@@ -64,6 +69,10 @@ Then /^I should see "([^\/]*)" (.+) times$/ do |regexp, times|
   end
   regexp = Regexp.new(str)
   expect(page).to have_content(regexp)
+end
+
+Given /^I am on the projects page$/ do
+  visit projects_path
 end
 
 Given(/^I visit the "show" page for "(.*?)"$/) do |proj|
