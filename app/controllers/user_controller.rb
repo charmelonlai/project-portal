@@ -1,6 +1,16 @@
 require 'csv'
 
 class UserController < ApplicationController
+  before_filter :require_admin, only: [:admin_dashboard, :set_date, :export_to_csv, :add_admin, :remove_admin]
+
+  def require_admin
+    if !user_signed_in?
+      redirect_to new_user_session_path, notice: "Please log in."
+    elsif user_signed_in? && !current_user.admin?
+      redirect_to dashboard_path, notice: "You do not have the right permissions to view this page."
+    end
+  end
+
   def dashboard
     case
     when is_organization?
@@ -78,6 +88,17 @@ class UserController < ApplicationController
       view_all_admins
     end
   end
+  
+  def remove_admin
+    @user = User.find_by_id(params[:id])
+    if @user and @user.admin?
+      @user.update_attributes(:admin=>false)
+      redirect_to add_admin_path, notice: "#{@user.fname} #{@user.lname} is no longer an admin."
+    else
+      flash[:error] = "Your action is invalid."
+      redirect_to user_settings_path
+    end
+  end
 
   protected
   def organization_dashboard
@@ -120,17 +141,6 @@ class UserController < ApplicationController
     else
       flash[:error] = "Please log in."
       redirect_to new_user_session_path
-    end
-  end
-
-  def remove_admin
-    @user = User.find_by_id(params[:id])
-    if @user and @user.admin?
-      @user.update_attributes(:admin=>false)
-      redirect_to add_admin_path, notice: "#{@user.fname} #{@user.lname} is no longer an admin."
-    else
-      flash[:error] = "Your action is invalid."
-      redirect_to user_settings_path
     end
   end
 
