@@ -40,12 +40,8 @@ class UserController < ApplicationController
   end
 
   def set_date
-    year = params[:dates]["end_date(1i)"].to_i
-    month = params[:dates]["end_date(2i)"].to_i
-    day = params[:dates]["end_date(3i)"].to_i
-
     begin
-      end_date = Date.new(year, month, day)
+      end_date = create_date_from_params(params[:dates])
       Rails.application.config.end_date = end_date
       notice = "Deadline successfully set to #{end_date.strftime("%B %-d, %Y")}."
     rescue ArgumentError => e
@@ -58,7 +54,7 @@ class UserController < ApplicationController
   def export_to_csv
     if is_admin?
       projects = Project.order("created_at DESC")
-    elsif is_organization? || is_client?
+    else # client or organization
       projects = current_rolable.projects.order("created_at DESC")
     end
     
@@ -127,6 +123,13 @@ class UserController < ApplicationController
 
   def developer_dashboard
     render(:template => 'user/developer_dashboard')
+  end
+  
+  def create_date_from_params(hash)
+    year = params[:dates]["end_date(1i)"].to_i
+    month = params[:dates]["end_date(2i)"].to_i
+    day = params[:dates]["end_date(3i)"].to_i
+    return Date.new(year, month, day)
   end
 
   def create_admin(email)
