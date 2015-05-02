@@ -73,14 +73,14 @@ describe UserController, type: :controller do
       post :add_admin, {:commit => "View All"}
     end
     
-    it 'calls view_all_admins' do
-      controller.should_receive(:view_all_admins)
-      view_all
-    end
-    
     describe 'if the user is logged in as an admin, ' do
       before(:each) do
         sign_in @admin
+      end
+      
+      it 'calls view_all_admins' do
+        controller.should_receive(:view_all_admins)
+        view_all
       end
 
       it 'renders the template "user/add_admin"' do
@@ -110,7 +110,7 @@ describe UserController, type: :controller do
 
       it 'displays the error message "You do not have the right permissions to view this page." if the email is valid' do
         view_all
-        expect(flash[:error]).to eq("You do not have the right permissions to view this page.")
+        expect(flash[:notice]).to eq("You do not have the right permissions to view this page.")
       end
       
       it 'redirects to the dashboard' do
@@ -122,7 +122,7 @@ describe UserController, type: :controller do
     describe 'if the user is not logged in, ' do
       it 'displays the error message "Please log in." if the email is valid' do
         view_all
-        expect(flash[:error]).to eq("Please log in.")
+        expect(flash[:notice]).to eq("Please log in.")
       end
       
       it 'redirects to the login page' do
