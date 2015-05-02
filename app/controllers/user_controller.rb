@@ -57,7 +57,7 @@ class UserController < ApplicationController
     project_type = params[:project_type]
     project_focus = params[:project_focus]
 
-    @projects = current_rolable.projects.order("created_at DESC")
+    @projects = Project.is_public
 
     if project_type != ''
       @projects = @projects.where("project_type = ?", project_type)
@@ -66,8 +66,8 @@ class UserController < ApplicationController
     if project_focus != ''
       @projects = @projects.where("sector = ?", project_focus)
     end
-
-    render(:template => 'user/organization_dashboard')
+      @projects = @projects.paginate(:page => params[:page], :per_page => 8)
+      render(:template => 'projects/index')
   end
 
   protected

@@ -28,16 +28,8 @@
       #proj-content.tab-content
         .btn.btn-secondary{:style => "margin-bottom: 15px"}
           =link_to "Export to CSV", projects_csv_path
-        %div#filters
-          = form_tag projects_filter_path, :id => "filter_form", :method => :get do
-            Filter by project type:
-            = select_tag "project_type", options_for_select(Project::PROJECT_TYPES), :include_blank => "All"
-            Filter by project focus:
-            = select_tag "project_focus", options_for_select(Project::SECTORS), :include_blank => "All"
-            = submit_tag "Go", :id => "filter_submit"
-            = link_to "Reset", dashboard_path, :style => "padding-left: 10px"
         - if @projects.empty?
-          No projects yet!
+          %p No projects yet!
         - else
           %div.tab-pane#square-proj-view.row
             =render(:partial => 'shared/project_square', :collection => @projects)

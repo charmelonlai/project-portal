@@ -12,7 +12,15 @@
           %i.icon-th-large
         %a.btn.btn-small#compact-proj-btn{:href => "#compact-proj-view", 'data-toggle' => 'tab'}
           %i.icon-list
-  =render :partial=>"search_form", :locals => {:prev_search => @prev_search}
+  =render :partial=>"projects/search_form", :locals => {:prev_search => @prev_search}
+  %div#filters
+    = form_tag projects_filter_path, :id => "filter_form", :method => :get do
+      Filter by project type:
+      = select_tag "project_type", options_for_select(Project::PROJECT_TYPES), :include_blank => "All"
+      Filter by project focus:
+      = select_tag "project_focus", options_for_select(Project::SECTORS), :include_blank => "All"
+      = submit_tag "Go", :id => "filter_submit"
+      = link_to "Reset", '/projects', :style => "padding-left: 10px"
 
   #proj-content.tab-content
     - if @projects.empty?
@@ -23,4 +31,4 @@
       %div.tab-pane#compact-proj-view
         %table
           =render(:partial => 'shared/project_compact', :collection => @projects)
-    -will_paginate @projects, :param_name => 'page'
+    -will_paginate @projects, :param_name => 'projects_page'
