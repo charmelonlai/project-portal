@@ -1,32 +1,26 @@
 .home
   .home-banner
-    %h2 Connect with student developers to solve engineering problems.
+    %h2 Connect with student developers to solve software engineering problems.
 
   .marketing
     .container
       .row
         .about
           .content
-            .heading Are you a non-profit?
+            .heading{:style => "text-align: center"} Are you a non-profit?
             %p
-              Are you looking for a group to develop a web or mobile application for your non-profit or organization? Work closely with students from one of the nation's top CS programs to meet your technology need.
-
-            / Work with Berkeley students enrolled in the software engineering course at UC Berkeley and in student groups to meet your technology need. Students can work with you to build an application to your specifications and coordinate to fix issues that may arise once the project is in use.
-            / %a.link{:href=>"/organization_intro"}
-            /   Learn More.
-          / .sign-up-btn
-          /   %a.btn.btn-large.btn-info{:href=>"/client/sign_up"}Sign up as a Client
+              Are you looking for a group to develop a web or mobile application for your organization? Work closely with students from one of the nation's top CS programs to meet your technology need. Students can work with you to build or update an application to your specifications.
+              %a.link{:href=>"/organization_intro", :style => "font-size: 16px"} Learn More.
+              .sign-up-btn{:style => "text-align: center"}
+                %a.btn.btn-large.btn-info{:href=>"/client/sign_up"} Sign up as a Client
         .about
           .content
-            .heading Are you a developer?
+            .heading{:style => "text-align: center"} Are you a developer?
             %p
-              / Are you enrolled in CS 169 (Software Engineering), part of Blueprint, or
+              Are you enrolled in CS 169 (Software Engineering) or
               Looking to get involved in non-profit web application development? Use Project Portal to discover projects to work on created by real non-profit organizations looking for help.
-              / Also, you can search for projects in maintenance mode if you want to focus on fixing specific issues in existing projects that are already underway.
-            / %a.link{:href=>"/volunteer_intro"}
-            /   Learn More.
-          / .sign-up-btn
-          /   %a.btn.btn-large.btn-info{:href=>"/developer/sign_up"}Sign up as a Developer
+              .sign-up-btn{:style => "text-align: center"}
+                %a.btn.btn-large.btn-info{:href=>"/projects"} View Projects
 
   %hr{:style => "margin: 0"}
 
