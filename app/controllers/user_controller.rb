@@ -70,6 +70,15 @@ class UserController < ApplicationController
       render(:template => 'projects/index')
   end
 
+  def add_admin
+    if params[:commit] == "Add"
+      email = /[a-zA-Z\d-_!#\$%&'*+-\/=?^_`{.|}~]+[@]{1}+[a-zA-Z\d-]+[.]{1}[a-zA-Z]+/.match(params[:user]).to_s
+      create_admin(email)
+    elsif params[:commit] == "View All"
+      view_all_admins
+    end
+  end
+
   protected
   def organization_dashboard
     @questions = current_rolable.questions
@@ -85,15 +94,6 @@ class UserController < ApplicationController
 
   def developer_dashboard
     render(:template => 'user/developer_dashboard')
-  end
-
-  def add_admin
-    if params[:commit] == "Add"
-      email = /[a-zA-Z\d-_!#\$%&'*+-\/=?^_`{.|}~]+[@]{1}+[a-zA-Z\d-]+[.]{1}[a-zA-Z]+/.match(params[:user]).to_s
-      create_admin(email)
-    elsif params[:commit] == "View All"
-      view_all_admins
-    end
   end
 
   def create_admin(email)
