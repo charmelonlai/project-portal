@@ -55,4 +55,80 @@ describe UserController, type: :controller do
       expect(flash[:notice]).to eq("#{@user.fname} #{@user.lname} is already an admin.")
     end
   end
+
+  describe '#add_admin("View All")' do
+    before(:each) do
+      @admin = FactoryGirl.create(:admin)
+      
+      @admins = []
+      @admins << @admin
+    end
+    
+    def add_admins(n)
+      admins = (1..n).map { |x| FactoryGirl.create(:admin, :fname => "fname#{rand(1000)}", :lname => "lname#{rand(1000)}") }
+      @admins.push(*admins)
+    end
+    
+    def view_all
+      post :add_admin, {:commit => "View All"}
+    end
+    
+    it 'calls view_all_admins' do
+      controller.should_receive(:view_all_admins)
+      view_all
+    end
+    
+    describe 'if the user is logged in as an admin, ' do
+      before(:each) do
+        sign_in @admin
+      end
+
+      it 'renders the template "user/add_admin"' do
+        view_all
+        expect(response).to render_template("user/add_admin")
+      end
+      
+      it 'displays the names of all the admins' do
+        view_all
+        @admins.each do |admin|
+          expect(response.body).to include("#{admin.fname} #{admin.lname}")
+        end
+      end
+      
+      it 'displays the emails of all the admins' do
+        view_all
+        @admins.each do |admin|
+          expect(response.body).to include(admin.email)
+        end
+      end
+    end
+
+    describe 'if the user is logged in as a client' do
+      before(:each) do
+        sign_in FactoryGirl.create(:client).user
+      end
+
+      it 'displays the error message "You do not have the right permissions to view this page." if the email is valid' do
+        view_all
+        expect(flash[:error]).to eq("You do not have the right permissions to view this page.")
+      end
+      
+      it 'redirects to the dashboard' do
+        view_all
+        expect(response).to redirect_to(dashboard_path)
+      end
+    end
+    
+    describe 'if the user is not logged in' do
+      it 'displays the error message "Please log in." if the email is valid' do
+        view_all
+        expect(flash[:error]).to eq("Please log in.")
+      end
+      
+      it 'redirects to the login page' do
+        view_all
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+  end
 end
