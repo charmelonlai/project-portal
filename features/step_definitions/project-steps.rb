@@ -13,7 +13,7 @@ Given /^the following clients exist:$/ do |table|
   end
 end
 
-Given /^the following (public)? projects exist:$/ do |pub, table|
+Given /^the following (public )?projects exist:$/ do |pub, table|
   table.hashes.each do |hash|
     hash['client'] = Client.find_by_company_name(hash['client'])
     organization = hash.delete('organization')
