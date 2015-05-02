@@ -137,4 +137,70 @@ describe ProjectsController, type: :controller do
       controller.send(:permission_to_update, @proj)
     end
   end
+  
+  describe '#org_questions' do
+    before(:each) do
+      sign_in FactoryGirl.create(:client).user
+      request.env["HTTP_REFERER"] = "where_i_came_from" # http://stackoverflow.com/a/6729817
+      controller.stub(:check_proposal_window) # make portal open to new proposals
+    end
+    
+    def post_to_org_questions
+      post :org_questions, :project => {:title => "my title", :sector => "Animals", :project_type => "Database", :organizations => {:blueprint => "1"}}
+    end
+    
+    it 'sets session[:org] to ...' do
+      post_to_org_questions
+      expect(session[:org]).to eq({"blueprint" => "1"})
+    end
+    
+    it 'sets session[:proj] to ...' do
+      post_to_org_questions
+      expect(session[:proj]).to eq({"title" => "my title", "sector" => "Animals", "project_type" => "Database"})
+    end
+    
+    it 'renders the template "org_questions"' do
+      post_to_org_questions
+      expect(response). to render_template(:org_questions)
+    end
+  end
+  
+  describe '#create' do
+    before(:each) do
+      sign_in FactoryGirl.create(:client).user
+      request.env["HTTP_REFERER"] = "where_i_came_from" # http://stackoverflow.com/a/6729817
+      controller.stub(:check_proposal_window) # make portal open to new proposals
+      
+      # setup questions
+      Question.delete_all
+      FactoryGirl.create(:question, :question => "q1")
+      FactoryGirl.create(:question, :question => "q2")
+      FactoryGirl.create(:question, :question => "q3")
+      
+      # setup session
+      @title = "my title"
+      session[:org] = {"blueprint" => "1"}
+      session[:proj] = {"title" => @title, "sector" => "Animals", "project_type" => "Database"}
+    end
+    
+    def post_to_create
+      post :create, :project => {:problem => "my problem", :short_description => "my short desc", :long_description => "my long desc", :questions => {"question_1" => "no", "question_2" => "yes", "question_3" => "yes"}}
+    end
+    
+    it 'displays the notice "Project was successfully created."' do
+      post_to_create
+      expect(flash[:notice]).to eq('Project was successfully created.')
+    end
+    
+    it 'redirects to the "show" page for the project' do
+      post_to_create
+      expect(response).to redirect_to(Project.find_by_title(@title))
+    end
+    
+    it 'renders the "new" template if the project could not be saved' do
+      Project.any_instance.stub(:update_attributes).and_return(false)
+      post_to_create
+      expect(response).to render_template(:new)
+    end
+  end
 end
