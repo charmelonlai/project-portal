@@ -29,30 +29,30 @@ describe EmailNotificationsController, type: :controller do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested email_notification" do
-        params = {:id => @email_notification.id, :email_notification => {"proj_approval" => "true"}}
+        params = {:id => @email_notification.id, :email_notification => {"proj_approval" => "false"}}
         EmailNotification.any_instance.should_receive(:update_attributes).with(params[:email_notification])
         put :update, params
       end
       
       it "correctly updates the requested email_notification" do
-        params = {:id => @email_notification.id, :email_notification => {:proj_approval => true}}
+        params = {:id => @email_notification.id, :email_notification => {:proj_approval => false}}
         put :update, params
         @email_notification.reload
-        expect(@email_notification.proj_approval).to be true
+        expect(@email_notification.proj_approval).to be false
       end
 
       it "assigns the requested email_notification as @email_notification" do
-        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => true}}
+        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => false}}
         assigns(:email_notification).should eq(@email_notification)
       end
 
       it "redirects to the user settings page" do
-        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => true}}
+        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => false}}
         expect(response).to redirect_to(edit_user_registration_path)
       end
 
       it "displays the notice 'Your email notification settings have been successfully updated.'" do
-        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => true}}
+        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => false}}
         expect(flash[:notice]).to eq('Your email notification settings have been successfully updated.')
       end
     end
@@ -61,14 +61,14 @@ describe EmailNotificationsController, type: :controller do
       it "redirects to the user settings page" do
         # Trigger the behavior that occurs when invalid params are submitted
         EmailNotification.any_instance.stub(:save).and_return(false)
-        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => true}}
+        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => false}}
         expect(response).to redirect_to(edit_user_registration_path)
       end
       
       it "displays the error message 'There was an issue with updating your email notification settings.'" do
         # Trigger the behavior that occurs when invalid params are submitted
         EmailNotification.any_instance.stub(:save).and_return(false)
-        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => true}}
+        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => false}}
         expect(flash[:warning]).to eq('There was an issue with updating your email notification settings.')
       end
     end

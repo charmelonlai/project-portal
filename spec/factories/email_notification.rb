@@ -3,6 +3,6 @@
 FactoryGirl.define do
   factory :email_notification do
     user { FactoryGirl.create(:user) }
-    proj_approval false
+    proj_approval true
   end
 end
