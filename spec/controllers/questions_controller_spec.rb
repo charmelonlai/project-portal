@@ -19,69 +19,37 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe QuestionsController, :type => :controller do
-
-  # This should return the minimal set of attributes required to create a valid
-  # Question. As you add validations to Question, be sure to
-  # update the return value of this method accordingly.
-  def valid_attributes
-    {  }
+  
+  before(:each) do
+    @organization = FactoryGirl.create(:organization)
+    sign_in @organization.user
   end
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # QuestionsController. Be sure to keep this updated too.
-  def valid_session
-    {}
-  end
-
-  skip "GET index" do
+  describe "GET index" do
     it "assigns all questions as @questions" do
-      question = Question.create! valid_attributes
-      get :index, {}, valid_session
+      question = FactoryGirl.create(:question, :organization => @organization)
+      get :index
       assigns(:questions).should eq([question])
     end
   end
 
-  skip "GET show" do
-    it "assigns the requested question as @question" do
-      question = Question.create! valid_attributes
-      get :show, {:id => question.to_param}, valid_session
-      assigns(:question).should eq(question)
-    end
-  end
-
-  skip "GET new" do
-    it "assigns a new question as @question" do
-      get :new, {}, valid_session
-      assigns(:question).should be_a_new(Question)
-    end
-  end
-
-  skip "GET edit" do
-    it "assigns the requested question as @question" do
-      question = Question.create! valid_attributes
-      get :edit, {:id => question.to_param}, valid_session
-      assigns(:question).should eq(question)
-    end
-  end
-
-  skip "POST create" do
+  describe "POST create" do
     describe "with valid params" do
       it "creates a new Question" do
         expect {
-          post :create, {:question => valid_attributes}, valid_session
+          post :create, {:question => {:question => "Q1?", :input_type => "text"}}
         }.to change(Question, :count).by(1)
       end
 
       it "assigns a newly created question as @question" do
-        post :create, {:question => valid_attributes}, valid_session
+        post :create, {:question => {:question => "Q1?", :input_type => "text"}}
         assigns(:question).should be_a(Question)
         assigns(:question).should be_persisted
       end
 
-      it "redirects to the created question" do
-        post :create, {:question => valid_attributes}, valid_session
-        response.should redirect_to(Question.last)
+      it "redirects to the questions index page" do
+        post :create, {:question => {:question => "Q1?", :input_type => "text"}}
+        response.should redirect_to(questions_path)
       end
     end
 
@@ -89,75 +57,31 @@ describe QuestionsController, :type => :controller do
       it "assigns a newly created but unsaved question as @question" do
         # Trigger the behavior that occurs when invalid params are submitted
         Question.any_instance.stub(:save).and_return(false)
-        post :create, {:question => {  }}, valid_session
+        post :create, {:question => {:question => "Q1?", :input_type => "text"}}
         assigns(:question).should be_a_new(Question)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Question.any_instance.stub(:save).and_return(false)
-        post :create, {:question => {  }}, valid_session
+        post :create, {:question => {:question => "Q1?", :input_type => "text"}}
         response.should render_template("new")
       end
     end
   end
 
-  skip "PUT update" do
-    describe "with valid params" do
-      it "updates the requested question" do
-        question = Question.create! valid_attributes
-        # Assuming there are no other questions in the database, this
-        # specifies that the Question created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Question.any_instance.should_receive(:update_attributes).with({ "these" => "params" })
-        put :update, {:id => question.to_param, :question => { "these" => "params" }}, valid_session
-      end
-
-      it "assigns the requested question as @question" do
-        question = Question.create! valid_attributes
-        put :update, {:id => question.to_param, :question => valid_attributes}, valid_session
-        assigns(:question).should eq(question)
-      end
-
-      it "redirects to the question" do
-        question = Question.create! valid_attributes
-        put :update, {:id => question.to_param, :question => valid_attributes}, valid_session
-        response.should redirect_to(question)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns the question as @question" do
-        question = Question.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Question.any_instance.stub(:save).and_return(false)
-        put :update, {:id => question.to_param, :question => {  }}, valid_session
-        assigns(:question).should eq(question)
-      end
-
-      it "re-renders the 'edit' template" do
-        question = Question.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Question.any_instance.stub(:save).and_return(false)
-        put :update, {:id => question.to_param, :question => {  }}, valid_session
-        response.should render_template("edit")
-      end
-    end
-  end
-
-  skip "DELETE destroy" do
+  describe "DELETE destroy" do
     it "destroys the requested question" do
-      question = Question.create! valid_attributes
+      question = FactoryGirl.create(:question, :organization => @organization)
       expect {
-        delete :destroy, {:id => question.to_param}, valid_session
+        delete :destroy, :id => question.id
       }.to change(Question, :count).by(-1)
     end
 
     it "redirects to the questions list" do
-      question = Question.create! valid_attributes
-      delete :destroy, {:id => question.to_param}, valid_session
-      response.should redirect_to(questions_url)
+      question = FactoryGirl.create(:question, :organization => @organization)
+      delete :destroy, :id => question.id
+      response.should redirect_to(questions_path)
     end
   end
 

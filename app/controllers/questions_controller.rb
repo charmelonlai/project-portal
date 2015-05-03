@@ -1,16 +1,26 @@
 class QuestionsController < ApplicationController
-  # before_filter :authorize_user
+  before_filter :require_organization
+  
+  def require_organization
+    if is_organization?
+      if ["destroy", "update", "edit"].include? params[:action]
+        q = Question.find_by_id(params[:id])
+        puts "q was: #{q}"
+        if !q || q.organization != current_rolable
+          redirect_to dashboard_path, notice: "You do not have the right permissions to view this page."
+        end
+      end
+    else
+      if user_signed_in?
+        redirect_to dashboard_path, notice: "You do not have the right permissions to view this page."
+      else
+        redirect_to new_user_session_path, notice: "Please log in."
+      end
+    end
+  end
 
   def index
     @questions = current_rolable.questions
-    @question = Question.new
-  end
-
-  def show
-    @question = Question.find(params[:id])
-  end
-
-  def new
     @question = Question.new
   end
 
@@ -40,11 +50,9 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    puts 'deleting question'
-
     @question = Question.find(params[:id])
     @question.delete
-    redirect_to session[:return_to]
+    redirect_to action: "index"
   end
 
 end
