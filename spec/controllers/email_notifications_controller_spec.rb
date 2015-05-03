@@ -19,149 +19,58 @@ require 'pp'
 # that an instance is receiving a specific message.
 
 describe EmailNotificationsController, type: :controller do
-
-  # This should return the minimal set of attributes required to create a valid
-  # EmailNotification. As you add validations to EmailNotification, be sure to
-  # update the return value of this method accordingly.
-  def valid_attributes
-    { "proj_approval" => "true" }
+  
+  before(:each) do
+    user = FactoryGirl.create(:user)
+    sign_in user
+    @email_notification = user.email_notification
   end
   
-  def invalid_attributes
-    { "proj_approval" => "blah" }
-  end
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # EmailNotificationsController. Be sure to keep this updated too.
-  def valid_session
-    {}
-  end
-
-  skip "GET index" do
-    it "assigns all email_notifications as @email_notifications" do
-      email_notification = EmailNotification.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:email_notifications).should eq([email_notification])
-    end
-  end
-
-  skip "GET show" do
-    it "assigns the requested email_notification as @email_notification" do
-      email_notification = EmailNotification.create! valid_attributes
-      get :show, {:id => email_notification.to_param}, valid_session
-      assigns(:email_notification).should eq(email_notification)
-    end
-  end
-
-  skip "GET new" do
-    it "assigns a new email_notification as @email_notification" do
-      get :new, {}, valid_session
-      assigns(:email_notification).should be_a_new(EmailNotification)
-    end
-  end
-
-  skip "GET edit" do
-    it "assigns the requested email_notification as @email_notification" do
-      email_notification = EmailNotification.create!("proj_approval" => "true")
-      get :edit, {:id => 1}
-      assigns(email_notification).should eq(email_notification)
-    end
-  end
-
-  skip "POST create" do
-    describe "with valid params" do
-      it "creates a new EmailNotification" do
-        expect {
-          post :create, {:email_notification => valid_attributes}, valid_session
-        }.to change(EmailNotification, :count).by(1)
-      end
-
-      it "assigns a newly created email_notification as @email_notification" do
-        post :create, {:email_notification => valid_attributes}, valid_session
-        assigns(:email_notification).should be_a(EmailNotification)
-        assigns(:email_notification).should be_persisted
-      end
-
-      it "redirects to the created email_notification" do
-        post :create, {:email_notification => valid_attributes}, valid_session
-        response.should redirect_to(EmailNotification.last)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved email_notification as @email_notification" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        EmailNotification.any_instance.stub(:save).and_return(false)
-        post :create, {:email_notification => { "edit" => "invalid value" }}, valid_session
-        assigns(:email_notification).should be_a_new(EmailNotification)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        EmailNotification.any_instance.stub(:save).and_return(false)
-        post :create, {:email_notification => { "edit" => "invalid value" }}, valid_session
-        response.should render_template("new")
-      end
-    end
-  end
-
-  skip "PUT update" do
+  describe "PUT update" do
     describe "with valid params" do
       it "updates the requested email_notification" do
-        email_notification = EmailNotification.create! valid_attributes
-        # Assuming there are no other email_notifications in the database, this
-        # specifies that the EmailNotification created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        EmailNotification.any_instance.should_receive(:update_attributes).with(valid_attributes)
-        put :update, {:id => email_notification.to_param, :email_notification => valid_attributes}, valid_session
+        params = {:id => @email_notification.id, :email_notification => {"proj_approval" => "true"}}
+        EmailNotification.any_instance.should_receive(:update_attributes).with(params[:email_notification])
+        put :update, params
+      end
+      
+      it "correctly updates the requested email_notification" do
+        params = {:id => @email_notification.id, :email_notification => {:proj_approval => true}}
+        put :update, params
+        @email_notification.reload
+        expect(@email_notification.proj_approval).to be true
       end
 
       it "assigns the requested email_notification as @email_notification" do
-        email_notification = EmailNotification.create! valid_attributes
-        put :update, {:id => email_notification.to_param, :email_notification => valid_attributes}, valid_session
-        assigns(:email_notification).should eq(email_notification)
+        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => true}}
+        assigns(:email_notification).should eq(@email_notification)
       end
 
-      it "redirects to the email_notification" do
-        email_notification = EmailNotification.create! valid_attributes
-        put :update, {:id => email_notification.to_param, :email_notification => valid_attributes}, valid_session
-        response.should redirect_to(email_notification)
+      it "redirects to the user settings page" do
+        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => true}}
+        expect(response).to redirect_to(edit_user_registration_path)
+      end
+
+      it "displays the notice 'Your email notification settings have been successfully updated.'" do
+        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => true}}
+        expect(flash[:notice]).to eq('Your email notification settings have been successfully updated.')
       end
     end
 
     describe "with invalid params" do
-      it "assigns the email_notification as @email_notification" do
-        email_notification = EmailNotification.create! valid_attributes
+      it "redirects to the user settings page" do
         # Trigger the behavior that occurs when invalid params are submitted
         EmailNotification.any_instance.stub(:save).and_return(false)
-        put :update, {:id => email_notification.to_param, :email_notification => invalid_attributes}, valid_session
-        assigns(:email_notification).should eq(email_notification)
+        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => true}}
+        expect(response).to redirect_to(edit_user_registration_path)
       end
-
-      it "re-renders the 'edit' template" do
-        email_notification = EmailNotification.create! valid_attributes
+      
+      it "displays the error message 'There was an issue with updating your email notification settings.'" do
         # Trigger the behavior that occurs when invalid params are submitted
         EmailNotification.any_instance.stub(:save).and_return(false)
-        put :update, {:id => email_notification.to_param, :email_notification => invalid_attributes}, valid_session
-        response.should render_template("edit")
+        put :update, {:id => @email_notification.id, :email_notification => {:proj_approval => true}}
+        expect(flash[:warning]).to eq('There was an issue with updating your email notification settings.')
       end
-    end
-  end
-
-  skip "DELETE destroy" do
-    it "destroys the requested email_notification" do
-      email_notification = EmailNotification.create! valid_attributes
-      expect {
-        delete :destroy, {:id => email_notification.to_param}, valid_session
-      }.to change(EmailNotification, :count).by(-1)
-    end
-
-    it "redirects to the email_notifications list" do
-      email_notification = EmailNotification.create! valid_attributes
-      delete :destroy, {:id => email_notification.to_param}, valid_session
-      response.should redirect_to(email_notifications_url)
     end
   end
 

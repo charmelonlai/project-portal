@@ -1,3 +1,5 @@
+require 'pp'
+
 class EmailNotificationsController < ApplicationController
   before_filter :authenticate_user!
   
@@ -14,7 +16,8 @@ class EmailNotificationsController < ApplicationController
     if @email_notification.update_attributes(params[:email_notification])
       redirect_to edit_user_registration_path, :notice => "Your email notification settings have been successfully updated."
     else
-      redirect_to edit_user_registration_path, :warning => "There was an issue with updating your email notification settings."
+      flash[:warning] = "There was an issue with updating your email notification settings."
+      redirect_to edit_user_registration_path
     end
   end
 end

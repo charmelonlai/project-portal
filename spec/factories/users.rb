@@ -21,6 +21,10 @@ FactoryGirl.define do
         f.rolable_type = dev.class.name
       }
     end
+    
+    after_build { |f|
+      f.email_notification = FactoryGirl.create(:email_notification, :user => f)
+    }
   end
 end
 
