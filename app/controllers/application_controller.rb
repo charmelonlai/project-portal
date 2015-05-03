@@ -34,16 +34,32 @@ class ApplicationController < ActionController::Base
   end
 
   def is_developer?
-    current_user.rolable.class.name == 'Developer'
+    if current_user
+      current_user.rolable.class.name == 'Developer'
+    else
+      false
+    end
   end
   def is_client?
-    current_user.rolable.class.name== 'Client'
+    if current_user
+      current_user.rolable.class.name == 'Client'
+    else
+      false
+    end
   end
   def is_organization?
-    current_user.rolable.class.name == 'Organization'
+    if current_user
+      current_user.rolable.class.name == 'Organization'
+    else
+      false
+    end
   end
   def is_admin?
-    current_user.admin?
+    if current_user
+      current_user.admin?
+    else
+      false
+    end
   end
 
   def user_can_update?(project)

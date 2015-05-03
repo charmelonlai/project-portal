@@ -19,21 +19,29 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe QuestionsController, :type => :controller do
-  
+  render_views
+
   before(:each) do
     @organization = FactoryGirl.create(:organization)
-    sign_in @organization.user
   end
 
   describe "GET index" do
+    before(:each) do
+      sign_in @organization.user
+    end
+  
     it "assigns all questions as @questions" do
       question = FactoryGirl.create(:question, :organization => @organization)
       get :index
-      assigns(:questions).should eq([question])
+      expect(assigns(:questions)).to eq([question])
     end
   end
 
   describe "POST create" do
+    before(:each) do
+      sign_in @organization.user
+    end
+
     describe "with valid params" do
       it "creates a new Question" do
         expect {
@@ -43,13 +51,13 @@ describe QuestionsController, :type => :controller do
 
       it "assigns a newly created question as @question" do
         post :create, {:question => {:question => "Q1?", :input_type => "text"}}
-        assigns(:question).should be_a(Question)
-        assigns(:question).should be_persisted
+        expect(assigns(:question)).to be_a(Question)
+        expect(assigns(:question)).to be_persisted
       end
 
       it "redirects to the questions index page" do
         post :create, {:question => {:question => "Q1?", :input_type => "text"}}
-        response.should redirect_to(questions_path)
+        expect(response).to redirect_to(questions_path)
       end
     end
 
@@ -65,23 +73,114 @@ describe QuestionsController, :type => :controller do
         # Trigger the behavior that occurs when invalid params are submitted
         Question.any_instance.stub(:save).and_return(false)
         post :create, {:question => {:question => "Q1?", :input_type => "text"}}
-        response.should render_template("new")
+        expect(response).to render_template("new")
       end
     end
   end
 
   describe "DELETE destroy" do
-    it "destroys the requested question" do
-      question = FactoryGirl.create(:question, :organization => @organization)
-      expect {
+    describe 'if the user is signed in as an organization,' do
+      before(:each) do
+        sign_in @organization.user
+        @question = FactoryGirl.create(:question, :organization => @organization)
+      end
+    
+      it "destroys the requested question" do
+        expect {
+          delete :destroy, :id => @question.id
+        }.to change(Question, :count).by(-1)
+      end
+
+      it "redirects to the questions index" do
+        delete :destroy, :id => @question.id
+        expect(response).to redirect_to(questions_path)
+      end
+      
+      it "redirects to the dashboard if the requested question does not exist" do
+        delete :destroy, :id => 500
+        expect(response).to redirect_to(dashboard_path)
+      end
+      
+      it "redirects to the dashboard if the requested question does not belong to this organization" do
+        question = FactoryGirl.create(:question, :organization => FactoryGirl.create(:organization))
         delete :destroy, :id => question.id
-      }.to change(Question, :count).by(-1)
+        expect(response).to redirect_to(dashboard_path)
+      end
+    end
+    
+    describe 'if the user is signed in as a client,' do
+      before(:each) do
+        sign_in FactoryGirl.create(:client).user
+      end
+      
+      it "redirects to the dashboard" do
+        delete :destroy, :id => 1
+        expect(response).to redirect_to(dashboard_path)
+      end
+      
+      it "displays the notice 'You do not have the right permissions to view this page.'" do
+        delete :destroy, :id => 1
+        expect(flash[:notice]).to eq('You do not have the right permissions to view this page.')
+      end
+    end
+    
+    describe 'if the user is not signed in,' do
+      it "redirects to the login page" do
+        delete :destroy, :id => 1
+        expect(response).to redirect_to(new_user_session_path)
+      end
+      
+      it "displays the notice 'Please log in.'" do
+        delete :destroy, :id => 1
+        expect(flash[:notice]).to eq('Please log in.')
+      end
+    end
+  end
+
+  describe "GET edit" do
+    before(:each) do
+      sign_in @organization.user
+      @question = FactoryGirl.create(:question, :organization => @organization)
     end
 
-    it "redirects to the questions list" do
-      question = FactoryGirl.create(:question, :organization => @organization)
-      delete :destroy, :id => question.id
-      response.should redirect_to(questions_path)
+    it "assigns the requested question as @question" do
+      get :edit, :id => @question.id
+      assigns(:question).should eq(@question)
+    end
+  end
+
+  describe "POST update" do
+    before(:each) do
+      sign_in @organization.user
+      @question = FactoryGirl.create(:question, :organization => @organization)
+    end
+
+    describe "with valid params" do
+      it "displays the updated question instead of the old question" do
+        post :update, {:id => @question.id, :question => {:question => "updated q?", :input_type => "text"}}
+        get :index
+        expect(response.body).to include("updated q?")
+        expect(response.body).not_to include(@question.question)
+      end
+
+      it "redirects to the questions index page" do
+        post :update, {:id => @question.id, :question => {:question => "updated q?", :input_type => "text"}}
+        expect(response).to redirect_to(questions_path)
+      end
+
+      it "displays the notice 'Question was successfully updated.'" do
+        post :update, {:id => @question.id, :question => {:question => "updated q?", :input_type => "text"}}
+        expect(flash[:notice]).to eq('Question was successfully updated.')
+      end
+    end
+
+    describe "with invalid params" do
+      it "re-renders the 'edit' template" do
+        # Trigger the behavior that occurs when invalid params are submitted
+        Question.any_instance.stub(:update_attributes).and_return(false)
+        post :update, {:id => @question.id, :question => {:question => "updated q?", :input_type => "text"}}
+        expect(response).to render_template("edit")
+      end
     end
   end
 
