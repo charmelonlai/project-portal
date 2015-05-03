@@ -5,7 +5,6 @@ class QuestionsController < ApplicationController
     if is_organization?
       if ["destroy", "update", "edit"].include? params[:action]
         q = Question.find_by_id(params[:id])
-        puts "q was: #{q}"
         if !q || q.organization != current_rolable
           redirect_to dashboard_path, notice: "You do not have the right permissions to view this page."
         end
