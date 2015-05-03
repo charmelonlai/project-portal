@@ -29,22 +29,12 @@
             %p
               %b
                 ="#{t(:github_site)}:"
-              -if user_can_update?(project)
-                = best_in_place project, :github_site, :url => public_edit_path(project), :activator => "#github_site_edit"
-                %a#github_site_edit.btn-link
-                  %i.icon-pencil
-              -else
-                =link_to(project.github_site, url_with_http(project.github_site), :target => "_blank")
+              =link_to(project.github_site, url_with_http(project.github_site), :target => "_blank")
 
             %p
               %b
                 ="#{t(:application_site)}:"
-              -if user_can_update?(project)
-                = best_in_place project, :application_site, :url => public_edit_path(project), :activator => "#application_site_edit"
-                %a#application_site_edit.btn-link
-                  %i.icon-pencil
-              -else
-                =link_to(project.application_site, url_with_http(project.application_site), :target => "_blank")
+              =link_to(project.application_site, url_with_http(project.application_site), :target => "_blank")
 
           .mission-statement
 
